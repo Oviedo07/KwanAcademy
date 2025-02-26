@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #FEF3E2;
+
 }
 
 code {
@@ -13,13 +13,15 @@ code {
     monospace;
 }
 
-p{
-  font-size: 20px;
-  margin: 20px;
-  text-align: center;
-  line-height: 1.5;
-  color: #333;
-  background-color: #f9f9f9;
-  padding: 20px;
+.logo {
+  width: 60px;   /* Ajusta el tamaño */
+  height: 60px;   /* Mantiene la proporción */
+  filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.2)); /* Agrega sombra */
+  transition: transform 0.3s ease-in-out; /* Suaviza las animaciones */
+  padding: 10px;
 }
 
+.logo:hover {
+  transform: scale(1.1); /* Efecto de zoom al pasar el cursor */
+  cursor: pointer; /* Cambia el cursor al pasar el mouse */
+}
