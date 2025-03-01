@@ -1,11 +1,13 @@
+import './App.css';
+// import Defensa from './screens/Defensa_1';
+import Benefits from './screens/Benefits';
+import Contact from './screens/Contact';
+import Home from './screens/Home';
+import HowWeWork from './screens/HowWeWork';
+import Services from './screens/Services';
+import Navbar from './components/Navbar';
 
-import "./App.css";
-import Home from "./Screens/Home";
-import Services from "./Screens/Services";
-import HowWeWork from "./Screens/HowWeWork";
-import Benefits from "./Screens/Benefits";
-import Contact from "./Screens/Contact";
-import Navbar from "./Components/navBar";
+
 
 function App() {
   return (
@@ -16,7 +18,9 @@ function App() {
       <HowWeWork />
       <Benefits />
       <Contact />
+      {/* <Defensa /> */}
     </div>
+    
   );
 }
 

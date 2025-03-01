@@ -1,4 +1,30 @@
-.navBar
-{
+img{
+    width: 70px;
+    height: 60px;
+    margin: 5px;
+    position: absolute;
+    left: 5px;
+    top: 5px;
+}
+
+img:hover{
+    transform: scale(1.1);
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.Navbar{
     display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    align-items: center;
+    
+}
+
+.Navbar p{
+    font-size: 20px;
+    color: black !important;
+    /* text-decoration: underline; */
+    margin-left: 70px !important;
+    margin-top: 15px ;
 }
