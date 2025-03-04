@@ -1,0 +1,133 @@
+.courses-container {
+    text-align: center;
+    padding: 40px;
+    background-color: #f9f9f9;
+  }
+  
+  .section-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .course-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .course-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .course-card h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  .course-card p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+  }
+  
+  .price {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    color: #27ae60;
+    margin-bottom: 15px;
+  }
+  
+  .buy-button {
+    background: #ff7f50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .buy-button:hover {
+    background: #e76d40;
+  }
+
+  .coursesContainer {
+    text-align: left;
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  .sectionTitle {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .coursesGrid {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Hace que las tarjetas ocupen todo el ancho disponible */
+    gap: 20px;
+    width: 100%; /* Ocupa todo el ancho de la pantalla */
+    padding: 0 20px; /* Agrega un pequeño margen a los lados para evitar que se pegue a los bordes */
+  }
+  
+  .courseCard {
+    width: 100%;
+    max-width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alinea el contenido a la izquierda */
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  
+  .price {
+    font-size: 18px;
+    color: green;
+    font-weight: bold;
+    display: block;
+    margin: 10px 0;
+  }
+  
+  .buyButton {
+    background-color: #ff4500;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .buyButton:hover {
+    background-color: #e03e00;
+  }
+  
+  .coursesColumn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  

@@ -1,48 +1,58 @@
-import React, { useState } from 'react'
-import { Link } from 'react-scroll'
-import logo from "../assets/images/logo.png"
-import styles from "../components/Navbar.module.css"
-import { IoMenu } from "react-icons/io5";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import styles from "./Navbar.module.css";
+import { RxHamburgerMenu } from "react-icons/rx";
+import logo from "../assets/images/logo.png";
 
 const Navbar = () => {
-    const [NavbarOpen, SetNavbarOpen] = useState(false)
-    const links = [
-        {
-            id: 1,
-            link: "Home",
-        },
-        {
-            id: 2,
-            link: "Services",
-        },
-        {
-            id: 3,
-            link: "HowWeWork",
-        },
-        {
-            id: 4,
-            link: "Benefits",
-        }
-    ];
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
-    return (
-        <div className={styles.Navbar}>
-            <img src={logo} alt="logo" />
-            <p className='TNavbar'>‎ ‎ Kwan Academy </p>
-            <IoMenu />
-            {
-                NavbarOpen && (
-                    <ul>
-                        {links.map((x) => (
-                            <div>
-                                <Link>{x.link === "HowWeWork" ? "How We Work" : x.link}</Link>
-                            </div>
-                        ))}
-                    </ul>
-                )
-            }
+  return (
+    <div className={styles.navbar}>
+      <div className={styles.logoContainer}>
+        <img src={logo} alt="Kwan Academy Logo" className={styles.logo} onClick={() => navigate("/")} />
+        <h2 className={styles.title}
+        onClick={() => navigate("/")}>Kwan Academy</h2>
+      </div>
+
+      {/* Contenedor del Menú y Regístrate */}
+      <div className={styles.menuContainer}>
+        <button className={styles.registerButton} onClick={() => navigate("/registro")}>
+          Regístrate
+        </button>
+        {!menuOpen && (
+          <RxHamburgerMenu
+            className={styles.menuIcon}
+            onClick={() => setMenuOpen(true)}
+            size={30}
+          />
+        )}
+      </div>
+
+      {/* Fondo oscuro cuando el menú está abierto */}
+      {menuOpen && <div className={styles.overlay} onClick={() => setMenuOpen(false)}></div>}
+
+      {/* Sidebar con Logo y Título */}
+      <div className={`${styles.sidebar} ${menuOpen ? styles.sidebarOpen : ""}`}>
+        <div className={styles.sidebarHeader}>
+          <img src={logo} alt="Kwan Academy Logo" className={styles.sidebarLogo} onClick={() => setMenuOpen(true)}/>
+          <h2 className={styles.sidebarTitle}>Kwan Academy</h2>
+          <button className={styles.closeButton} onClick={() => setMenuOpen(false)}>
+            ✖
+          </button>
         </div>
-    )
-}
 
-export default Navbar
+        <ul>
+          <li onClick={() => navigate("/")}>Inicio</li>
+          <li onClick={() => navigate("/servicios")}>Técnicas de defensa</li>
+          <li onClick={() => navigate("/Courses")}>Cursos virtuales</li>
+          <li onClick={() => navigate("/videos")}>Videos de práctica</li>
+          <li onClick={() => navigate("/contacto")}>Registro</li>
+        </ul>
+      </div>
+    </div>  
+  );
+};
+
+export default Navbar;

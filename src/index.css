@@ -1,3 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
+
+* {
+  font-family: 'Ubuntu', sans-serif;
+}
+
+/* Hover de la palabra KWan Academy en el home*/
+
+.kwan {
+  transition: color 0.5s ease-in-out; /* Suaviza la transición del color */
+}
+
+.kwan:hover {
+  color: #E70014;
+  cursor: none;
+  
+  font-weight: bold;
+  transition: 0.5s;
+
+}
+
+
 
 body {
   margin: 0;
@@ -6,7 +28,23 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: white !important;
+}
 
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+/* 
+
+/* 
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 code {
@@ -14,15 +52,239 @@ code {
     monospace;
 }
 
-.logo {
-  width: 60px;   /* Ajusta el tamaño */
-  height: 60px;   /* Mantiene la proporción */
-  filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.2)); /* Agrega sombra */
-  transition: transform 0.3s ease-in-out; /* Suaviza las animaciones */
-  padding: 10px;
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.logo:hover {
-  transform: scale(1.1); /* Efecto de zoom al pasar el cursor */
-  cursor: pointer; /* Cambia el cursor al pasar el mouse */
+header {
+  background: #333;
+  color: white;
+  padding: 1em 0;
+  width: 100%;
+  text-align: center;
 }
+
+nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin: 0 15px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+.container {
+  display: flex;
+  width: 80%;
+  margin: 20px auto;
+}
+
+.sidebar {
+  width: 20%;
+  background: #f4f4f4;
+  padding: 20px;
+  text-align: left;
+  border-radius: 5px;
+}
+
+.sidebar h3 {
+  margin-top: 0;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin: 10px 0;
+}
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: #333;
+}
+
+.sidebar ul li a:hover {
+  text-decoration: underline;
+}
+
+main {
+  width: 75%;
+  padding: 20px;
+}
+
+section {
+  padding: 20px;
+  text-align: left;
+}
+
+.curso {
+  background: #f4f4f4;
+  padding: 15px;
+  margin: 10px;
+  cursor: pointer;
+  display: inline-block;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.curso:hover {
+  background: #ddd;
+}
+
+footer {
+  background: #333;
+  color: white;
+  padding: 10px;
+  margin-top: 20px;
+  width: 100%;
+  text-align: center;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header {
+  background: #333;
+  color: white;
+  padding: 1em 0;
+  width: 100%;
+  text-align: center;
+  position: relative;
+}
+
+.menu-btn {
+  position: absolute;
+  left: 20px;
+  top: 15px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+}
+
+.container {
+  display: flex;
+  width: 80%;
+  margin: 20px auto;
+}
+
+.sidebar {
+  width: 250px;
+  background: #f4f4f4;
+  padding: 20px;
+  text-align: left;
+  position: fixed;
+  left: -260px;
+  top: 0;
+  height: 100%;
+  transition: left 0.3s;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+.sidebar h3 {
+  margin-top: 0;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin: 10px 0;
+}
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: #333;
+  display: block;
+  padding: 10px;
+  transition: background 0.3s;
+}
+
+.sidebar ul li a:hover {
+  background: #ddd;
+}
+
+main {
+  width: 100%;
+  padding: 20px;
+  transition: margin-left 0.3s;
+}
+
+.sidebar.open + main {
+  margin-left: 250px;
+}
+
+section {
+  padding: 20px;
+  text-align: left;
+  max-width: 800px;
+  margin: auto;
+}
+
+button {
+  background: #007BFF;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+.curso {
+  background: #f4f4f4;
+  padding: 15px;
+  margin: 10px;
+  cursor: pointer;
+  display: inline-block;
+  border-radius: 5px;
+  transition: background 0.3s;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.curso:hover {
+  background: #ddd;
+}
+
+footer {
+  background: #333;
+  color: white;
+  padding: 10px;
+  margin-top: 20px;
+  width: 100%;
+  text-align: center;
+} */ 
