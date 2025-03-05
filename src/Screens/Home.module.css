@@ -117,56 +117,108 @@ p {
     color: black;
     padding: 50px 20px;
     text-align: center;
-    min-height: 70vh; /* Asegurar que la sección de contenido ocupe un espacio suficiente */
+    min-height: 45vh; /* Asegurar que la sección de contenido ocupe un espacio suficiente */
 }
 
-.cardsContainer1 {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 columnas */
-    gap: 20px; /* Espaciado uniforme */
-    justify-content: center; /* Centrado horizontal */
-    align-items: center; /* Centrado vertical */
-    margin-top: 40px;
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-}
 
-.card1 {
-    width: 300px; /* Ajusta el tamaño de cada tarjeta */
+
+/* Estilos para el slider de testimonios */
+.slider {
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  /* .testimonioSlide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    background: white;
     padding: 20px;
+    background: #f8f8f8;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .testimonioSlide img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    
+  } */
+  .testimonioSlide {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra la imagen y el texto */
+    text-align: center;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: auto;
+}
+
+.testimonioSlide img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px; /* Espacio entre la imagen y el texto */
+    margin-left: 355px;
+    padding-top: 10px;
 }
 
 
-.card1:hover {
-    transform: scale(1.05);
-    transition: 0.5s;
-}
-
-.card1 img {
-    width: 200px;
-    height: auto;
-    border-radius: 100px;
-}
-
-.card1 h3 {
-    margin: 15px 0 10px;
-    font-size: 22px;
+  .testimonioSlide h5 {
+    font-size: 18px;
     font-weight: bold;
-}
-
-.card1 p {
+    margin-bottom: 5px;
+  }
+  
+  .testimonioSlide p {
     font-size: 16px;
     color: #333;
+  }
+  
+  .slick-dots {
+    bottom: -30px;
+  }
+  
+  .slick-prev, .slick-next {
+    color: #000;
+    z-index: 1;
+  }
+  
+/*GRID DE INFO*/
+
+.parent {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: center;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.card1 h3 {
-    margin: 15px 0 10px;
-    font-size: 22px;
-    font-weight: bold;
-    font-style: italic;
+.div1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.div1 img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.div2 {
+    text-align: left;
+    padding: 10px;
 }
