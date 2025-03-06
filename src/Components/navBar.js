@@ -4,6 +4,7 @@ import styles from "./Navbar.module.css";
 import { RxHamburgerMenu } from "react-icons/rx";
 import logo from "../assets/images/logo.png";
 import menuside from "../assets/images/menuside.png";
+// import logoside from "../assets/images/logo.png";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -22,13 +23,13 @@ const Navbar = () => {
         <button className={styles.registerButton} onClick={() => navigate("/registro")}>
           Regístrate
         </button>
-          {/* {!menuOpen && (
+          {!menuOpen && (
             <RxHamburgerMenu
               className={styles.menuIcon}
               onClick={() => setMenuOpen(true)}
               size={30}
             />
-          )} */}
+          )}
       </div>
 
       {/* Fondo oscuro cuando el menú está abierto */}
@@ -38,6 +39,7 @@ const Navbar = () => {
       <div className={`${styles.sidebar} ${menuOpen ? styles.sidebarOpen : ""}`}>
         <div className={styles.sidebarHeader}>
           <img src={menuside} alt="Kwan Academy Logo" className={styles.sidebarLogo} onClick={() => setMenuOpen(true)}/>
+          {/* <img src={logoside} alt="logo side" className="styles.logoside" /> */}
           <h2 className={styles.sidebarTitle}>Kwan Academy</h2>
           {/* <button className={styles.closeButton} onClick={() => setMenuOpen(false)}>
             ✖
