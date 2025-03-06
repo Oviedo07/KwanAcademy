@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styles from './Home.module.css';
+// import { FaArrowUp } from 'react-icons/fa';
+import logohome from '../assets/images/logohome.png';
 import videoFile from '../assets/videos/video.mp4';
 import virtual from '../assets/images/virtual.png';
 import presencial from '../assets/images/presencial.png';
@@ -18,8 +20,24 @@ const Home = () => {
     document.getElementById('1').scrollIntoView({ behavior: 'smooth' });
   };
 
+  const [showScrollButton, setShowScrollButton] = useState(false);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const section = document.getElementById('1');
+      if (section) {
+        const sectionTop = section.offsetTop;
+        setShowScrollButton(window.scrollY > sectionTop);
+      }
+    };
 
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const testimonios = [
     { img: testimonio1, name: '𝘊𝘳𝘪𝘴𝘵𝘪𝘢𝘯𝘰 𝘙𝘰𝘯𝘢𝘭𝘥𝘰 ', text: '"El curso fue claro, accesible y muy útil. Aprendí a reaccionar rápido y con precisión. Es una excelente inversión para mejorar tu seguridad personal."' },
@@ -116,12 +134,16 @@ const Home = () => {
             <p>Clases prácticas en nuestros dojos con instructores certificados.</p>
           </div>
         </div>
-
       </div>
+      {showScrollButton && (
+         <img src={logohome} alt="Home logo" className={styles.scrollToTop} onClick={scrollToTop}/>
+        
+        // <button className={styles.scrollToTop} onClick={scrollToTop}>
+        //   <FaArrowUp />
+        // </button>
+      )}
+      
     </div>
   );
 };
-
 export default Home;
-
-

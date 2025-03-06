@@ -12,7 +12,7 @@
   align-items: center;
 }
 
-.logo {
+.logo{
   width: 3%;
   height: 3%;
   margin-right: 10px;
@@ -91,13 +91,13 @@
 }
 
 .sidebarLogo {
-  width: 35px;
-  height: 25px;
-  margin-right: -90px;
-  margin-left: -7px;
+  width: 30px;
+  height: 20px;
+  margin-right: 20px;
+  margin-left: -4px;
   cursor: pointer;
-  margin-top: -15px;
-  padding-top: 15px;
+  margin-top: -30px;
+  padding-top: 35px;
   padding-bottom: 15px;
 }
 
@@ -105,8 +105,8 @@
   font-size: 1.3rem;
   font-weight: bold;
   color: black;
-  margin-right: 50px;
-  margin-top: -13px; /* Ajusta este valor */
+  margin-right: 70px;
+  margin-top: 3px; /* Ajusta este valor */
   margin-bottom: 10px;
 }
 
@@ -116,6 +116,9 @@
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
+  margin-left: -45px;
+  margin-top: -9px; /* Ajusta este valor */
+  
 }
 
 .sidebar ul {
@@ -199,7 +202,7 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background 0.3s ease-in-out, border-color 0.3s ease-in-out;
-  margin-right: 130px;
+  margin-right: 80px;
 }
 
 .registerButton:hover {
@@ -207,13 +210,10 @@
   border-color: #E5D0AC ; /* Verde más oscuro en hover */
 }
 
-.logoside{
-  width: 35px;
-  height: 25px;
-  margin-right: -90px;
+.logosidebar{
+  width: 40px;
+  height: 40px;
   margin-left: -7px;
-  cursor: pointer;
-  margin-top: -15px;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  margin-top: -9px;
 }
+
