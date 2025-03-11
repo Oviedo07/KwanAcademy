@@ -1,1 +1,1 @@
-# KwanAcademy
+# Kwan Academy
