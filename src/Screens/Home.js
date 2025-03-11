@@ -49,10 +49,6 @@ const Home = () => {
     { img: require('../assets/images/wjjfcopia.png'), alt: 'Patrocinador 4' },
   ];
 
-
-
-
-
   const testimonios = [
     { img: testimonio1, name: '𝘊𝘳𝘪𝘴𝘵𝘪𝘢𝘯𝘰 𝘙𝘰𝘯𝘢𝘭𝘥𝘰 ', text: '"El curso fue claro, accesible y muy útil. Aprendí a reaccionar rápido y con precisión. Es una excelente inversión para mejorar tu seguridad personal."' },
     { img: testimonio2, name: '𝘕𝘦𝘺𝘮𝘢𝘳 𝘑𝘳  ', text: '"Me encantó el curso, fue dinámico y fácil de seguir. Aprendí defensa personal de manera práctica y efectiva. Lo recomiendo para cualquier persona."' },
@@ -161,7 +157,7 @@ const Home = () => {
               <img src={testimonio.img} alt="Testimonio" />
               <h5>- {testimonio.name}</h5>
               <p>{testimonio.text}</p>
-              <p>⭐️⭐️⭐️⭐️⭐️</p>
+              <p>⭐️⭐️⭐️⭐️</p>
             </div>
           ))}
         </Slider>
