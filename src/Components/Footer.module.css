@@ -1,6 +1,6 @@
 .footer {
-    background-color: #121212;
-    color: #ffffff;
+    background-color: #FEF3E2;
+    color: #000000;
     padding: 2rem 1rem;
     text-align: center;
   }
@@ -14,6 +14,7 @@
     margin: auto;
   }
   
+  
   .brand, .links, .social {
     flex: 1;
     min-width: 250px;
@@ -22,7 +23,7 @@
   
   .brand h2 {
     font-size: 1.8rem;
-    color: #f8b400;
+    color: #E70014;
   }
   
   .links h3, .social h3 {
@@ -40,24 +41,24 @@
   }
   
   .links ul li a {
-    color: #ffffff;
+    color: #000000;
     text-decoration: none;
     transition: 0.3s;
   }
   
   .links ul li a:hover {
-    color: #f8b400;
+    color: #E70014;
   }
   
   .social .icons a {
-    color: #ffffff;
+    color: #000000;
     font-size: 1.5rem;
     margin: 0 0.5rem;
     transition: 0.3s;
   }
   
   .social .icons a:hover {
-    color: #f8b400;
+    color: #E70014;
   }
   
   .copyright {

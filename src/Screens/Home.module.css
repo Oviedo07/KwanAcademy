@@ -276,3 +276,76 @@ p {
     }
   }
   
+
+  /*SECCION CONTACTO Y MAPA*/
+
+  .contactSection {
+    background-color: #f9f9f9;
+    padding: 50px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .contactContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1100px;
+    width: 100%;
+    gap: 30px;
+  }
+  
+  .contactForm {
+    flex: 1;
+    background: #919191;
+    padding: 20px;
+    border-radius: 8px;
+    color: rgb(0, 0, 0);
+  }
+  
+  .contactForm h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .contactForm input,
+  .contactForm textarea {
+    width: 95.5%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: #5d5d5d;
+    border: 1px solid #444;
+    color: white;
+    border-radius: 4px;
+  }
+  
+  .contactForm button {
+    width: 100%;
+    padding: 10px;
+    background: #d32f2f;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .contactForm button:hover {
+    background: #b71c1c;
+  }
+  
+  .contactMap {
+    flex: 1;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .contactMap iframe {
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+    border: none;
+    border-radius: 8px;
+  }
+  

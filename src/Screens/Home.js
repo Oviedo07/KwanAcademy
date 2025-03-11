@@ -73,7 +73,6 @@ const Home = () => {
           className={styles.video}
           src="https://www.youtube.com/embed/G5RpJwCJDqc?autoplay=1&mute=1&loop=1&playlist=G5RpJwCJDqc&controls=0&showinfo=0&modestbranding=1&rel=0"
           title="YouTube video player"
-          frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
         ></iframe>
@@ -116,11 +115,11 @@ const Home = () => {
 
       <div className={styles.contentSection} id="2">
         <h2>¿Qué ofrecemos?</h2>
-        <br/>
+        <br />
         <p>En Kwan Academy, transformamos el conocimiento en poder a través de la enseñanza efectiva de defensa personal.</p>
         <p>Nuestra metodología combina lo mejor del aprendizaje virtual y presencial, permitiéndote entrenar desde cualquier</p>
-        <p>lugar o perfeccionar tus habilidades en sesiones en vivo con instructores expertos.</p>  
-        <br/><br/>
+        <p>lugar o perfeccionar tus habilidades en sesiones en vivo con instructores expertos.</p>
+        <br /><br />
         <div className={styles.cardsContainer}>
           <div className={styles.card}>
             <img src={virtual} alt="Método Virtual" />
@@ -146,11 +145,11 @@ const Home = () => {
       </div>
       <div className={styles.contentSection1} id="3">
         <h2>Valoración y testimonios.</h2>
-        <br/><br/>
-        <p>En Kwan Academy, la satisfacción de nuestros estudiantes es nuestra mayor prioridad. Descubre lo que dicen</p> 
+        <br /><br />
+        <p>En Kwan Academy, la satisfacción de nuestros estudiantes es nuestra mayor prioridad. Descubre lo que dicen</p>
         <p>quienes han transformado su confianza y seguridad con nuestra metodología. Sus experiencias reflejan</p>
         <p>el impacto real de nuestro entrenamiento en defensa personal.</p>
-        <br/><br/>
+        <br /><br />
         <Slider {...settings} className={styles.slider}>
           {testimonios.map((testimonio, index) => (
             <div key={index} className={styles.testimonioSlide}>
@@ -162,7 +161,7 @@ const Home = () => {
           ))}
         </Slider>
       </div>
-      <div className={styles.contentSection} id="4">
+      {/* <div className={styles.contentSection} id="4">
         <div className={styles.parent}>
           <div className={styles.div1}>
             <img src={virtual} alt="Método Virtual" />
@@ -180,6 +179,60 @@ const Home = () => {
           <div className={styles.div2}>
             <h3>Entrenamiento Presencial</h3>
             <p>Clases prácticas en nuestros dojos con instructores certificados.</p>
+          </div>
+        </div>
+      </div> */}
+
+      <div className={styles.contentSection} id="5">
+        <h2>Nuestra Filosofía</h2>
+        <br />
+        <p>En <span className={styles.kwan}>Kwan Academy</span>, creemos que la seguridad es un derecho, no un privilegio.</p>
+        <p>Nos dedicamos a brindar formación de defensa personal accesible, efectiva y de calidad.</p>
+        <p>Queremos empoderarte para que puedas moverte por el mundo con confianza y determinación.</p>
+        <br />
+        <div className={styles.cardsContainer}>
+          <div className={styles.card}>
+            <img src={training} alt="Disciplina" />
+            <h3>Disciplina</h3>
+            <p>El aprendizaje constante y la práctica nos llevan a la excelencia.</p>
+          </div>
+          <div className={styles.card}>
+            <img src={certified} alt="Compromiso" />
+            <h3>Compromiso</h3>
+            <p>Nuestra misión es ofrecer la mejor formación en defensa personal.</p>
+          </div>
+          <div className={styles.card}>
+            <img src={virtual} alt="Innovación" />
+            <h3>Innovación</h3>
+            <p>Usamos tecnología avanzada para un aprendizaje más dinámico.</p>
+          </div>
+        </div>
+      </div>
+      <div className={styles.contactSection} id="5">
+        <div className={styles.contactContainer}>
+          {/* Formulario de contacto */}
+          <div className={styles.contactForm}>
+            <h2>Contacto</h2>
+            <form>
+              <input type="text" placeholder="Nombre" required />
+              <input type="email" placeholder="Email" required />
+              <input type="tel" placeholder="Teléfono" required />
+              <textarea placeholder="Comentarios" required></textarea>
+              <button type="submit">ENVIAR</button>
+            </form>
+          </div>
+          {/* Mapa de Google */}
+          <div className={styles.contactMap}>
+            <iframe
+              title="Mapa de ubicación"
+              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15864.71030466833!2d-75.5832477!3d6.2403122!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e4429b1cb5ec27b%3A0x9677451e86adabb8!2sAcademia%20De%20Defensa%20Personal!5e0!3m2!1ses-419!2sco!4v1741732110084!5m2!1ses-419!2sco"
+              width="100%"
+              height="400"
+              style={{ border: 0 }}
+              allowFullScreen=""
+              loading="lazy"
+            />
+
           </div>
         </div>
       </div>
