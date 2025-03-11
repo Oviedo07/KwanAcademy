@@ -25,13 +25,9 @@ const Navbar = () => {
         <button className={styles.registerButton} onClick={() => navigate("/registro")}>
           Regístrate
         </button>
-        {/* {!menuOpen && (
-            <RxHamburgerMenu
-              className={styles.menuIcon}
-              onClick={() => setMenuOpen(true)}
-              size={30}
-            />
-          )} */}
+        <button className={styles.loginButton} onClick={() => navigate("/")}>
+          Ingresar
+        </button>
       </div>
 
       {/* Fondo oscuro cuando el menú está abierto */}

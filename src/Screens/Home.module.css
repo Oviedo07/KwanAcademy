@@ -128,25 +128,6 @@ p {
     margin: 0 auto;
   }
   
-  /* .testimonioSlide {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
-    background: #f8f8f8;
-    border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .testimonioSlide img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 10px;
-    
-  } */
   .testimonioSlide {
     display: flex;
     flex-direction: column;
@@ -249,5 +230,45 @@ p {
   .scrollToTop:hover {
     opacity: 1;
     transform: scale(1.1);
+  }
+  
+
+  /*SPONSORS SLIDER*/
+
+  .marquee {
+    overflow: hidden; /* Oculta el contenido fuera del contenedor */
+    width: 100%; /* El carrusel ocupa el ancho completo */
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9; /* Fondo opcional */
+    padding: 20px 0;
+  }
+  
+  .marqueeInner {
+    display: flex; /* Alinea los logos en fila */
+    width: fit-content; /* El ancho se ajusta automáticamente */
+    animation: scroll 50s linear infinite; /* Movimiento continuo y fluido */
+  }
+  
+  .logoSlide {
+    flex: 0 0 auto; /* Evita que los logos cambien de tamaño */
+    margin-left: 80px; /* Sin margen entre los logos */
+    margin-right: 80px;
+
+}
+  
+  .patrocinadorLogo {
+    max-width: 150px; /* Ajusta el tamaño máximo de los logos */
+    max-height: 80px;
+    object-fit: contain; /* Asegura que los logos no se deformen */
+  }
+  
+  @keyframes scroll {
+    0% {
+      transform: translateX(0); /* Comienza desde el inicio */
+    }
+    100% {
+      transform: translateX(-50%); /* Mueve la primera mitad fuera de la pantalla */
+    }
   }
   

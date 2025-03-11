@@ -6,6 +6,7 @@ import Courses from "./screens/Courses";
 import Benefits from "./screens/Benefits";
 import Contact from "./screens/Register";
 import Register from "./screens/Register"; // Nueva pantalla de registro
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/contacto" element={<Contact />} />
           <Route path="/registro" element={<Register />} />
         </Routes>
+        <Footer />
       </div>
     </Router>
   );

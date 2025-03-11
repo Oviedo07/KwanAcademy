@@ -3,7 +3,6 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styles from './Home.module.css';
-// import { FaArrowUp } from 'react-icons/fa';
 import logohome from '../assets/images/logohome.png';
 import videoFile from '../assets/videos/video.mp4';
 import virtual from '../assets/images/virtual.png';
@@ -39,6 +38,21 @@ const Home = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const patrocinadores = [
+    { img: require('../assets/images/wkfcopia.png'), alt: 'Patrocinador 1' },
+    { img: require('../assets/images/wtfcopia.png'), alt: 'Patrocinador 2' },
+    { img: require('../assets/images/wjfcopia.png'), alt: 'Patrocinador 3' },
+    { img: require('../assets/images/wjjfcopia.png'), alt: 'Patrocinador 4' },
+    { img: require('../assets/images/wkfcopia.png'), alt: 'Patrocinador 1' },
+    { img: require('../assets/images/wtfcopia.png'), alt: 'Patrocinador 2' },
+    { img: require('../assets/images/wjfcopia.png'), alt: 'Patrocinador 3' },
+    { img: require('../assets/images/wjjfcopia.png'), alt: 'Patrocinador 4' },
+  ];
+
+
+
+
+
   const testimonios = [
     { img: testimonio1, name: '𝘊𝘳𝘪𝘴𝘵𝘪𝘢𝘯𝘰 𝘙𝘰𝘯𝘢𝘭𝘥𝘰 ', text: '"El curso fue claro, accesible y muy útil. Aprendí a reaccionar rápido y con precisión. Es una excelente inversión para mejorar tu seguridad personal."' },
     { img: testimonio2, name: '𝘕𝘦𝘺𝘮𝘢𝘳 𝘑𝘳  ', text: '"Me encantó el curso, fue dinámico y fácil de seguir. Aprendí defensa personal de manera práctica y efectiva. Lo recomiendo para cualquier persona."' },
@@ -73,7 +87,32 @@ const Home = () => {
           </p>
         </div>
       </div>
-      <div className={styles.contentSection} id="1">
+
+      <div className={styles.marquee} id='1'>
+        <div className={styles.marqueeInner}>
+          {patrocinadores.map((patrocinador, index) => (
+            <div key={index} className={styles.logoSlide}>
+              <img
+                src={patrocinador.img}
+                alt={patrocinador.alt}
+                className={styles.patrocinadorLogo}
+              />
+            </div>
+          ))}
+          {/* Duplicamos los logos para garantizar el efecto continuo */}
+          {patrocinadores.map((patrocinador, index) => (
+            <div key={`duplicate-${index}`} className={styles.logoSlide}>
+              <img
+                src={patrocinador.img}
+                alt={patrocinador.alt}
+                className={styles.patrocinadorLogo}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className={styles.contentSection} id="2">
         <h2>¿Qué ofrecemos?</h2>
         <p>En Kwan Academy, transformamos el conocimiento en poder a través de la enseñanza efectiva de defensa personal.</p>
         <p>Nuestra metodología combina lo mejor del aprendizaje virtual y presencial, permitiéndote entrenar desde cualquier</p>
@@ -101,7 +140,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className={styles.contentSection1} id="2">
+      <div className={styles.contentSection1} id="3">
         <h2>Valoración y testimonios.</h2>
         <Slider {...settings} className={styles.slider}>
           {testimonios.map((testimonio, index) => (
@@ -114,7 +153,7 @@ const Home = () => {
           ))}
         </Slider>
       </div>
-      <div className={styles.contentSection} id="3">
+      <div className={styles.contentSection} id="4">
         <div className={styles.parent}>
           <div className={styles.div1}>
             <img src={virtual} alt="Método Virtual" />
@@ -136,13 +175,10 @@ const Home = () => {
         </div>
       </div>
       {showScrollButton && (
-         <img src={logohome} alt="Home logo" className={styles.scrollToTop} onClick={scrollToTop}/>
-        
-        // <button className={styles.scrollToTop} onClick={scrollToTop}>
-        //   <FaArrowUp />
-        // </button>
+        <img src={logohome} alt="Home logo" className={styles.scrollToTop} onClick={scrollToTop} />
+
       )}
-      
+
     </div>
   );
 };
