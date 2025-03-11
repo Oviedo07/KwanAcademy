@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Navbar.module.css";
-// import { RxHamburgerMenu } from "react-icons/rx";
-// import logo from "../assets/images/logo.png";
 import menuside from "../assets/images/menuside.png";
 import logoside from "../assets/images/logoka.png";
 import logo from "../assets/images/logoka.png";
@@ -22,10 +20,10 @@ const Navbar = () => {
 
       {/* Contenedor del Menú y Regístrate */}
       <div className={styles.menuContainer}>
-        <button className={styles.registerButton} onClick={() => navigate("/registro")}>
+        <button className={styles.registerButton} onClick={() => navigate("/Register")}>
           Regístrate
         </button>
-        <button className={styles.loginButton} onClick={() => navigate("/")}>
+        <button className={styles.loginButton} onClick={() => navigate("/SignIn")}>
           Ingresar
         </button>
       </div>

@@ -4,7 +4,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styles from './Home.module.css';
 import logohome from '../assets/images/logohome.png';
-import videoFile from '../assets/videos/video.mp4';
+// import videoFile from '../assets/videos/video.mp4';
 import virtual from '../assets/images/virtual.png';
 import presencial from '../assets/images/presencial.png';
 import training from '../assets/images/training.png';
@@ -73,10 +73,16 @@ const Home = () => {
   return (
     <div>
       <div className={styles.videoContainer}>
-        <video className={styles.video} autoPlay loop muted>
-          <source src={videoFile} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+        <iframe
+          className={styles.video}
+          src="https://www.youtube.com/embed/G5RpJwCJDqc?autoplay=1&mute=1&loop=1&playlist=G5RpJwCJDqc&controls=0&showinfo=0&modestbranding=1&rel=0"
+          title="YouTube video player"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        ></iframe>
+
+
         <div className={styles.overlay}>
           <h1>¿Listo para tomar el control?</h1>
           <p>Convierte el conocimiento en poder. Aprende defensa </p>
@@ -114,9 +120,11 @@ const Home = () => {
 
       <div className={styles.contentSection} id="2">
         <h2>¿Qué ofrecemos?</h2>
+        <br/>
         <p>En Kwan Academy, transformamos el conocimiento en poder a través de la enseñanza efectiva de defensa personal.</p>
         <p>Nuestra metodología combina lo mejor del aprendizaje virtual y presencial, permitiéndote entrenar desde cualquier</p>
-        <p>lugar o perfeccionar tus habilidades en sesiones en vivo con instructores expertos.</p>
+        <p>lugar o perfeccionar tus habilidades en sesiones en vivo con instructores expertos.</p>  
+        <br/><br/>
         <div className={styles.cardsContainer}>
           <div className={styles.card}>
             <img src={virtual} alt="Método Virtual" />
@@ -142,6 +150,11 @@ const Home = () => {
       </div>
       <div className={styles.contentSection1} id="3">
         <h2>Valoración y testimonios.</h2>
+        <br/><br/>
+        <p>En Kwan Academy, la satisfacción de nuestros estudiantes es nuestra mayor prioridad. Descubre lo que dicen</p> 
+        <p>quienes han transformado su confianza y seguridad con nuestra metodología. Sus experiencias reflejan</p>
+        <p>el impacto real de nuestro entrenamiento en defensa personal.</p>
+        <br/><br/>
         <Slider {...settings} className={styles.slider}>
           {testimonios.map((testimonio, index) => (
             <div key={index} className={styles.testimonioSlide}>

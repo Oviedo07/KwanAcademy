@@ -1,11 +1,10 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Navbar from "./components/Navbar";
 import Home from "./screens/Home";
-import Services from "./screens/Services";
 import Courses from "./screens/Courses";
-import Benefits from "./screens/Benefits";
-import Contact from "./screens/Register";
-import Register from "./screens/Register"; // Nueva pantalla de registro
+// import Contact from "./screens/Register";
+import Register from "./screens/Register";
+import SignIn from "./screens/SignIn";
+import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
 function App() {
@@ -16,11 +15,10 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/servicios" element={<Services />} />
+          <Route path="/SignIn" element={<SignIn />} />
           <Route path="/Courses" element={<Courses />} />
-          <Route path="/beneficios" element={<Benefits />} />
-          <Route path="/contacto" element={<Contact />} />
-          <Route path="/registro" element={<Register />} />
+          {/* <Route path="/Contact" element={<Contact />} /> */}
+          <Route path="/Register" element={<Register />} />
         </Routes>
         <Footer />
       </div>
