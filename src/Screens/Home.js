@@ -161,27 +161,7 @@ const Home = () => {
           ))}
         </Slider>
       </div>
-      {/* <div className={styles.contentSection} id="4">
-        <div className={styles.parent}>
-          <div className={styles.div1}>
-            <img src={virtual} alt="Método Virtual" />
-          </div>
-          <div className={styles.div2}>
-            <h3>Enseñanza Virtual</h3>
-            <p>Aprende defensa personal desde cualquier lugar con clases en vivo y material exclusivo.</p>
-          </div>
-        </div>
 
-        <div className={styles.parent}>
-          <div className={styles.div1}>
-            <img src={presencial} alt="Método Presencial" />
-          </div>
-          <div className={styles.div2}>
-            <h3>Entrenamiento Presencial</h3>
-            <p>Clases prácticas en nuestros dojos con instructores certificados.</p>
-          </div>
-        </div>
-      </div> */}
 
       <div className={styles.contentSection} id="5">
         <h2>Nuestra Filosofía</h2>
