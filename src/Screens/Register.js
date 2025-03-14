@@ -1,8 +1,10 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import styles from "./Register.module.css";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     nombre: "",
     apellido: "",
@@ -10,11 +12,8 @@ const Register = () => {
     genero: "masculino",
     email: "",
     contrasena: "",
-    id_rol: 2, // Puedes cambiar este valor según corresponda en tu BD
+    id_rol: 2, // Por defecto, asignamos el rol de usuario
   });
-
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -22,47 +21,55 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setSuccess("");
-
     try {
       const response = await axios.post("http://localhost:5000/api/register", formData);
-      setSuccess("Registro exitoso, ahora puedes iniciar sesión.");
-      setFormData({
-        nombre: "",
-        apellido: "",
-        fecha_nacimiento: "",
-        genero: "masculino",
-        email: "",
-        contrasena: "",
-        id_rol: 2,
-      });
-    } catch (err) {
-      setError("Error al registrar usuario. Verifica los datos.");
+      alert("Registro exitoso");
+      navigate("/signin"); // Redirige a la pantalla de login
+    } catch (error) {
+      alert("Error al registrar usuario");
+      console.error("Error:", error.response?.data || error.message);
     }
   };
 
   return (
-    <div className={styles.container}>
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <h2>Registro de Usuario</h2>
-        {error && <p className={styles.error}>{error}</p>}
-        {success && <p className={styles.success}>{success}</p>}
-        
-        <input type="text" name="nombre" placeholder="Nombre" value={formData.nombre} onChange={handleChange} required />
-        <input type="text" name="apellido" placeholder="Apellido" value={formData.apellido} onChange={handleChange} required />
-        <input type="date" name="fecha_nacimiento" value={formData.fecha_nacimiento} onChange={handleChange} required />
+    <div className={styles.registerContainer}>
+      <h2>Registro</h2>
+      <form onSubmit={handleSubmit}>
+        <div className={styles.formGroup}>
+          <label>Nombre:</label>
+          <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} required />
+        </div>
 
-        <select name="genero" value={formData.genero} onChange={handleChange} required>
-          <option value="masculino">Masculino</option>
-          <option value="femenino">Femenino</option>
-          <option value="otro">Otro</option>
-        </select>
+        <div className={styles.formGroup}>
+          <label>Apellido:</label>
+          <input type="text" name="apellido" value={formData.apellido} onChange={handleChange} required />
+        </div>
 
-        <input type="email" name="email" placeholder="Correo electrónico" value={formData.email} onChange={handleChange} required />
-        <input type="password" name="contrasena" placeholder="Contraseña" value={formData.contrasena} onChange={handleChange} required />
-        
-        <button type="submit">Registrarse</button>
+        <div className={styles.formGroup}>
+          <label>Fecha de Nacimiento:</label>
+          <input type="date" name="fecha_nacimiento" value={formData.fecha_nacimiento} onChange={handleChange} required />
+        </div>
+
+        <div className={styles.formGroup}>
+          <label>Género:</label>
+          <select name="genero" value={formData.genero} onChange={handleChange} required>
+            <option value="masculino">Masculino</option>
+            <option value="femenino">Femenino</option>
+            <option value="otro">Otro</option>
+          </select>
+        </div>
+
+        <div className={styles.formGroup}>
+          <label>Email:</label>
+          <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+        </div>
+
+        <div className={styles.formGroup}>
+          <label>Contraseña:</label>
+          <input type="password" name="contrasena" value={formData.contrasena} onChange={handleChange} required />
+        </div>
+
+        <button type="submit" className={styles.registerButton}>Registrarse</button>
       </form>
     </div>
   );

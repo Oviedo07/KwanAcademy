@@ -43,3 +43,27 @@ app.post("/api/signin", (req, res) => {
 app.listen(5000, () => {
   console.log("Servidor corriendo en http://localhost:5000");
 });
+
+// Ruta para registrar usuario
+app.post("/api/register", (req, res) => {
+  console.log("📥 Datos recibidos en el backend:", req.body);
+
+  const { nombre, apellido, fecha_nacimiento, genero, email, contrasena, id_rol } = req.body;
+
+  if (!nombre || !apellido || !fecha_nacimiento || !genero || !email || !contrasena || !id_rol) {
+    console.error("⚠️ Faltan datos en el registro.");
+    return res.status(400).json({ error: "Todos los campos son obligatorios" });
+  }
+
+  const query = "INSERT INTO Usuario (nombre, apellido, fecha_nacimiento, genero, email, contrasena, id_rol) VALUES (?, ?, ?, ?, ?, ?, ?)";
+  const values = [nombre, apellido, fecha_nacimiento, genero, email, contrasena, id_rol];
+
+  db.query(query, values, (err, results) => {
+    if (err) {
+      console.error("❌ Error SQL:", err);
+      return res.status(500).json({ error: "Error en la base de datos", details: err.message });
+    }
+    console.log("✅ Usuario registrado correctamente");
+    res.json({ message: "Usuario registrado con éxito" });
+  });
+});
