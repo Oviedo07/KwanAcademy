@@ -177,7 +177,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-end; /* Asegura alineación correcta */
-  gap: px; /* Espacio entre "Regístrate" y el icono */
+  gap: 20px; /* Espacio entre "Regístrate" y el icono */
 }
 
 .registerLink {
@@ -202,7 +202,7 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background 0.3s ease-in-out, border-color 0.3s ease-in-out;
-  margin-right: 30px;
+  /* margin-right: 30px; */
 }
 
 .registerButton:hover {
@@ -234,4 +234,12 @@
 .loginButton:hover {
   background-color: #b9a584; /* Rojo más oscuro en hover */
   border-color: #b9a584 ; /* Verde más oscuro en hover */
+}
+
+/*BARRA DE BUSQUEDA */
+
+.searchLogo {
+  width: 4%; 
+  height: 4%;
+  margin: -10px;
 }

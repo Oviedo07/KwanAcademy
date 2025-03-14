@@ -9,22 +9,6 @@
   font-family: 'Ubuntu', sans-serif;
 }
 
-/* Hover de la palabra KWan Academy en el home*/
-
-.kwan {
-  transition: color 0.5s ease-in-out; /* Suaviza la transición del color */
-}
-
-.kwan:hover {
-  color: #E70014;
-  cursor: none;
-  
-  font-weight: bold;
-  transition: 0.5s;
-
-}
-
-
 
 body {
   margin: 0;
@@ -40,7 +24,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-/* 
 
 /* 
 body {

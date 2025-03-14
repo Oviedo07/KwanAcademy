@@ -23,7 +23,7 @@
     border-radius: 5px;
   }
   
-  button {
+  SingInBtn {
     width: 100%;
     padding: 10px;
     background-color: #28a745;
@@ -33,7 +33,7 @@
     cursor: pointer;
   }
   
-  button:hover {
+  SingInBtn:hover {
     background-color: #218838;
   }
   

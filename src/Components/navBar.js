@@ -4,7 +4,7 @@ import styles from "./Navbar.module.css";
 import menuside from "../assets/images/menuside.png";
 import logoside from "../assets/images/logoka.png";
 import logo from "../assets/images/logoka.png";
-
+import search from "../assets/images/search.png";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -20,6 +20,8 @@ const Navbar = () => {
 
       {/* Contenedor del Menú y Regístrate */}
       <div className={styles.menuContainer}>
+      <img src={search} className={styles.searchLogo} alt=""></img>
+        <input className={styles.searchInput} placeholder="Buscar"></input>
         <button className={styles.registerButton} onClick={() => navigate("/Register")}>
           Regístrate
         </button>
@@ -60,7 +62,7 @@ const Navbar = () => {
           <li onClick={() => navigate("/servicios")}>Técnicas de defensa</li>
           <li onClick={() => navigate("/Courses")}>Cursos virtuales</li>
           <li onClick={() => navigate("/videos")}>Videos de práctica</li>
-          <li onClick={() => navigate("/contacto")}>Registro</li>
+          {/* <li onClick={() => navigate("/Register")}>Registro</li> */}
         </ul>
       </div>
     </div>
