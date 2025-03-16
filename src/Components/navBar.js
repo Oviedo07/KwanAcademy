@@ -4,11 +4,18 @@ import styles from "./Navbar.module.css";
 import menuside from "../assets/images/menuside.png";
 import logoside from "../assets/images/logoka.png";
 import logo from "../assets/images/logoka.png";
-import search from "../assets/images/search.png";
+import { useAuth } from "../context/AuthContext";
+
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const { isAuthenticated, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   return (
     <div className={styles.navbar}>
@@ -18,16 +25,22 @@ const Navbar = () => {
           onClick={() => navigate("/")}>Kwan Academy</h2>
       </div>
 
-      {/* Contenedor del Menú y Regístrate */}
+      {/* Contenedor del Menú y botones de autenticación */}
       <div className={styles.menuContainer}>
-      <img src={search} className={styles.searchLogo} alt=""></img>
-        <input className={styles.searchInput} placeholder="Buscar"></input>
-        <button className={styles.registerButton} onClick={() => navigate("/Register")}>
-          Regístrate
-        </button>
-        <button className={styles.loginButton} onClick={() => navigate("/SignIn")}>
-          Ingresar
-        </button>
+        {isAuthenticated ? (
+          <button className={styles.logoutButton} onClick={handleLogout}>
+            Cerrar Sesión
+          </button>
+        ) : (
+          <>
+            <button className={styles.registerButton} onClick={() => navigate("/Register")}>
+              Regístrate
+            </button>
+            <button className={styles.loginButton} onClick={() => navigate("/SignIn")}>
+              Ingresar
+            </button>
+          </>
+        )}
       </div>
 
       {/* Fondo oscuro cuando el menú está abierto */}
