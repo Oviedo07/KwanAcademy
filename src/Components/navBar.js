@@ -29,7 +29,7 @@ const Navbar = () => {
       <div className={styles.menuContainer}>
         {isAuthenticated ? (
           <button className={styles.logoutButton} onClick={handleLogout}>
-            Cerrar Sesión
+            Cerrar
           </button>
         ) : (
           <>
