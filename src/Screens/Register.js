@@ -23,7 +23,7 @@ const Register = () => {
     e.preventDefault();
     try {
       const response = await axios.post("http://localhost:5000/api/register", formData);
-      alert("Registro exitoso");
+      alert(response.data.message || "Registro exitoso");
       navigate("/signin"); // Redirige a la pantalla de login
     } catch (error) {
       alert("Error al registrar usuario");
