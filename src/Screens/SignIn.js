@@ -32,7 +32,7 @@ const SignIn = () => {
       login(userData);
       
       // Redirigir a la página principal
-      navigate("/");
+      navigate("/Courses");
     } catch (err) {
       setError("Credenciales incorrectas");
       console.error("Error de inicio de sesión:", err);

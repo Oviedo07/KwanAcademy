@@ -31,20 +31,23 @@ const courses = [
 
 const Courses = () => {
   return (
-    <div className={styles.coursesContainer}>
-  <h2 className={styles.sectionTitle}>Tienda de Cursos</h2>
-  <div className={styles.coursesGrid}>
-    {courses.map((course) => (
-      <div key={course.id} className={styles.courseCard}>
-        <img src={perfil} alt="foto" className={styles.imgCompra}/>
-        <h3>{course.name}</h3>
-        <p>{course.description}</p>
-        <span className={styles.price}>${course.price}</span>
-        <button className={styles.buyButton} onClick={() => alert("Comprado con exito")}>Comprar</button>
+    <section id="1">
+      <div className={styles.coursesContainer}>
+        <h2 className={styles.sectionTitle}>Tienda de Cursos</h2>
+        <div className={styles.coursesGrid}>
+          {courses.map((course) => (
+            <div key={course.id} className={styles.courseCard}>
+              <img src={perfil} alt="foto" className={styles.imgCompra} />
+              <h3>{course.name}</h3>
+              <p>{course.description}</p>
+              <span className={styles.price}>${course.price}</span>
+              <button className={styles.buyButton} onClick={() => alert("Comprado con exito")}>Comprar</button>
+            </div>
+          ))}
+        </div>
       </div>
-    ))}
-  </div>
-</div>
+    </section>
+
 
   );
 };

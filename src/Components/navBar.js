@@ -5,12 +5,13 @@ import menuside from "../assets/images/menuside.png";
 import logoside from "../assets/images/logoka.png";
 import logo from "../assets/images/logoka.png";
 import { useAuth } from "../context/AuthContext";
-
+import logoSesion from "../assets/images/testimonio4.jpeg";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false); // Estado para el menú emergente
   const navigate = useNavigate();
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, user, logout } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -21,16 +22,32 @@ const Navbar = () => {
     <div className={styles.navbar}>
       <div className={styles.logoContainer}>
         <img src={logo} alt="Kwan Academy Logo" className={styles.logo} onClick={() => navigate("/")} />
-        <h2 className={styles.title}
-          onClick={() => navigate("/")}>Kwan Academy</h2>
+        <h2 className={styles.title} onClick={() => navigate("/")}>Kwan Academy</h2>
       </div>
 
       {/* Contenedor del Menú y botones de autenticación */}
       <div className={styles.menuContainer}>
         {isAuthenticated ? (
-          <button className={styles.logoutButton} onClick={handleLogout}>
-            Cerrar
-          </button>
+          <div className={styles.profileContainer}>
+            <img 
+              src={logoSesion} 
+              className={styles.profileImage} 
+              onClick={() => setIsProfileOpen(!isProfileOpen)} 
+              alt="Perfil"
+            />
+            {isProfileOpen && (
+              <div className={styles.dropdownMenu}>
+                <p className={styles.userName}>{user?.name || "Usuario"}</p>
+                <p className={styles.userEmail}>{user?.email || "Correo no disponible"}</p>
+                <button className={styles.ProfileButton}>
+                  Tu cuenta 
+                </button>
+                <button className={styles.logoutButton} onClick={handleLogout}>
+                  Cerrar sesión
+                </button>
+              </div>
+            )}
+          </div>
         ) : (
           <>
             <button className={styles.registerButton} onClick={() => navigate("/Register")}>
@@ -67,7 +84,7 @@ const Navbar = () => {
           <h2 className={styles.sidebarTitle}>Kwan Academy</h2>
           <button className={styles.closeButton} onClick={() => setMenuOpen(false)}>
             ✖
-          </button> 
+          </button>
         </div>
 
         <ul>
@@ -75,7 +92,6 @@ const Navbar = () => {
           <li onClick={() => navigate("/servicios")}>Técnicas de defensa</li>
           <li onClick={() => navigate("/Courses")}>Cursos virtuales</li>
           <li onClick={() => navigate("/videos")}>Videos de práctica</li>
-          {/* <li onClick={() => navigate("/Register")}>Registro</li> */}
         </ul>
       </div>
     </div>
