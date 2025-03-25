@@ -6,16 +6,32 @@ import logoside from "../assets/images/logoka.png";
 import logo from "../assets/images/logoka.png";
 import { useAuth } from "../context/AuthContext";
 import logoSesion from "../assets/images/testimonio4.jpeg";
+import Swal from "sweetalert2"; // ✅ Importación de SweetAlert2
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [isProfileOpen, setIsProfileOpen] = useState(false); // Estado para el menú emergente
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const navigate = useNavigate();
   const { isAuthenticated, user, logout } = useAuth();
 
+  // ✅ Nueva función para confirmar el cierre de sesión
   const handleLogout = () => {
-    logout();
-    navigate("/");
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Serás desconectado de tu cuenta.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Sí, cerrar sesión",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logout();
+        navigate("/");
+        Swal.fire("Sesión cerrada", "Has cerrado sesión exitosamente.", "success");
+      }
+    });
   };
 
   return (
@@ -25,7 +41,6 @@ const Navbar = () => {
         <h2 className={styles.title} onClick={() => navigate("/")}>Kwan Academy</h2>
       </div>
 
-      {/* Contenedor del Menú y botones de autenticación */}
       <div className={styles.menuContainer}>
         {isAuthenticated ? (
           <div className={styles.profileContainer}>
@@ -60,10 +75,8 @@ const Navbar = () => {
         )}
       </div>
 
-      {/* Fondo oscuro cuando el menú está abierto */}
       {menuOpen && <div className={styles.overlay} onClick={() => setMenuOpen(false)}></div>}
 
-      {/* Sidebar con Logo y Título */}
       <div className={`${styles.sidebar} ${menuOpen ? styles.sidebarOpen : ""}`}>
         <div className={styles.sidebarHeader}>
           {!menuOpen ? (

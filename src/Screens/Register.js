@@ -52,7 +52,7 @@ const Register = () => {
 
         <div className={styles.formGroup}>
           <label>Género:</label>
-          <select name="genero" value={formData.genero} onChange={handleChange} required>
+          <select className={styles.dataGroup} name="genero" value={formData.genero} onChange={handleChange} required>
             <option value="masculino">Masculino</option>
             <option value="femenino">Femenino</option>
             <option value="otro">Otro</option>
@@ -70,6 +70,12 @@ const Register = () => {
         </div>
 
         <button type="submit" className={styles.registerButton}>Registrarse</button>
+
+        <p className={styles.SignInLink}>
+          ¿Ya tienes una cuenta?{' '}
+          <span onClick={() => navigate('/SignIn')}>Inicia sesión aquí</span>
+        </p>
+
       </form>
     </div>
   );
