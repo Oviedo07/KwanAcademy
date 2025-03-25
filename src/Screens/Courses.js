@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "../screens/Courses.module.css";
-import perfil from "../assets/images/testimonio1.png";
+import curso from "../assets/images/course.jpg";
 
 const courses = [
   {
@@ -37,7 +37,7 @@ const Courses = () => {
         <div className={styles.coursesGrid}>
           {courses.map((course) => (
             <div key={course.id} className={styles.courseCard}>
-              <img src={perfil} alt="foto" className={styles.imgCompra} />
+              <img src={curso} alt="foto" className={styles.imgCompra} />
               <h3>{course.name}</h3>
               <p>{course.description}</p>
               <span className={styles.price}>${course.price}</span>
