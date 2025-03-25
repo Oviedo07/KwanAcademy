@@ -80,7 +80,7 @@ const Home = () => {
 
         <div className={styles.overlay}>
           <h1>¿Listo para tomar el control?</h1>
-          <p>Convierte el conocimiento en poder. Aprende defensa </p>
+          <p>Convierte el conocimiento en PE CAUSA. Aprende defensa </p>
           <p>personal de manera efectiva y segura, desarrollando habilidades</p>
           <p>que te brindarán confianza y control en cualquier situación con </p>
           <p>
