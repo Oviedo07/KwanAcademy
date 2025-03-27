@@ -4,8 +4,8 @@ import Courses from "./screens/Courses";
 // import Contact from "./screens/Register";
 import Register from "./screens/Register";
 import SignIn from "./screens/SignIn";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import Navbar from "./Components/navBar";
+import Footer from "./Components/Footer";
 import { AuthProvider } from "./context/AuthContext";
 
 function App() {
