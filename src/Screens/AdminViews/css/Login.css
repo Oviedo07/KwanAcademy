@@ -1,0 +1,222 @@
+/* .login-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+    text-align: left;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+  }
+  
+  .error {
+    color: red;
+    margin-bottom: 10px;
+  }
+   */
+
+
+   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+   :root {
+     --cream: #FEF3E2;
+     --yellow: #FAB12F;
+     --orange: #FA812F;
+     --red: #FA4032;
+   }
+   
+   /* Estilos para el Navbar */
+   nav {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     padding: 1rem 2rem;
+     background-color: var(--cream) !important;
+     font-family: 'Poppins', sans-serif;
+     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+   }
+   
+   nav .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-grow: 1;
+   }
+   
+   nav .logo-container img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+   }
+   
+   nav .logo-container span {
+     color: var(--red);
+     font-size: 1.25rem;
+     font-weight: bold;
+   }
+   
+   nav .nav-links {
+     display: flex;
+     align-items: center;
+     gap: 1.5rem;
+   }
+   
+   nav .nav-link {
+     display: flex;
+     align-items: center;
+     color: var(--orange);
+     text-decoration: none;
+     transition: opacity 0.3s ease;
+   }
+   
+   nav .nav-link:hover {
+     opacity: 0.8;
+   }
+   
+   nav .nav-link svg {
+     margin-right: 0.5rem;
+   }
+   
+   nav .login-btn {
+     display: flex;
+     align-items: center;
+     padding: 0.5rem 1rem;
+     background: linear-gradient(to right, var(--orange), var(--red));
+     color: white;
+     border: none;
+     border-radius: 9999px;
+     font-weight: 600;
+     transition: transform 0.3s ease;
+   }
+   
+   nav .login-btn:hover {
+     transform: scale(1.05);
+   }
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--cream);
+  font-family: 'Poppins', sans-serif;
+  flex-direction: column;
+  min-height: 100vh; 
+}
+
+.login-wrapper {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 2px solid var(--yellow);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.login-title {
+  color: var(--red);
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--orange);
+  font-weight: 600;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid var(--yellow);
+  border-radius: 0.5rem;
+  background-color: rgba(254, 243, 226, 0.3);
+  font-family: 'Poppins', sans-serif;
+}
+
+.btn-login {
+  width: 100%;
+  padding: 0.75rem;
+  background: linear-gradient(to right, var(--orange), var(--red));
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+}
+
+.btn-login:hover {
+  transform: scale(1.05);
+}
+
+.error-message {
+  background-color: rgba(250, 64, 50, 0.1);
+  color: var(--red);
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.logo{
+  width: 45px;
+  height: 45px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.contact-section {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.contact-section .contact-info {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.contact-icon {
+  margin-right: 10px;
+  color: var(--color-red);
+}
+
+.site-footer {
+  background-color: rgba(250, 129, 47, 0.1);
+  text-align: center;
+  padding: 20px;
+  color: var(--color-red);
+}

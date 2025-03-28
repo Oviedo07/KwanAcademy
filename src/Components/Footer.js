@@ -1,6 +1,7 @@
 import React from "react";
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import styles from "./Footer.module.css";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -17,6 +18,9 @@ const Footer = () => {
           <p>Enlaces</p>
           <ul>
             <li><a href="#1">Inicio</a></li>
+            <Link to="./AdminViews/HomeAdmin">
+              <a>Ir a Administradores</a>
+            </Link>
             <li><a href="#2">Cursos</a></li>
             <li><a href="#3">Testimonios</a></li>
             <li><a href="#contact">Contacto</a></li>
