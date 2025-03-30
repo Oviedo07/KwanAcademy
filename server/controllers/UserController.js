@@ -12,9 +12,19 @@ const signIn = (req, res) => {
         if (results.length === 0) {
             return res.status(401).json({ error: "Credenciales incorrectas" });
         }
-        res.json({ message: "Autenticación exitosa", user: results[0] });
+        res.json({ message: "Autenticación exitosa. Usuario logueado", user: results[0] });
     });
 };
+
+// Verificar sesion de usuario
+const sessionUser = (req, res) => {
+    if (req.session.user) {
+        res.json({ message: "Sesión activa", user: req.session.user });
+    } else {
+        res.status(401).json({ error: "No hay sesión activa" });
+    }
+};
+
 
 // Controlador para registrar usuario
 const registerUser = (req, res) => {
@@ -43,5 +53,6 @@ const registerUser = (req, res) => {
 // Exportar funciones
 module.exports = {
     signIn,
-    registerUser
+    registerUser,
+    sessionUser
 };

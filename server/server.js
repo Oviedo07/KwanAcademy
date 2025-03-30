@@ -2,16 +2,35 @@ const express = require("express");
 const cors = require("cors");
 const mysql = require("mysql2");
 const dotenv = require("dotenv");
-const userRoutes = require("./routes/UserRoutes");
+const UserRoutes = require("./routes/UserRoutes");
+const AdminRoutes = require("./routes/AdminRoutes")
 const { user } = require("@heroui/react");
+const session = require("express-session");
 
 dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Sesion de admins
+app.use(session({
+  secret: "clave_secreta", // Cambia esto por una clave segura
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // true si usas HTTPS
+}));
+
 //Rutas para CRUD Usuario
-app.use(userRoutes);
+app.use(UserRoutes);
+//Rutas para CRUD Administrador
+app.use(AdminRoutes);
+
+
+
+
+
+
+
 
 // Configurar conexión a la base de datos
 const db = mysql.createConnection({
@@ -26,7 +45,6 @@ db.connect((err) => {
     console.error("Error conectando a la base de datos:", err);
     return;
   }
-  console.log("Conectado a la base de datos.");
 });
 
 app.listen(5000, () => {
