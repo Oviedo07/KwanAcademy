@@ -284,7 +284,7 @@
 
 /* Botón de cierre de sesión */
 .logoutButton {
-  background: red;
+  background: #E3071A;
   color: white;
   padding: 8px;
   margin: 0px 0px 5px 0px;
@@ -295,7 +295,7 @@
 }
 
 .logoutButton:hover {
-  background: darkred;
+  background: #be0413;
   transition: 0.5s;
 }
 

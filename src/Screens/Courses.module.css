@@ -1,219 +1,271 @@
-.courses-container {
-  text-align: center;
-  padding: 40px;
-  background-color: #f9f9f9;
-  border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
-  margin: 20px;
-}
-
-.section-title {
-  font-size: 32px;
-  font-weight: bold;
-  margin-bottom: 30px;
-  color: #333;
-  position: relative;
-  display: inline-block;
-}
-
-/* .section-title::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 3px;
-  background-color: #e91e63;
-} */
-
-.courses-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
-  justify-content: center;
-  align-items: stretch;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.course-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
-  text-align: left;
-  transition: all 0.3s ease-in-out;
-  overflow: hidden;
-  height: 100%;
+h2{
   display: flex;
-  flex-direction: column;
+  justify-content: center;
 }
 
-.course-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.15);
-}
 
-.course-card h3 {
-  font-size: 22px;
-  margin: 15px;
-  font-weight: bold;
-  color: #444;
-}
-
-.course-card p {
-  font-size: 16px;
-  color: #666;
-  margin: 0 15px 20px;
-  flex-grow: 1;
-}
-
-.price {
-  display: block;
-  font-size: 24px;
-  font-weight: bold;
-  color: #E70014;
-  margin: 0 15px 15px;
-}
-
-.buy-button {
-  background: #E70014;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s;
-  margin: 0 15px 15px;
-  text-transform: uppercase;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
-
-.buy-button:hover {
-  background: #E70014;
-  transform: scale(1.05);
+/* Contenedor principal */
+.coursesSection {
+  background-color: #f5f5f5;
+  color: #333;
+  padding: 40px 0;
+  min-height: 100vh;
 }
 
 .coursesContainer {
-  padding: 20px 20px;
-  
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-.sectionTitle {
-  font-size: 32px;
+/* Estilos para el título y subtítulo */
+.mainTitle {
+  font-size: 42px;
   font-weight: bold;
-  margin-bottom: 30px;
-  color: #333;
   text-align: center;
-  position: relative;
-  display: inline-block;
+  margin-bottom: 15px;
+  color: #333;
 }
 
+.subtitle {
+  font-size: 18px;
+  text-align: center;
+  color: #666;
+  margin-bottom: 40px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
+/* Barra de búsqueda y filtros */
+.searchFilterContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
 
+.searchBar {
+  flex: 1;
+  position: relative;
+  width: 200px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #777;
+}
+
+.searchInput {
+  width: 92%;
+  padding: 12px 15px 12px 45px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  color: #333;
+  font-size: 16px;
+}
+
+.searchInput::placeholder {
+  color: #999;
+}
+
+.filterContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.filterSelect {
+  padding: 12px 15px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  color: #333;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.filterButton {
+  padding: 12px 15px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  color: #333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Pestañas de navegación */
+.tabsContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+  border-radius: 4px;
+  background-color: #eee;
+  padding: 5px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tabButton {
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s;
+  border-radius: 4px;
+}
+
+.activeTab {
+  background-color: #fff;
+  color: #333;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Grid de cursos */
 .coursesGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 30px;
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
 }
 
 .courseCard {
-  width: 100%;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
   display: flex;
   flex-direction: column;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .courseCard:hover {
-  transform: translateY(-8px);
-  box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
-.courseCard h3 {
-  font-size: 22px;
-  margin: 15px;
-  font-weight: bold;
-  color: #444;
+.courseImageContainer {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
 }
 
-.courseCard p {
-  font-size: 16px;
-  color: #666;
-  margin: 0 15px 20px;
+.courseImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.courseCard:hover .courseImage {
+  transform: scale(1.05);
+}
+
+.courseContent {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
 }
 
-.price {
-  font-size: 24px;
-  color: #E70014;
+.courseTitle {
+  font-size: 20px;
   font-weight: bold;
-  display: block;
-  margin: 0 15px 15px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.instructorName {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+.courseDescription {
+  font-size: 14px;
+  color: #444;
+  margin-bottom: 15px;
+  flex-grow: 1;
+}
+
+.courseDetails {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-size: 14px;
+  color: #666;
+}
+
+.courseFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.price {
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 10px;
+}
+
+.detailsButton {
+  padding: 8px 12px;
+  background-color: transparent;
+  border: 1px solid #ccc;
+  color: #333;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.detailsButton:hover {
+  background-color: #eee;
 }
 
 .buyButton {
+  padding: 8px 12px;
   background-color: #E70014;
-  color: white;
   border: none;
-  padding: 12px 20px;
-  border-radius: 8px;
+  color: white;
+  border-radius: 4px;
   cursor: pointer;
-  font-weight: 600;
-  margin: 0 15px 15px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
   transition: all 0.3s;
 }
 
 .buyButton:hover {
-  background-color: #E70014;
-  transform: scale(1.05);
+  background-color: #c50012;
 }
 
-.coursesColumn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.imgCompra {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  margin-bottom: 0;
-  border-radius: 12px 12px 0 0;
-}
-
-/* ESTILOS SLIDER */
-/* Home.module.css */
-
-/* Media Queries for Responsive Design */
+/* Media Queries para Responsive */
 @media (max-width: 768px) {
+  .searchFilterContainer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .filterContainer {
+    justify-content: space-between;
+  }
+  
   .coursesGrid {
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  }
-  
-  .courses-container,
-  .coursesContainer {
-    padding: 30px 15px;
-    margin: 15px;
-  }
-  
-  .section-title,
-  .sectionTitle {
-    font-size: 28px;
   }
 }
 
@@ -222,13 +274,13 @@
     grid-template-columns: 1fr;
   }
   
-  .imgCompra {
-    height: 160px;
+  .tabsContainer {
+    flex-direction: column;
+    gap: 5px;
   }
   
-  .buy-button,
-  .buyButton {
-    width: calc(100% - 30px);
-    padding: 10px 15px;
+  .buttonGroup {
+    flex-direction: column;
+    gap: 5px;
   }
 }
