@@ -1,0 +1,68 @@
+.registerContainer {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  text-align: center;
+}
+
+h2 {
+  color: #333;
+}
+
+.formGroup {
+  margin-bottom: 15px;
+  text-align: left; 
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+input, select {
+  width: 94.5%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.registerButton {
+  width: 100%;
+  padding: 10px;
+  background-color: #ff4500;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.registerButton:hover {
+  background-color: #d93600;
+}
+
+.dataGroup{
+  width: 100%;
+}
+
+/* Enlace de inicio de sesión */
+.SignInLink {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.SignInLink span {
+  color: #ff4500;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.SignInLink span:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,82 @@
+/* Contenedor principal del inicio de sesión */
+.signInContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ocupa toda la pantalla */
+  
+}
+
+/* Contenedor del formulario */
+.formContainer {
+  background: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px; /* Evita que sea demasiado grande */
+  text-align: center;
+}
+
+/* Grupo de entrada */
+.inputGroup {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+/* Etiquetas */
+.inputGroup label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Campos de entrada */
+.inputGroup input {
+  width: 94.5%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Botón de inicio de sesión */
+.signInButton {
+  width: 100%;
+  padding: 12px;
+  background-color: #ff4500;
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.signInButton:hover {
+  background-color: #d93600;
+}
+
+/* Mensaje de error */
+.errorMessage {
+  color: red;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* Enlace de registro */
+.registerLink {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.registerLink span {
+  color: #ff4500;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.registerLink span:hover {
+  text-decoration: underline;
+}
