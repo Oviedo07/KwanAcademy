@@ -3,77 +3,171 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Ocupa toda la pantalla */
-  
+  min-height: 100vh;
+  background-color: #f5f7fa;
+  padding: 20px;
 }
 
 /* Contenedor del formulario */
 .formContainer {
-  background: white;
-  padding: 40px;
+  background-color: #ffffff;
   border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 400px; /* Evita que sea demasiado grande */
+  max-width: 450px;
+  padding: 30px;
   text-align: center;
+}
+
+/* Títulos de bienvenida */
+.welcomeTitle {
+  font-size: 28px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.welcomeSubtitle {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+/* Sección de inicio de sesión */
+.loginSection {
+  text-align: left;
+}
+
+.loginTitle {
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.loginSubtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 25px;
 }
 
 /* Grupo de entrada */
 .inputGroup {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   text-align: left;
 }
 
 /* Etiquetas */
 .inputGroup label {
   display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
 }
 
 /* Campos de entrada */
 .inputGroup input {
-  width: 94.5%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #333;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+.inputGroup input:focus {
+  outline: none;
+  border-color: #4a90e2;
+  background-color: #fff;
+}
+
+/* Cabecera de contraseña con enlace de recuperación */
+.passwordHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.forgotPassword {
+  font-size: 12px;
+  color: #4a90e2;
+  cursor: pointer;
+}
+
+/* Contenedor de input de contraseña con botón de mostrar/ocultar */
+.passwordInputContainer {
+  position: relative;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Botón de inicio de sesión */
 .signInButton {
   width: 100%;
   padding: 12px;
-  background-color: #ff4500;
-  border: none;
+  background-color: #4a90e2;
   color: white;
+  border: none;
+  border-radius: 6px;
   font-size: 16px;
-  font-weight: bold;
-  border-radius: 5px;
+  font-weight: 500;
   cursor: pointer;
-  transition: background 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 .signInButton:hover {
-  background-color: #d93600;
+  background-color: #3a7bc8;
+}
+
+.signInIcon {
+  margin-right: 8px;
+  font-size: 18px;
 }
 
 /* Mensaje de error */
 .errorMessage {
-  color: red;
-  font-weight: bold;
+  color: #e74c3c;
+  font-size: 14px;
   margin-bottom: 15px;
+  background-color: #fdeaea;
+  padding: 10px;
+  border-radius: 5px;
+  border-left: 3px solid #e74c3c;
 }
 
 /* Enlace de registro */
 .registerLink {
-  margin-top: 10px;
+  text-align: center;
   font-size: 14px;
+  color: #666;
+  margin-top: 10px;
 }
 
 .registerLink span {
-  color: #ff4500;
-  font-weight: bold;
+  color: #4a90e2;
+  font-weight: 500;
   cursor: pointer;
 }
 

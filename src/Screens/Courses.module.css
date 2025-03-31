@@ -6,7 +6,7 @@ h2{
 
 /* Contenedor principal */
 .coursesSection {
-  background-color: #f5f5f5;
+  background-color: #ffffff;
   color: #333;
   padding: 40px 0;
   min-height: 100vh;
@@ -50,7 +50,7 @@ h2{
 .searchBar {
   flex: 1;
   position: relative;
-  width: 200px;
+  width: 220px;
 }
 
 .searchIcon {
@@ -63,7 +63,7 @@ h2{
 
 .searchInput {
   width: 92%;
-  padding: 12px 15px 12px 45px;
+  padding: 10px 15px 12px 45px;
   border-radius: 4px;
   border: 1px solid #ddd;
   background-color: #fff;
@@ -78,6 +78,7 @@ h2{
 .filterContainer {
   display: flex;
   gap: 10px;
+  align-items: center;
 }
 
 .filterSelect {
@@ -88,6 +89,33 @@ h2{
   color: #333;
   font-size: 16px;
   cursor: pointer;
+  appearance: none; /* Removes default browser styling */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%23333' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 20px;
+  padding-right: 40px; /* Make room for the custom arrow */
+  transition: all 0.3s ease;
+}
+
+.filterSelect:hover {
+  border-color: #aaa;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.filterSelect:focus {
+  outline: none;
+  border-color: #E70014;
+  box-shadow: 0 2px 12px rgba(76, 175, 80, 0.2);
+}
+
+/* Style for the dropdown options (works in some browsers) */
+.filterSelect option {
+  padding: 10px;
+  background-color: #fff;
+  color: #333;
 }
 
 .filterButton {
@@ -100,6 +128,17 @@ h2{
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.filterButton:hover {
+  border-color: #aaa;
+  background-color: #f5f5f5;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.filterButton:active {
+  background-color: #e5e5e5;
 }
 
 /* Pestañas de navegación */
@@ -283,4 +322,37 @@ h2{
     flex-direction: column;
     gap: 5px;
   }
+}
+
+
+
+
+.searchBar {
+  position: relative;
+  width: 100%;
+  width: 100px;
+  margin: 2rem auto;
+}
+
+.searchInput {
+  width: 92%;
+  padding: 10px 15px 12px 45px;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+
+}
+
+.searchInput:focus {
+  border-color: #E70014;
+  box-shadow: 0 2px 12px rgba(76, 175, 80, 0.2);
+}
+
+.searchIcon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #757575;
+  font-size: 1.2rem;
 }

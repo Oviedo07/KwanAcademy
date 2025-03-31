@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "../screens/Courses.module.css";
 import curso from "../assets/images/course.jpg";
-import { FaSearch, FaFilter } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 
 const courses = [
   {
@@ -91,7 +91,7 @@ const Courses = () => {
             <FaSearch className={styles.searchIcon} />
             <input
               type="text"
-              placeholder="Buscar cursos..."
+              placeholder="| Buscar cursos"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className={styles.searchInput}
@@ -123,9 +123,7 @@ const Courses = () => {
               ))}
             </select>
 
-            <button className={styles.filterButton}>
-              <FaFilter />
-            </button>
+            
           </div>
         </div>
 

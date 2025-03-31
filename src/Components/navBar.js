@@ -7,6 +7,7 @@ import logo from "../assets/images/logoka.png";
 import { useAuth } from "../context/AuthContext";
 import logoSesion from "../assets/images/testimonio4.jpeg";
 import Swal from "sweetalert2"; // ✅ Importación de SweetAlert2
+import { MdLogin } from "react-icons/md";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -39,6 +40,13 @@ const Navbar = () => {
       <div className={styles.logoContainer}>
         <img src={logo} alt="Kwan Academy Logo" className={styles.logo} onClick={() => navigate("/")} />
         <h2 className={styles.title} onClick={() => navigate("/")}>Kwan Academy</h2>
+        <div className={styles.NavLink}>
+          <a href="/" className={styles.Link}>Inicio</a>
+          <a href="/Courses" className={styles.Link}>Cursos</a>
+          <a href="/FreeResources" className={styles.Link}>Recursos gratuitos</a>
+          <a href="/FAQ" className={styles.Link}>FAQ</a>
+        </div>
+
       </div>
 
       <div className={styles.menuContainer}>
@@ -65,11 +73,13 @@ const Navbar = () => {
           </div>
         ) : (
           <>
-            <button className={styles.registerButton} onClick={() => navigate("/Register")}>
-              Regístrate
+          
+            <button className={styles.loginButton} onClick={() => navigate("/Signin")}>
+            <MdLogin className={styles.loginIcon} />
+              Ingresa
             </button>
-            <button className={styles.loginButton} onClick={() => navigate("/SignIn")}>
-              Ingresar
+            <button className={styles.registerButton} onClick={() => navigate("/Register")}>
+              Registro
             </button>
           </>
         )}

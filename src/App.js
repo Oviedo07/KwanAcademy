@@ -4,6 +4,8 @@ import Courses from "./screens/Courses";
 // import Contact from "./screens/Register";
 import Register from "./screens/Register";
 import Data from "./screens/Data";
+import FreeResources from "./screens/FreeResources";
+import FAQ from "./screens/FAQ";
 import SignIn from "./screens/SignIn";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -22,6 +24,8 @@ function App() {
             {/* <Route path="/Contact" element={<Contact />} /> */}
             <Route path="/Register" element={<Register />} />
             <Route path="/Data" element={<Data />} />
+            <Route path="/FreeResources" element={<FreeResources />} />
+            <Route path="/FAQ" element={<FAQ />} />
           </Routes>
           <Footer />
         </div>
