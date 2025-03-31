@@ -54,7 +54,7 @@ const Navbar = () => {
               <div className={styles.dropdownMenu}>
                 <p className={styles.userName}>{user?.name || "Usuario"}</p>
                 <p className={styles.userEmail}>{user?.email || "Correo no disponible"}</p>
-                <button className={styles.ProfileButton}>
+                <button className={styles.ProfileButton} onClick={() => navigate("/Data")}>
                   Tu cuenta 
                 </button>
                 <button className={styles.logoutButton} onClick={handleLogout}>
@@ -102,9 +102,9 @@ const Navbar = () => {
 
         <ul>
           <li onClick={() => navigate("/")}>Inicio</li>
-          <li onClick={() => navigate("/servicios")}>Técnicas de defensa</li>
-          <li onClick={() => navigate("/Courses")}>Cursos virtuales</li>
-          <li onClick={() => navigate("/videos")}>Videos de práctica</li>
+          <li onClick={() => navigate("/servicios")}>Técnicas defensa</li>
+          <li onClick={() => navigate("/Courses")}>Cursos </li>
+          <li onClick={() => navigate("/videos")}>Videos práctica</li>
         </ul>
       </div>
     </div>

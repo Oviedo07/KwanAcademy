@@ -3,6 +3,7 @@ import Home from "./screens/Home";
 import Courses from "./screens/Courses";
 // import Contact from "./screens/Register";
 import Register from "./screens/Register";
+import Data from "./screens/Data";
 import SignIn from "./screens/SignIn";
 import HomeAdmin from "./screens/AdminViews/HomeAdmin";
 import LoginAdmin  from "./screens/AdminViews/LoginAdmin";
@@ -22,6 +23,7 @@ function App() {
             <Route path="/Courses" element={<Courses />} />
             {/* <Route path="/Contact" element={<Contact />} /> */}
             <Route path="/Register" element={<Register />} />
+            <Route path="/Data" element={<Data />} />
             <Route path="/AdminViews/HomeAdmin" element={<HomeAdmin/>} />
             <Route path="/AdminViews/LoginAdmin" element={<LoginAdmin/>} />
           </Routes>
