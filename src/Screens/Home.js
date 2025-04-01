@@ -71,7 +71,7 @@ const Home = () => {
       <div className={styles.videoContainer}>
         <iframe
           className={styles.video}
-          src="https://www.youtube.com/embed/G5RpJwCJDqc?autoplay=1&mute=1&loop=1&playlist=G5RpJwCJDqc&controls=0&showinfo=0&modestbranding=1&rel=0"
+          src="https://www.youtube.com/embed/G5RpJwCJDqc?autoplay=1&mute=1&loop=1&playlist=G5RpJwCJDqc&ontrols=0&showinfo=odestbranding=1&rel=0"
           title="YouTube video player"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen

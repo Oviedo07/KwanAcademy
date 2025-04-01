@@ -6,6 +6,7 @@
   background-color: #FEF3E2;
   position: relative;
   height: 60px;
+  box-shadow: 5px 0px 5px 0px rgba(0, 0, 0, 0.2);
 }
 
 .logoContainer {
@@ -285,18 +286,25 @@
   color: rgb(0, 0, 0);
   font-size: 1rem;
   font-weight: bold;
-  padding: 6px 15px;
+  
   border: 2px solid #FEF3E2; 
   border-radius: 20px;
   cursor: pointer;
   transition: background 0.3s ease-in-out, border-color 0.3s ease-in-out;
   margin-right: -10px;
+  padding: 6px;
   width: 115px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
 
+}
+
+.loginIcon{
+  width: 20px;
+  height: 20px;
+  
 }
 
 .loginButton:hover {

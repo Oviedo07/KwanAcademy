@@ -10,6 +10,7 @@ const SignIn = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [activeTab, setActiveTab] = useState("General");
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -17,97 +18,170 @@ const SignIn = () => {
     setShowPassword(!showPassword);
   };
 
+  const getDefaultEmail = () => {
+    return activeTab === "Instructor"
+      ? "instructor@kwan.com"
+      : "usuario@ejemplo.com";
+  };
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    setEmail(getDefaultEmail());
+    setPassword("");
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+
+    // Validar inicio de sesión según el apartado correspondiente
+    if (activeTab === "General" && email === "instructor@kwan.com") {
+      alert("Eres instructor, ve a tu apartado para ingresar.");
+      return;
+    }
+
+    if (activeTab === "Instructor" && email !== "instructor@kwan.com") {
+      alert("Eres usuario general, inicia sesión desde tu apartado.");
+      return;
+    }
 
     try {
       const response = await axios.post("http://localhost:5000/api/signin", {
         email,
         password,
+        role: activeTab.toLowerCase(),
       });
 
-      // Usar los datos del usuario de la respuesta
       const userData = {
         email,
-        name: response.data.name || "Usuario", // Asumiendo que el backend devuelve el nombre
-        token: response.data.token, // Asumiendo que el backend devuelve un token
+        name: response.data.name || "Usuario",
+        role: activeTab.toLowerCase(),
+        token: response.data.token,
       };
-      
-      // Llamar a la función login del contexto
+
       login(userData);
-      
-      // Redirigir a la página principal
-      navigate("/Courses");
+
+      if (activeTab === "Instructor") {
+        navigate("/instructor/courses");
+      } else {
+        navigate("/courses");
+      }
     } catch (err) {
       setError("Credenciales incorrectas");
       console.error("Error de inicio de sesión:", err);
     }
   };
 
+  const renderUserTypeTitle = () => {
+    return activeTab === "Instructor" ? "Instructor" : "Usuario Regular";
+  };
+
+  const renderUserTypeDescription = () => {
+    return activeTab === "Instructor"
+      ? "Accede como instructor para gestionar tus cursos"
+      : "Accede como usuario para comprar y ver cursos";
+  };
+
+  const renderButtonText = () => {
+    return activeTab === "Instructor"
+      ? "Iniciar sesión como Instructor"
+      : "Iniciar sesión";
+  };
+
+  const showRegisterLink = activeTab === "General";
+  const showForgotPassword = activeTab === "General";
+
   return (
-    <div className={styles.signInContainer}>
-      <div className={styles.formCard}>
-        <h1 className={styles.welcomeTitle}>Bienvenido de nuevo</h1>
-        <p className={styles.welcomeSubtitle}>
+    <div className={styles.container}>
+      <div className={styles.signInBox}>
+        <h1 className={styles.title}>Bienvenido de nuevo</h1>
+        <p className={styles.subtitle}>
           Ingresa tus credenciales para acceder a tu cuenta
         </p>
 
-        <div className={styles.loginSection}>
-          <h2 className={styles.loginTitle}>Iniciar Sesión</h2>
-          <p className={styles.loginSubtitle}>
-            Accede a tus cursos y materiales de aprendizaje
-          </p>
+        <div className={styles.tabsContainer}>
+          <button
+            className={`${styles.tabButton} ${
+              activeTab === "General" ? styles.activeTab : ""
+            }`}
+            onClick={() => handleTabChange("General")}
+          >
+            General
+          </button>
+          <button
+            className={`${styles.tabButton} ${
+              activeTab === "Instructor" ? styles.activeTab : ""
+            }`}
+            onClick={() => handleTabChange("Instructor")}
+          >
+            Instructor
+          </button>
+        </div>
 
-          {error && <p className={styles.errorMessage}>{error}</p>}
-          
-          <form onSubmit={handleSubmit}>
-            <div className={styles.inputGroup}>
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="CR7@goat.com"
-                required
-              />
-            </div>
-            
-            <div className={styles.inputGroup}>
-              <div className={styles.passwordHeader}>
-                <label htmlFor="password">Password</label>
-                <span className={styles.forgotPassword}>
-                  ¿Olvidaste tu contraseña?
-                </span>
-              </div>
-              <div className={styles.passwordInputContainer}>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-                <button 
-                  type="button" 
-                  className={styles.passwordToggle}
-                  onClick={togglePasswordVisibility}
-                >
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </button>
-              </div>
-            </div>
-            
-            <button type="submit" className={styles.signInButton}>
-              <span className={styles.signInIcon}>→</span> Iniciar Sesión
-            </button>
-          </form>
-          
-          <p className={styles.registerLink}>
-            ¿No tienes una cuenta? <span onClick={() => navigate('/register')}>Regístrate</span>
+        <div className={styles.userTypeContainer}>
+          <h2 className={styles.userType}>{renderUserTypeTitle()}</h2>
+          <p className={styles.userTypeDescription}>
+            {renderUserTypeDescription()}
           </p>
         </div>
+
+        {error && <p className={styles.errorMessage}>{error}</p>}
+
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>Correo electrónico</label>
+            <input
+              type="email"
+              className={styles.input}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <div className={styles.passwordHeader}>
+              <label className={styles.label}>Contraseña</label>
+              {showForgotPassword && (
+                <a href="//" className={styles.forgotPassword}>
+                  ¿Olvidaste tu contraseña?
+                </a>
+              )}
+            </div>
+            <div className={styles.passwordInputContainer}>
+              <input
+                type={showPassword ? "text" : "password"}
+                className={styles.input}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <button
+                type="button"
+                className={styles.passwordToggle}
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" className={styles.signInButton}>
+            {renderButtonText()}
+          </button>
+        </form>
+
+        {showRegisterLink && (
+          <div className={styles.registerContainer}>
+            <span>¿No tienes una cuenta? </span>
+            <span
+              onClick={() => navigate("/register")}
+              className={styles.registerLink}
+            >
+              Regístrate
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

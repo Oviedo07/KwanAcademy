@@ -1,176 +1,211 @@
-/* Contenedor principal del inicio de sesión */
-.signInContainer {
+.container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #f5f7fa;
-  padding: 20px;
-}
-
-/* Contenedor del formulario */
-.formContainer {
   background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 450px;
-  padding: 30px;
-  text-align: center;
+  font-family: Arial, sans-serif;
 }
 
-/* Títulos de bienvenida */
-.welcomeTitle {
-  font-size: 28px;
+.signInBox {
+  width: 100%;
+  max-width: 480px;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-size: 1.75rem;
   font-weight: 700;
   color: #333;
-  margin-bottom: 10px;
+  text-align: center;
+  margin-bottom: 0.5rem;
 }
 
-.welcomeSubtitle {
-  font-size: 16px;
+.subtitle {
+  font-size: 0.9rem;
   color: #666;
-  margin-bottom: 30px;
+  text-align: center;
+  margin-bottom: 1.5rem;
 }
 
-/* Sección de inicio de sesión */
-.loginSection {
-  text-align: left;
+.tabsContainer {
+  display: flex;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
 }
 
-.loginTitle {
-  font-size: 22px;
+.tabButton {
+  flex: 1;
+  padding: 0.75rem;
+  background-color: #f5f5f5;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #666;
+  transition: all 0.5s ease;
+}
+
+.activeTab {
+  background-color: #FFE6E8; /* Versión más clara del rojo */
+  color: #E30714;
+  font-weight: 600;
+}
+
+.userTypeContainer {
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  transition: all 0.5s ease;
+}
+
+.userType {
+  font-size: 1.25rem;
   font-weight: 600;
   color: #333;
-  margin-bottom: 5px;
+  margin-bottom: 0.25rem;
+  transition: color 0.5s ease;
 }
 
-.loginSubtitle {
-  font-size: 14px;
+.userTypeDescription {
+  font-size: 0.85rem;
   color: #666;
-  margin-bottom: 25px;
+  transition: color 0.5s ease;
 }
 
-/* Grupo de entrada */
-.inputGroup {
-  margin-bottom: 20px;
-  text-align: left;
+.errorMessage {
+  background-color: #ffebee;
+  color: #d32f2f;
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
 }
 
-/* Etiquetas */
-.inputGroup label {
-  display: block;
-  font-size: 14px;
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: all 0.5s ease;
+}
+
+.label {
+  font-size: 0.9rem;
+  color: #555;
   font-weight: 500;
-  color: #333;
-  margin-bottom: 8px;
+  transition: color 0.5s ease;
 }
 
-/* Campos de entrada */
-.inputGroup input {
-  width: 100%;
-  padding: 12px 15px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 14px;
-  color: #333;
-  background-color: #f9f9f9;
-  transition: border-color 0.3s;
-  box-sizing: border-box;
-}
-
-.inputGroup input:focus {
-  outline: none;
-  border-color: #4a90e2;
-  background-color: #fff;
-}
-
-/* Cabecera de contraseña con enlace de recuperación */
 .passwordHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
 }
 
 .forgotPassword {
-  font-size: 12px;
-  color: #4a90e2;
+  font-size: 0.8rem;
+  color: #E30714;
+  text-decoration: none;
   cursor: pointer;
+  transition: opacity 0.5s ease;
 }
 
-/* Contenedor de input de contraseña con botón de mostrar/ocultar */
 .passwordInputContainer {
   position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  width: 95%;
+  padding: 0.75rem;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  font-size: 0.9rem;
+  color: #333;
+  transition: all 0.5s ease;
+  background-color: #fff;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #E30714;
+  box-shadow: 0 0 0 2px rgba(227, 7, 20, 0.2);
 }
 
 .passwordToggle {
   position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
+  right: 0.75rem;
   background: none;
   border: none;
-  color: #666;
+  color: #777;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: color 0.5s ease;
 }
 
-/* Botón de inicio de sesión */
 .signInButton {
-  width: 100%;
-  padding: 12px;
-  background-color: #4a90e2;
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  background-color: #E30714;
   color: white;
   border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: 500;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
+  transition: all 0.5s ease;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: background-color 0.3s;
-  margin-top: 10px;
-  margin-bottom: 20px;
 }
 
 .signInButton:hover {
-  background-color: #3a7bc8;
+  background-color: #C00611; /* Versión más oscura del rojo */
+  transform: translateY(-2px);
 }
 
-.signInIcon {
-  margin-right: 8px;
-  font-size: 18px;
-}
-
-/* Mensaje de error */
-.errorMessage {
-  color: #e74c3c;
-  font-size: 14px;
-  margin-bottom: 15px;
-  background-color: #fdeaea;
-  padding: 10px;
-  border-radius: 5px;
-  border-left: 3px solid #e74c3c;
-}
-
-/* Enlace de registro */
-.registerLink {
+.registerContainer {
+  margin-top: 1.5rem;
   text-align: center;
-  font-size: 14px;
+  font-size: 0.9rem;
   color: #666;
-  margin-top: 10px;
+  opacity: 1;
+  transition: opacity 0.5s ease;
 }
 
-.registerLink span {
-  color: #4a90e2;
+.registerLink {
+  color: #E30714;
+  text-decoration: none;
   font-weight: 500;
   cursor: pointer;
 }
 
-.registerLink span:hover {
+.registerLink:hover {
   text-decoration: underline;
+}
+
+/* Estilos para animar la aparición/desaparición de elementos */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.userTypeContainer,
+.registerContainer,
+.signInButton {
+  animation: fadeIn 0.5s ease forwards;
 }
