@@ -5,7 +5,7 @@ import menuside from "../assets/images/menuside.png";
 import logoside from "../assets/images/logoka.png";
 import logo from "../assets/images/logoka.png";
 import { useAuth } from "../context/AuthContext";
-import logoSesion from "../assets/images/testimonio4.jpeg";
+// import logoSesion from "../assets/images/testimonio4.jpeg";
 import Swal from "sweetalert2"; // ✅ Importación de SweetAlert2
 import { MdLogin } from "react-icons/md";
 
@@ -44,7 +44,7 @@ const Navbar = () => {
           <a href="/" className={styles.Link}>Inicio</a>
           <a href="/Courses" className={styles.Link}>Cursos</a>
           <a href="/FreeResources" className={styles.Link}>Recursos gratuitos</a>
-          <a href="/FAQ" className={styles.Link}>FAQ</a>
+          {/* <a href="/FAQ" className={styles.Link}>FAQ</a> */}
         </div>
 
       </div>
@@ -53,7 +53,7 @@ const Navbar = () => {
         {isAuthenticated ? (
           <div className={styles.profileContainer}>
             <img 
-              src={logoSesion} 
+              src="https://imgur.com/vnUR4HS.jpg" 
               className={styles.profileImage} 
               onClick={() => setIsProfileOpen(!isProfileOpen)} 
               alt="Perfil"
@@ -112,9 +112,9 @@ const Navbar = () => {
 
         <ul>
           <li onClick={() => navigate("/")}>Inicio</li>
-          <li onClick={() => navigate("/servicios")}>Técnicas defensa</li>
-          <li onClick={() => navigate("/Courses")}>Cursos </li>
-          <li onClick={() => navigate("/videos")}>Videos práctica</li>
+          <li onClick={() => navigate("/WhoWeAre")}>¿Quiénes somos? </li>
+          <li onClick={() => navigate("/MissionVission")}>Misión y visión</li>
+          <li onClick={() => navigate("/FAQ")}>FAQ</li>
         </ul>
       </div>
     </div>

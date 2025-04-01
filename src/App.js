@@ -10,6 +10,8 @@ import SignIn from "./screens/SignIn";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { AuthProvider } from "./context/AuthContext";
+import MissionVission from "./screens/MissionVission";
+import WhoWeAre from "./screens/WhoWeAre";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
             {/* <Route path="/Contact" element={<Contact />} /> */}
             <Route path="/Register" element={<Register />} />
             <Route path="/Data" element={<Data />} />
+            <Route path="/MissionVission" element={<MissionVission />} />
+            <Route path="/WhoWeAre" element={<WhoWeAre />} />
             <Route path="/FreeResources" element={<FreeResources />} />
             <Route path="/FAQ" element={<FAQ />} />
           </Routes>

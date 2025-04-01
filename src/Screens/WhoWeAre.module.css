@@ -1,0 +1,176 @@
+.wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    background-color: white !important;
+  }
+  
+  .content {
+    margin-bottom: 2.5rem;
+  }
+  
+  .content h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #E70014;
+    display: inline-block;
+  }
+  
+  .content p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+    color: #4a5568;
+    font-size: 1.05rem;
+  }
+  
+  .content strong {
+    color: #E70014;
+    font-weight: 600;
+  }
+  
+  .imageContainer {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    margin-bottom: 1rem;
+  }
+  
+  .imageContainer:hover {
+    transform: scale(1.02);
+  }
+  
+  .image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+  }
+  
+  /* Team Section Styles */
+  .teamSection {
+    margin-top: 3rem;
+    text-align: center;
+    padding: 0 1rem;
+  }
+  
+  .teamSection h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #E70014;
+    display: inline-block;
+  }
+  
+  .teamGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .teamRow {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  
+  .teamCard {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    text-align: center;
+    width: calc(50% - 1rem);
+    max-width: 280px;
+    box-sizing: border-box;
+  }
+  
+  .teamCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .profileImage {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 1rem;
+    border: 3px solid #f0f0f0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .teamCard h4 {
+    margin: 0.5rem 0;
+    color: #000000;
+    font-weight: 600;
+    font-size: 1.2rem;
+  }
+  
+  .role {
+    color: #E70014;
+    font-style: italic;
+    margin: 0;
+    font-weight: 500;
+  }
+  
+  /* Responsive Styles */
+  @media (min-width: 768px) {
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+  
+    .content {
+      padding: 0 1rem;
+      margin-bottom: 0;
+    }
+    
+    .imageContainer {
+      height: 100%;
+      max-height: 400px;
+    }
+    
+    .image {
+      height: 100%;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .teamCard {
+      width: calc(50% - 1rem);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .teamRow {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .teamCard {
+      width: 100%;
+      max-width: 300px;
+    }
+    
+    .profileImage {
+      width: 120px;
+      height: 120px;
+    }
+  }

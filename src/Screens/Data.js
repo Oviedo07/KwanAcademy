@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./Data.module.css";
-import profile from "../assets/images/testimonio4.jpeg";
+// import profile from "../assets/images/testimonio4.jpeg";
 import { FaEnvelope, FaInstagram, FaTwitter, FaGithub, FaCalendar, FaEdit, FaSave, FaTimes } from "react-icons/fa";
 
 const Data = () => {
@@ -69,7 +69,7 @@ const Data = () => {
   return (
     <div className={styles.profileCard}>
       <div className={styles.profileHeader}>
-        <img src={profile} alt="Profile" className={styles.profileImage} />
+        <img src="https://imgur.com/vnUR4HS.jpg" alt="Profile" className={styles.profileImage} />
         {isEditing ? (
           <div className={styles.editFields}>
             <input

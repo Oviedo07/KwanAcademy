@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import styles from "../screens/Courses.module.css";
-import curso from "../assets/images/course.jpg";
+// import defaultCourseImage from "../assets/images/course.jpg";
+// import taekwondoImage from "../assets/images/course.jpg";
+// import defensaPersonalImage from "../assets/images/course.jpg";
+// import autoproteccionImage from "../assets/images/course.jpg";
 import { FaSearch } from "react-icons/fa";
 
 const courses = [
@@ -12,7 +15,8 @@ const courses = [
     instructor: "Carlos Martínez",
     duration: "8 semanas",
     students: 16,
-    category: "Defensa Personal"
+    category: "Defensa Personal",
+    image: "https://img.freepik.com/foto-gratis/cliente-campo-tiro-esta-preparando-equipo-recargar-cargador-pistola_482257-117732.jpg"
   },
   {
     id: 2,
@@ -22,7 +26,8 @@ const courses = [
     instructor: "Laura Sánchez",
     duration: "10 semanas",
     students: 34,
-    category: "Taekwondo"
+    category: "Taekwondo",
+    image: "https://img.freepik.com/foto-gratis/tiro-medio-personas-asiaticas-practicando-taekwondo_23-2150753761.jpg"
   },
   {
     id: 3,
@@ -32,7 +37,8 @@ const courses = [
     instructor: "Miguel Rodríguez",
     duration: "12 semanas",
     students: 21,
-    category: "Defensa Personal"
+    category: "Defensa Personal",
+    image: "https://img.freepik.com/foto-gratis/gente-entrenando-juntos-al-aire-libre-taekwondo_23-2149908491.jpg"
   },
   {
     id: 4,
@@ -42,7 +48,8 @@ const courses = [
     instructor: "Ana López",
     duration: "6 semanas",
     students: 18,
-    category: "Autoprotección"
+    category: "Autoprotección",
+    image: "https://img.freepik.com/foto-gratis/hombre-mujer-tiro-completo-compitiendo_23-2149235404.jpg"
   }
 ];
 
@@ -122,19 +129,19 @@ const Courses = () => {
                 </option>
               ))}
             </select>
-
-            
           </div>
         </div>
-
-       
 
         {/* Grid de cursos */}
         <div className={styles.coursesGrid}>
           {sortedCourses.map((course) => (
             <div key={course.id} className={styles.courseCard}>
               <div className={styles.courseImageContainer}>
-                <img src={curso} alt={course.name} className={styles.courseImage} />
+                <img 
+                  src={course.image} 
+                  alt={course.name} 
+                  className={styles.courseImage} 
+                />
               </div>
               <div className={styles.courseContent}>
                 <h3 className={styles.courseTitle}>{course.name}</h3>
@@ -154,7 +161,7 @@ const Courses = () => {
                   <span className={styles.price}>${course.price}</span>
                   <div className={styles.buttonGroup}>
                     <button className={styles.detailsButton}>Detalles</button>
-                    <button className={styles.buyButton} onClick={() => alert("Comprado con exito")}>Comprar</button>
+                    <button className={styles.buyButton} onClick={() => alert("Comprado con éxito")}>Comprar</button>
                   </div>
                 </div>
               </div>
@@ -163,8 +170,6 @@ const Courses = () => {
         </div>
       </div>
     </section>
-
-
   );
 };
 
