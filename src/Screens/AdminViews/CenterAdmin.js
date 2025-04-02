@@ -8,14 +8,17 @@ import "./css/Sidebar.css";
 import useSidebar from "./utils/FunctionsCenterAdmin";
 import { getAdministradores } from "./services/adminService";
 import { addAdministrador } from "./services/adminService";
-
+import { encasillarAdministrador } from "./services/adminService";
+import { updateAdministrador } from "./services/adminService";
+import { Delete } from "./services/adminService";
 
 
 const CenterAdmin = () => {
 
     // Constantes de componente sidebar
     const { expanded} = useSidebar();
-
+    const [editar, setEditar] = useState(null);
+    const [id, setId] = useState("");
     const [nombre, setNombre] = useState("");
     const [apellido, setApellido] = useState("");
     const [email, setEmail] = useState("");
@@ -39,8 +42,6 @@ const CenterAdmin = () => {
       
         fetchData();
       }, []);
-
-      // Recargar Tabla
 
      // Importación Añadir Administradores
      const handleAdd = async (e) => {
@@ -69,6 +70,18 @@ const CenterAdmin = () => {
         setRol("");
 
       };
+
+     // Limpiar Inputs Administradores
+     const limpiarCampos = () => {
+      setNombre("");
+      setApellido("");
+      setEmail("");
+      setContrasena("");
+      setTelefono("");
+      setRol("");
+      setEditar(false); // Si tienes un estado de edición, lo desactivas
+    };
+    
      
 
 
@@ -171,16 +184,24 @@ const CenterAdmin = () => {
               </div>
               <div>
                 {
-                //   editar?
-                //   <div>
-                //   <button className="btn btn-warning m-2" >Actualizar</button>
-                //   <button className="btn btn-danger m-2" >Cancelar</button></div>
+                  editar?
+                  <div className="d-flex flex-column align-items-center gap-3">
+                  <button className="btn btn-warning w-100" 
+                    onClick={(e) => updateAdministrador(
+                      e,
+                      { id, nombre, apellido, email, contrasena, telefono, rol }, 
+                      { setError, getAdministradores, setEditar, limpiarCampos },
+                      setAdministradores, // <-- Pasar el setter
+                      administradoresLista // <-- Pasar la lista de administradores
+                    )}>
+                    Actualizar
+                  </button>
+                  <button className="btn btn-danger w-100" onClick={limpiarCampos} >Cancelar</button></div>
 
-                //   :  
+                  :  
                   <button type="submit" className="btn btn-success w-100 mt-3">Registrar</button>
                 }
-                
-              
+
               </div>
             </form>  
 
@@ -211,13 +232,19 @@ const CenterAdmin = () => {
                         <td>
                             <div className="btn-group">
                             <button 
-                                // onClick={() => editarAdministrador(admin)} 
+                                  onClick={() => encasillarAdministrador(
+                                    admin, setEditar, 
+                                    setNombre, setApellido, 
+                                    setEmail, setContrasena, 
+                                    setTelefono, setRol, 
+                                    setId
+                                  )}
                                 className="btn btn-warning"
                             >
                                 Editar
                             </button>
                             <button 
-                                // onClick={() => Delete(admin)} 
+                                onClick={() => Delete(admin, setAdministradores, getAdministradores)} 
                                 className="btn btn-danger"
                             >
                                 Eliminar
