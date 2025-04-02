@@ -30,7 +30,7 @@ const LoginAdmin = () => {
           });
     
         setTimeout(() => {
-          navigate("/Center");
+          navigate("/CenterAdmin");
         }, 2000);
            
         } catch (error) {

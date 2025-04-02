@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "../screens/Courses.module.css";
+import styles from "../Screens/Courses.module.css";
 import curso from "../assets/images/course.jpg";
 import { FaSearch, FaFilter } from "react-icons/fa";
 

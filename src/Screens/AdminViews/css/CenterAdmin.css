@@ -1,0 +1,133 @@
+/* Nuevos estilos */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+   
+}
+
+
+
+.admin-layout {
+    display: flex;
+    background: white; /* Fondo blanco para toda el área */
+    margin: 0;
+    padding-right: 20px;
+  }
+
+.form-label{
+    padding-right: 20px;
+}
+.sidebar {
+    height: 100%; /* Hereda la altura del contenedor */
+    border-radius: 0 0 15px 0;
+}
+  
+.admin-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    overflow-y: auto;
+    max-height: 100%;
+}
+
+.app-container {
+    display: flex;
+  }
+  
+  .main-content {
+    flex-grow: 1;
+    margin-left: 240px; /* Ajustar según el ancho del sidebar expandido */
+    transition: margin-left 0.3s ease;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+  }
+  
+  /* Ajustar cuando el sidebar está contraído */
+  .sidebar.collapsed + .main-content {
+    margin-left: 70px; /* Ajustar según el ancho del sidebar contraído */
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #FEF3E2;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .logo-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    background-color: #FA4032;
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .nav-buttons button {
+    margin-left: 10px;
+    padding: 8px 15px;
+    border-radius: 5px;
+  }
+  
+  .btn-light {
+    background-color: #FEF3E2;
+    border: 1px solid #FAB12F;
+    color: #FA812F;
+  }
+  
+  .btn-outline-dark {
+    background-color: #FA812F;
+    border: none;
+    color: white;
+  }
+  
+  .content {
+    padding: 30px;
+    flex-grow: 1;
+  }
+  
+  .admin-form {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    margin-top: 20px;
+  }
+  
+  .admin-form h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+  }
+
+  
+  /* Estilos responsivos */
+  @media (max-width: 768px) {
+    .main-content {
+      margin-left: 70px;
+    }
+    
+    .sidebar.expanded + .main-content {
+      margin-left: 240px;
+    }
+    
+  }
+    /*-----------FORMULARIO------------*/
+
+    .form-label{
+        color: black;
+    }

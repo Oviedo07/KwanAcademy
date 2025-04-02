@@ -1,12 +1,13 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Home from "./screens/Home";
-import Courses from "./screens/Courses";
+import Home from "./Screens/Home";
+import Courses from "./Screens/Courses";
 // import Contact from "./screens/Register";
-import Register from "./screens/Register";
-import Data from "./screens/Data";
-import SignIn from "./screens/SignIn";
-import HomeAdmin from "./screens/AdminViews/HomeAdmin";
-import LoginAdmin  from "./screens/AdminViews/LoginAdmin";
+import Register from "./Screens/Register";
+import Data from "./Screens/Data";
+import SignIn from "./Screens/SignIn";
+import HomeAdmin from "./Screens/AdminViews/HomeAdmin";
+import LoginAdmin  from "./Screens/AdminViews/LoginAdmin";
+import CenterAdmin from "./Screens/AdminViews/CenterAdmin";
 import Navbar from "./Components/navBar";
 import Footer from "./Components/Footer";
 import { AuthProvider } from "./context/AuthContext";
@@ -26,6 +27,7 @@ function App() {
             <Route path="/Data" element={<Data />} />
             <Route path="/AdminViews/HomeAdmin" element={<HomeAdmin/>} />
             <Route path="/AdminViews/LoginAdmin" element={<LoginAdmin/>} />
+            <Route path="/AdminViews/CenterAdmin" element={<CenterAdmin/>}/>
           </Routes>
           <Footer />
         </div>

@@ -19,7 +19,7 @@ export const features = [
     },
     {
       icon: Users,
-      title: "Aprenides En Desarrollo",
+      title: "Aprendices En Desarrollo",
       description: "Aprendices comprometidos con la innovación y la responsabilidad.",
       color: colors.orange
     },
