@@ -6,6 +6,7 @@ import Register from "./screens/Register";
 import Data from "./screens/Data";
 import FreeResources from "./screens/FreeResources";
 import FAQ from "./screens/FAQ";
+import NewHome from "./screens/NewHome";
 import SignIn from "./screens/SignIn";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -30,6 +31,7 @@ function App() {
             <Route path="/WhoWeAre" element={<WhoWeAre />} />
             <Route path="/FreeResources" element={<FreeResources />} />
             <Route path="/FAQ" element={<FAQ />} />
+            <Route path="/NewHome" element={<NewHome />} />
           </Routes>
           <Footer />
         </div>

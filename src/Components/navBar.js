@@ -115,6 +115,7 @@ const Navbar = () => {
           <li onClick={() => navigate("/WhoWeAre")}>¿Quiénes somos? </li>
           <li onClick={() => navigate("/MissionVission")}>Misión y visión</li>
           <li onClick={() => navigate("/FAQ")}>FAQ</li>
+          <li onClick={() => navigate("/NewHome")}>Prueba</li>
         </ul>
       </div>
     </div>
