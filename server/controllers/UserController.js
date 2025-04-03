@@ -50,9 +50,59 @@ const registerUser = (req, res) => {
     });
 };
 
+
+// Obtener Usuarios
+
+const getUsuariosActivos = (req, res) => {
+    let estado = 'activo';
+    db.query("SELECT * FROM Usuario WHERE estado = '"+estado+"'", (err, result) => {
+      if (err) {
+        console.log("Error en la consulta:", err);
+        res.status(500).json({ error: "Error en el servidor" });
+      } else {
+        res.json(result);
+      }
+    });
+  };
+  
+const getUsuariosInactivos = (req, res) => {
+    let estado = 'inactivo';
+    db.query("SELECT * FROM Usuario WHERE estado = '"+ estado +"'", (err, result) => {
+      if (err) {
+        console.log("Error en la consulta:", err);
+        res.status(500).json({ error: "Error en el servidor" });
+      } else {
+        res.json(result);
+      }
+    });
+  };
+  
+const updateStatusUsuarios = (req, res) => {
+    const { id, estado} = req.body;
+  
+    db.query(
+      "UPDATE Usuario SET estado=? WHERE id=?",
+      [estado, id],
+      (err, result) => {
+        if (err) {
+          console.log("Error en la consulta:", err);
+          res.status(500).json({ error: "Error en el servidor" });
+        } else {
+          res.json(result);
+        }
+      }
+    );
+  };
+  
+
 // Exportar funciones
 module.exports = {
     signIn,
     registerUser,
-    sessionUser
+    sessionUser,
+    getUsuariosActivos,
+    getUsuariosInactivos,
+    updateStatusUsuarios
 };
+
+

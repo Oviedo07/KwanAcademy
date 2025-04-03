@@ -4,10 +4,10 @@ import Courses from "./Screens/Courses";
 // import Contact from "./screens/Register";
 import Register from "./Screens/Register";
 import Data from "./Screens/Data";
+import AdminDashboard from "./Screens/AdminViews/AdminDashboard";
 import SignIn from "./Screens/SignIn";
 import HomeAdmin from "./Screens/AdminViews/HomeAdmin";
 import LoginAdmin  from "./Screens/AdminViews/LoginAdmin";
-import CenterAdmin from "./Screens/AdminViews/CenterAdmin";
 import Navbar from "./Components/navBar";
 import Footer from "./Components/Footer";
 import { AuthProvider } from "./context/AuthContext";
@@ -27,7 +27,7 @@ function App() {
             <Route path="/Data" element={<Data />} />
             <Route path="/AdminViews/HomeAdmin" element={<HomeAdmin/>} />
             <Route path="/AdminViews/LoginAdmin" element={<LoginAdmin/>} />
-            <Route path="/AdminViews/CenterAdmin" element={<CenterAdmin/>}/>
+            <Route path="/AdminViews/AdminDashboard" element={<AdminDashboard/>}/>
           </Routes>
           <Footer />
         </div>
