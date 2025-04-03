@@ -103,20 +103,23 @@ p {
   font-size: 1.1rem;
   font-weight: 600;
   text-transform: uppercase;
-  background-color: var(--primary-color);
   color: var(--light-text);
   border: none;
   border-radius: 4px;
   cursor: pointer;
   transition: var(--transition);
   letter-spacing: 1px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .ctaButton:hover {
-  background-color: var(--primary-dark);
+  color: var(--primary-dark);
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+
+}
+
+.arrowScroll{
+  width: 4%;
+  height: 4%;
 }
 
 /* Sección de Patrocinadores */

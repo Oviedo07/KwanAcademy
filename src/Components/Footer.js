@@ -1,11 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { FaInstagram, FaFacebookF, FaYoutube } from "react-icons/fa";
+import { FaInstagram, FaFacebookF, FaYoutube, FaMapMarkerAlt } from "react-icons/fa";
 import { RiAdminLine } from "react-icons/ri";
 import { IoMdMail } from "react-icons/io";
-import { FaPhone, FaMapMarkerAlt } from "react-icons/fa";
 import logo from "../assets/images/logoka.png";
 import styles from "./Footer.module.css";
+import { FaWhatsapp } from "react-icons/fa6";
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -48,25 +48,6 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* <div className={styles.footerColumn}>
-            <h3 className={styles.columnTitle}>Enlaces rápidos</h3>
-            <div className={styles.footerLine}></div>
-            <ul className={styles.footerLinks}>
-              <li className={styles.footerLinkItem}>
-                <a href="/" className={styles.footerLink}>Inicio</a>
-              </li>
-              <li className={styles.footerLinkItem}>
-                <a href="/WhoWeAre" className={styles.footerLink}>Nosotros</a>
-              </li>
-              <li className={styles.footerLinkItem}>
-                <a href="/Courses" className={styles.footerLink}>Cursos</a>
-              </li>
-              <li className={styles.footerLinkItem}>
-                <a href="/FAQ" className={styles.footerLink}>FAQ</a>
-              </li>
-            </ul>
-          </div> */}
-
           <div className={styles.footerColumn}>
             <h3 className={styles.columnTitle}>Contacto</h3>
             <div className={styles.footerLine}></div>
@@ -76,11 +57,11 @@ const Footer = () => {
                 <span>Cra. 65 #32C-31, Medellín, Belén, Antioquia</span>
               </li>
               <li className={styles.contactItem}>
-                <FaPhone className={styles.contactIcon} />
-                <span>+57 314 697 55 07</span>
+                <FaWhatsapp className={styles.contactIcon} />
+                <a className={styles.contactNumber} href="https://wa.me/+573145036324">+57 314 503 63 24</a>
               </li>
               <li className={styles.contactItem}>
-                <IoMdMail className={styles.contactIcon} />
+                <IoMdMail className={styles.contactIcon}  />
                 <span>kwanacademy@support.com</span>
               </li>
             </ul>

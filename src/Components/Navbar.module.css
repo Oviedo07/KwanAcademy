@@ -35,7 +35,7 @@
   text-decoration: none;
   color: #3d3d3d;
   margin-top: 2px;
-  margin-left: 10px;
+  margin-left: -990px;
 }
 
 .NavLink a{
@@ -283,10 +283,6 @@
   border-color: #b9a584 ; 
 } 
 
-
-
-
-
 .loginButton {
   background-color: #FEF3E2 ;
   color: rgb(0, 0, 0);
@@ -444,3 +440,121 @@
 .sidebarOpen {
   right: 0; /* Cuando está activo, aparece en pantalla */
 }
+
+
+
+/* Flecha en móviles */
+.arrowIcon {
+  font-size: 24px;
+  color: #3d3d3d;
+  cursor: pointer;
+  margin-left: 15px;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Menú desplegable en móviles */
+.mobileMenu {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  background: #FEF3E2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.mobileMenu a {
+  padding: 10px;
+  font-size: 17px;
+  text-decoration: none;
+  color: #3d3d3d;
+  width: 100%;
+  text-align: center;
+  transition: background 0.3s ease-in-out;
+}
+
+.mobileMenu a:hover {
+  background: #E5D0AC;
+  color: black;
+}
+
+/* Asegurar que en desktop no se muestre el menú móvil */
+@media (min-width: 769px) {
+  .arrowIcon {
+    display: none;
+  }
+
+  .mobileMenu {
+    display: none;
+  }
+}
+
+/* Estilos para el menú desplegable */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdownButton {
+  background: none;
+  border: none;
+  font-size: 17px;
+  color: #3d3d3d;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.rotateIcon {
+  transform: rotate(180deg);
+  transition: transform 0.3s ease-in-out;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  background: #FEF3E2;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+  z-index: 100;
+}
+
+.dropdownMenu a {
+  padding: 10px;
+  font-size: 15px;
+  text-decoration: none;
+  color: #3d3d3d;
+  transition: background 0.3s ease-in-out;
+}
+
+.dropdownMenu a:hover {
+  background: #E5D0AC;
+  color: black;
+}
+
+/* Ocultar dropdown en vista de PC */
+.dropdown {
+  display: none;
+}
+
+/* Mostrar dropdown solo en móvil */
+@media screen and (max-width: 768px) {
+  .dropdown {
+    display: block;
+  }
+
+  /* Ocultar enlaces en móvil */
+  .hideOnMobile {
+    display: none;
+  }
+}
+

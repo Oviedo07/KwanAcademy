@@ -5,12 +5,8 @@ import 'slick-carousel/slick/slick-theme.css';
 import styles from './Home.module.css';
 import { motion } from 'framer-motion';
 import {  FaDumbbell, FaHandshake, FaLightbulb } from 'react-icons/fa';
-// Importaciones de imágenes
-import logohome from '../assets/images/logohome.png';
-import virtual from '../assets/images/virtual.png';
-import presencial from '../assets/images/presencial.png';
-import training from '../assets/images/training.png';
-import certified from '../assets/images/certified.png';
+// import { HiOutlineArrowSmDown } from "react-icons/hi";
+
 
 const Home = () => {
   const [showScrollButton, setShowScrollButton] = useState(false);
@@ -58,14 +54,14 @@ const Home = () => {
   };
 
   const patrocinadores = [
-    { img: require('../assets/images/wkfcopia.png'), alt: 'Patrocinador 1' },
-    { img: require('../assets/images/wtfcopia.png'), alt: 'Patrocinador 2' },
-    { img: require('../assets/images/wjfcopia.png'), alt: 'Patrocinador 3' },
-    { img: require('../assets/images/wjjfcopia.png'), alt: 'Patrocinador 4' },
-    { img: require('../assets/images/wkfcopia.png'), alt: 'Patrocinador 5' },
-    { img: require('../assets/images/wtfcopia.png'), alt: 'Patrocinador 6' },
-    { img: require('../assets/images/wjfcopia.png'), alt: 'Patrocinador 7' },
-    { img: require('../assets/images/wjjfcopia.png'), alt: 'Patrocinador 8' },
+    { img: ('https://i.imgur.com/cjbFF8r.png'), alt: 'Patrocinador 1' },
+    { img: ('https://i.imgur.com/lfFqkDJ.png'), alt: 'Patrocinador 2' },
+    { img: ('https://i.imgur.com/mWinfdu.png'), alt: 'Patrocinador 3' },
+    { img: ('https://i.imgur.com/aXG42ag.png'), alt: 'Patrocinador 4' },
+    { img: ('https://i.imgur.com/cjbFF8r.png'), alt: 'Patrocinador 5' },
+    { img: ('https://i.imgur.com/lfFqkDJ.png'), alt: 'Patrocinador 6' },
+    { img: ('https://i.imgur.com/mWinfdu.png'), alt: 'Patrocinador 7' },
+    { img: ('https://i.imgur.com/aXG42ag.png'), alt: 'Patrocinador 8' },
   ];
 
   const testimonios = [
@@ -118,12 +114,13 @@ const Home = () => {
                 efectiva y segura, desarrollando habilidades que te brindarán confianza 
                 y control en cualquier situación.</p>
               </div>
-              <button 
+              <span 
                 className={styles.ctaButton}
-                onClick={() => scrollToSection('2')}
+                onClick={() => scrollToSection('1')}
               >
                 DESCUBRE KWAN ACADEMY
-              </button>
+                {/* <HiOutlineArrowSmDown className={styles.arrowScroll}/> */}
+              </span>
             </motion.div>
           </div>
         </div>
@@ -166,7 +163,7 @@ const Home = () => {
           <div className={styles.cardsGrid}>
             <motion.div className={styles.serviceCard} whileHover={{ y: -10, boxShadow: '0 10px 20px rgba(231, 0, 20, 0.2)' }}>
               <div className={styles.cardIcon}>
-                <img src={virtual} alt="Método Virtual" />
+                <img src="https://imgur.com/OzTY9Ic.png" alt="Método Virtual" />
               </div>
               <h3>Enseñanza Virtual</h3>
               <p>Aprende defensa personal desde cualquier lugar con clases en vivo y material exclusivo.</p>
@@ -174,7 +171,7 @@ const Home = () => {
             
             <motion.div className={styles.serviceCard} whileHover={{ y: -10, boxShadow: '0 10px 20px rgba(231, 0, 20, 0.2)' }}>
               <div className={styles.cardIcon}>
-                <img src={presencial} alt="Método Presencial" />
+                <img src="https://imgur.com/HE5Gsg8.png" alt="Método Presencial" />
               </div>
               <h3>Entrenamiento Presencial</h3>
               <p>Clases prácticas en nuestros dojos con instructores certificados y experiencia.</p>
@@ -182,7 +179,7 @@ const Home = () => {
             
             <motion.div className={styles.serviceCard} whileHover={{ y: -10, boxShadow: '0 10px 20px rgba(231, 0, 20, 0.2)' }}>
               <div className={styles.cardIcon}>
-                <img src={training} alt="Método Híbrido" />
+                <img src="https://imgur.com/Ps2xU3A.png" alt="Método Híbrido" />
               </div>
               <h3>Modelo Híbrido</h3>
               <p>Combina sesiones virtuales y presenciales para maximizar tu aprendizaje y desarrollo.</p>
@@ -190,7 +187,7 @@ const Home = () => {
             
             <motion.div className={styles.serviceCard} whileHover={{ y: -10, boxShadow: '0 10px 20px rgba(231, 0, 20, 0.2)' }}>
               <div className={styles.cardIcon}>
-                <img src={certified} alt="Certificaciones" />
+                <img src="https://imgur.com/BmUJWbD.png" alt="Certificaciones" />
               </div>
               <h3>Certificación Oficial</h3>
               <p>Obtén certificaciones avaladas y demuestra tus habilidades en defensa personal.</p>
@@ -321,7 +318,7 @@ const Home = () => {
           whileHover={{ scale: 1.1 }}
         >
           {showScrollButton && (
-        <img src={logohome} alt="Home logo" className={styles.ScrollImg} onClick={scrollToTop} />
+        <img src="https://imgur.com/YDLPS2L.png" alt="Home logo" className={styles.ScrollImg} onClick={scrollToTop} />
 
       )}
         </motion.div>

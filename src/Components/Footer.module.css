@@ -173,6 +173,21 @@
   margin-top: 2px;
 }
 
+.contactNumber{
+  display: flex;
+  align-items: flex-start;
+  color: #666666;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.contactNumber:hover{
+  color: #E70014;
+  transition: 0.3s;
+  transform: scale(1.03);
+  cursor: pointer;
+}
+
 /* Sección inferior del footer */
 .footerBottom {
   background-color: #f8e1bf;
@@ -258,3 +273,6 @@
     margin-right: auto;
   }
 }
+
+
+
