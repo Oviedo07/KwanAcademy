@@ -77,7 +77,7 @@ const Footer = () => {
           
           <button 
             className={styles.adminButton}
-            onClick={() => navigate("/admin")}
+            onClick={() => navigate("./AdminViews/HomeAdmin")}
           >
             <RiAdminLine className={styles.adminIcon} />
             <span>Acceso administrador</span>
