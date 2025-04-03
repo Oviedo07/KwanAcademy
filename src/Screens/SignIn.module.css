@@ -1,0 +1,213 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #ffffff;
+  font-family: Arial, sans-serif;
+}
+
+.signInBox {
+  width: 100%;
+  max-width: 480px;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.tabsContainer {
+  display: flex;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
+}
+
+.tabButton {
+  flex: 1;
+  padding: 0.75rem;
+  background-color: #f5f5f5;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #666;
+  transition: all 0.5s ease;
+}
+
+.activeTab {
+  background-color: #FFE6E8; /* Versión más clara del rojo */
+  color: #E30714;
+  font-weight: 600;
+}
+
+.userTypeContainer {
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  transition: all 0.5s ease;
+  text-align: center;
+}
+
+.userType {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.25rem;
+  transition: color 0.5s ease;
+ 
+}
+
+.userTypeDescription {
+  font-size: 0.85rem;
+  color: #666;
+  transition: color 0.5s ease;
+}
+
+.errorMessage {
+  background-color: #ffebee;
+  color: #d32f2f;
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: all 0.5s ease;
+}
+
+.label {
+  font-size: 0.9rem;
+  color: #555;
+  font-weight: 500;
+  transition: color 0.5s ease;
+}
+
+.passwordHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.forgotPassword {
+  font-size: 0.8rem;
+  color: #E30714;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.5s ease;
+}
+
+.passwordInputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  font-size: 0.9rem;
+  color: #333;
+  transition: all 0.5s ease;
+  background-color: #fff;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #E30714;
+  box-shadow: 0 0 0 2px rgba(227, 7, 20, 0.2);
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  color: #777;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.5s ease;
+}
+
+.signInButton {
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  background-color: #E30714;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.signInButton:hover {
+  background-color: #C00611; /* Versión más oscura del rojo */
+  transform: translateY(-2px);
+}
+
+.registerContainer {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.registerLink {
+  color: #E30714;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.registerLink:hover {
+  text-decoration: underline;
+}
+
+/* Estilos para animar la aparición/desaparición de elementos */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.userTypeContainer,
+.registerContainer,
+.signInButton {
+  animation: fadeIn 0.5s ease forwards;
+}

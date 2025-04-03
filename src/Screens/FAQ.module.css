@@ -1,0 +1,156 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #ffffff; /* Fondo claro */
+  color: #333;
+  padding: 20px;
+}
+
+.faqWrapper {
+  width: 80%;
+  max-width: 900px;
+  background: #ffffff; /* Fondo blanco */
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.title {
+  text-align: center;
+  font-size: 27px;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 20px;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 14px;
+  margin-bottom: 30px;
+  color: #555;
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  background: #fff;
+  color: #333;
+}
+
+.section {
+  margin-bottom: 20px;
+  margin-top: 70px;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.faqItem {
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
+
+.faqButton {
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #000000;
+  width: 100%;
+  text-align: left;
+  transition: color 0.3s ease;
+}
+
+.faqButton:hover {
+  color: #E70014;
+}
+
+.faqAnswer {
+  margin-top: 5px;
+  color: #666;
+  font-size: 14px;
+  text-align: left;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #666;
+}
+.footer a {
+  color: #E70014;
+  text-decoration: none;
+}
+.footer a:hover {
+  text-decoration: underline;
+}
+
+.searchBar {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 10px 15px 12px 45px;
+  border: 2px solid #e0e0e0;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+
+}
+
+.searchInput:focus {
+  border-color: #E70014;
+  box-shadow: 0 2px 12px rgba(76, 175, 80, 0.2);
+}
+
+.searchIcon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #757575;
+  font-size: 1.2rem;
+}
+
+.faqAnswerContainer {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 0.3s;
+}
+
+.faqItem.open .faqAnswerContainer {
+  max-height: 200px; /* Ajusta según el contenido */
+  opacity: 1;
+}
+
+.faqAnswer {
+  margin-top: 5px;
+  color: #666;
+  font-size: 14px;
+  text-align: left;
+}

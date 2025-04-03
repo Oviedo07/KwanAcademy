@@ -1,0 +1,225 @@
+.profileCard {
+    background: #e4e4e4; /* Color oscuro */
+    color: #000000; /* Texto blanco */
+    border: 1px solid #d5d5d5;
+    border-radius: 6px;
+    padding: 40px;
+    max-width: 340px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    text-align: center;
+    margin: 100px ;
+}
+
+.profileHeader {
+    margin-bottom: 20px;
+}
+
+.profileImage {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.profileName {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.profileUsername {
+    font-size: 14px;
+    color: #4d4d4d;
+    margin-top: 4px;
+}
+
+.editButton {
+    width: 100%;
+    padding: 8px;
+    background-color: #363636;
+    border: 0px solid #30363d;
+    border-radius: 6px;
+    color: #c9d1d9;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.editButton:hover {
+    background-color: #1f2327;
+}
+
+.socialLinks {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+.socialLink {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #505050;
+    padding: 5px 0;
+}
+
+.socialIcon {
+    font-size: 16px;
+    color: #505050;
+}
+
+.profileCard {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    max-width: 500px;
+    margin: 2rem auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .profileHeader {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .profileImage {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #f0f0f0;
+    margin-bottom: 1rem;
+  }
+  
+  .profileName {
+    font-size: 1.8rem;
+    margin: 0.5rem 0;
+    color: #333;
+  }
+  
+  .profileUsername {
+    color: #666;
+    margin: 0.5rem 0;
+    font-size: 1.1rem;
+  }
+  
+  .socialLinks {
+    margin-top: 2rem;
+  }
+  
+  .socialLink {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+  }
+  
+  .socialLink:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .socialIcon {
+    margin-right: 1rem;
+    color: #555;
+    font-size: 1.2rem;
+    min-width: 24px;
+  }
+  
+  .socialText {
+    color: #333;
+    word-break: break-all;
+  }
+  
+  .socialInput {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  .socialText a {
+    color: #0066cc;
+    text-decoration: none;
+  }
+  
+  .socialText a:hover {
+    text-decoration: underline;
+  }
+  
+  .buttonContainer {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  
+  .editButton, .saveButton, .cancelButton {
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s;
+  }
+  
+  .editButton {
+    background-color: #E3071A;
+    color: white;
+  }
+  
+  .editButton:hover {
+    background-color: #be0413;
+    transform: translateY(-2px);
+  }
+  
+  .saveButton {
+    background-color: #2196F3;
+    color: white;
+  }
+  
+  .saveButton:hover {
+    background-color: #0b7dda;
+    transform: translateY(-2px);
+  }
+  
+  .cancelButton {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .cancelButton:hover {
+    background-color: #da190b;
+    transform: translateY(-2px);
+  }
+  
+  .input {
+    width: 100%;
+    padding: 0.8rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    text-align: center;
+  }
+  
+  .editFields {
+    width: 100%;
+  }
+  
+  .nameRow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+  }

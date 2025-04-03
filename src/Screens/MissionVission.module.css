@@ -1,0 +1,74 @@
+.missionContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  background-color: #ffffff;
+}
+
+.missionContent {
+  margin-bottom: 2.5rem;
+}
+
+.missionContent h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #E70014;
+  display: inline-block;
+}
+
+.missionContent p {
+  margin-bottom: 1rem;
+  line-height: 1.7;
+  color: #4a5568;
+  font-size: 1.05rem;
+}
+
+.missionContent strong {
+  color: #E70014;
+  font-weight: 600;
+}
+
+.missionImageContainer {
+  margin-bottom: 2.5rem;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.missionImageContainer:hover {
+  transform: scale(1.02);
+}
+
+.missionImage {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+@media (min-width: 768px) {
+  .missionContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .missionContent {
+    padding: 0 1rem;
+  }
+  
+  .missionImageContainer {
+    height: 100%;
+    max-height: 400px;
+    margin-bottom: 0;
+  }
+  
+  .missionImage {
+    height: 100%;
+  }
+}
