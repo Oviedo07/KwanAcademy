@@ -28,6 +28,11 @@
 .rights {
   font-size: 14px;
   color: #666;
+  margin-left: 12%;
+}
+
+.rights p {
+  margin-top: 30%;
 }
 
 .social {
@@ -53,6 +58,44 @@
   background-color: #646464;
 }
 
-.rights{
-  margin-right: 10px;
+.AdminIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #a1a1a100;
+  text-decoration: none;
+  color: #000000;
+  font-size: 18px;
+  transition: background 0.3s ease;
+}
+
+.AdminIcon:hover {
+  background-color: #646464;
+}
+
+.ProfileButton {
+  background-color: #a1a1a1 ;
+  color: rgb(0, 0, 0);
+  font-size: 0.8rem;
+  font-weight:600 ;
+  border: 0px solid #a1a1a1; 
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out, border-color 0.3s ease-in-out;
+  padding: 6px;
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+}
+
+.ProfileButton:hover {
+  background-color: #646464;
+}
+
+.AdminIcon{
+  width: 19px;
+  height: 19px;
 }

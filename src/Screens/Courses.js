@@ -1,10 +1,7 @@
-import React, { useState } from "react";
-import styles from "../screens/Courses.module.css";
-// import defaultCourseImage from "../assets/images/course.jpg";
-// import taekwondoImage from "../assets/images/course.jpg";
-// import defensaPersonalImage from "../assets/images/course.jpg";
-// import autoproteccionImage from "../assets/images/course.jpg";
-import { FaSearch } from "react-icons/fa";
+
+import { FaSearch, FaUserGraduate, FaClock, FaUsers, FaTag, FaTimes } from "react-icons/fa";
+import styles from "./Courses.module.css"; // Importación correcta de CSS Modules
+import React, { useState, useEffect, useCallback } from "react";
 
 const courses = [
   {
@@ -26,7 +23,7 @@ const courses = [
     instructor: "Laura Sánchez",
     duration: "10 semanas",
     students: 34,
-    category: "Taekwondo",
+    category: "Taekwondo Intermedio",
     image: "https://img.freepik.com/foto-gratis/tiro-medio-personas-asiaticas-practicando-taekwondo_23-2150753761.jpg"
   },
   {
@@ -42,7 +39,7 @@ const courses = [
   },
   {
     id: 4,
-    name: "Curso de Autoprotección Urbana",
+    name: "Curso de Defensa Personal Urbana",
     price: 39.99,
     description: "Técnicas para defenderte en entornos urbanos y situaciones de riesgo.",
     instructor: "Ana López",
@@ -53,124 +50,173 @@ const courses = [
   }
 ];
 
-const categories = ["Categorías", "Defensa Personal", "Taekwondo", "Autoprotección"];
+const categories = ["Todas las Categorías", "Defensa Personal", "Taekwondo", "Autoprotección"];
 const sortOptions = ["Popularidad", "Precio: Bajo a Alto", "Precio: Alto a Bajo", "Duración"];
 
 const Courses = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("Categorías");
+  const [selectedCategory, setSelectedCategory] = useState("Todas las Categorías");
   const [selectedSort, setSelectedSort] = useState("Popularidad");
-  // const [activeTab, setActiveTab] = useState("Todos los Cursos");
+  const [animatedCourses, setAnimatedCourses] = useState([]);
+  const [selectedCourse, setSelectedCourse] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
-  // Filtrar cursos basados en la búsqueda y categoría
-  const filteredCourses = courses.filter((course) => {
-    const matchesSearch = course.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                         course.description.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesCategory = selectedCategory === "Categorías" || 
-                           course.category === selectedCategory;
-    
-    return matchesSearch && matchesCategory;
-  });
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAnimatedCourses(getFilteredAndSortedCourses());
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [searchTerm, selectedCategory, selectedSort]);
 
-  // Ordenar cursos
-  const sortedCourses = [...filteredCourses].sort((a, b) => {
-    if (selectedSort === "Precio: Bajo a Alto") return a.price - b.price;
-    if (selectedSort === "Precio: Alto a Bajo") return b.price - a.price;
-    if (selectedSort === "Duración") {
-      return parseInt(a.duration) - parseInt(b.duration);
-    }
-    // Por defecto, ordenar por popularidad (número de estudiantes)
-    return b.students - a.students;
-  });
+  const getFilteredAndSortedCourses = () => {
+    const filtered = courses.filter((course) => {
+      const matchesSearch = 
+        course.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        course.description.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCategory = 
+        selectedCategory === "Todas las Categorías" || 
+        course.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+    });
+
+    return [...filtered].sort((a, b) => {
+      if (selectedSort === "Precio: Bajo a Alto") return a.price - b.price;
+      if (selectedSort === "Precio: Alto a Bajo") return b.price - a.price;
+      if (selectedSort === "Duración") {
+        return parseInt(a.duration) - parseInt(b.duration);
+      }
+      return b.students - a.students;
+    });
+  };
+
+  const openModal = (course) => {
+    setSelectedCourse(course);
+    setModalOpen(true);
+    document.body.style.overflow = 'hidden'; // Prevenir scroll cuando modal está abierto
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    document.body.style.overflow = 'auto'; // Reactivar scroll
+  };
 
   return (
-    <section className={styles.coursesSection} id="1">
-      <div className={styles.coursesContainer}>
-        <h2 className={styles.sectionTitle}>Explora nuestros cursos.</h2>
-        <p>Descubra una amplia gama de cursos para mejorar sus competencias</p> 
-        <p>y avanzar en su aprendizaje.</p>
-        <br/>
-        
-        {/* Barra de búsqueda y filtros */}
-        <div className={styles.searchFilterContainer}>
-          <div className={styles.searchBar}>
-            <FaSearch className={styles.searchIcon} />
+    <section className={styles["courses-section"]} id="courses">
+      <div className={styles["courses-container"]}>
+        <div className={styles["courses-header"]}>
+          <h2 className={styles["section-title"]}>Explora nuestros cursos</h2>
+        </div>
+
+        <div className={styles["search-filter-container"]}>
+          <div className={styles["search-bar"]}>
+            <FaSearch className={styles["search-icon"]} />
             <input
               type="text"
-              placeholder="| Buscar cursos"
+              placeholder="Buscar cursos..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className={styles.searchInput}
+              className={styles["search-input"]}
             />
           </div>
 
-          <div className={styles.filterContainer}>
+          <div className={styles["filter-container"]}>
             <select 
-              className={styles.filterSelect}
+              className={styles["filter-select"]}
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
             >
               {categories.map((category, index) => (
-                <option key={index} value={category}>
-                  {category}
-                </option>
+                <option key={index} value={category}>{category}</option>
               ))}
             </select>
 
             <select 
-              className={styles.filterSelect}
+              className={styles["filter-select"]}
               value={selectedSort}
               onChange={(e) => setSelectedSort(e.target.value)}
             >
               {sortOptions.map((option, index) => (
-                <option key={index} value={option}>
-                  {option}
-                </option>
+                <option key={index} value={option}>{option}</option>
               ))}
             </select>
           </div>
         </div>
 
-        {/* Grid de cursos */}
-        <div className={styles.coursesGrid}>
-          {sortedCourses.map((course) => (
-            <div key={course.id} className={styles.courseCard}>
-              <div className={styles.courseImageContainer}>
-                <img 
-                  src={course.image} 
-                  alt={course.name} 
-                  className={styles.courseImage} 
-                />
-              </div>
-              <div className={styles.courseContent}>
-                <h3 className={styles.courseTitle}>{course.name}</h3>
-                <p className={styles.instructorName}>Instructor: {course.instructor}</p>
-                <p className={styles.courseDescription}>{course.description}</p>
-                
-                <div className={styles.courseDetails}>
-                  <div className={styles.detailItem}>
-                    <span>Duración: {course.duration}</span>
-                  </div>
-                  <div className={styles.detailItem}>
-                    <span>Estudiantes: {course.students}</span>
-                  </div>
+        <div className={styles["courses-grid"]}>
+          {animatedCourses.length > 0 ? (
+            animatedCourses.map((course) => (
+              <div key={course.id} className={styles["course-card"]}>
+                <div className={styles["course-image-container"]}>
+                  <img 
+                    src={course.image} 
+                    alt={course.name} 
+                    className={styles["course-image"]} 
+                  />
                 </div>
-                
-                <div className={styles.courseFooter}>
-                  <span className={styles.price}>${course.price}</span>
-                  <div className={styles.buttonGroup}>
-                    <button className={styles.detailsButton}>Detalles</button>
-                    <button className={styles.buyButton} onClick={() => alert("Comprado con éxito")}>Comprar</button>
+                <div className={styles["course-content"]}>
+                  <h3 className={styles["course-title"]}>{course.name}</h3>
+                  <p className={styles["instructor-name"]}>
+                    <FaUserGraduate className={styles["instructor-icon"]} />
+                    {course.instructor}
+                  </p>
+                  <p className={styles["course-description"]}>{course.description}</p>
+                  <div className={styles["course-meta"]}>
+                    <span><FaClock /> {course.duration}</span>
+                    <span><FaUsers /> {course.students} estudiantes</span>
+                    <span><FaTag /> {course.category}</span>
                   </div>
+                  <button 
+                    className={styles["details-button"]}
+                    onClick={() => openModal(course)}
+                  >
+                    Detalles
+                  </button>
                 </div>
               </div>
+            ))
+          ) : (
+            <div className={styles["no-results"]}>
+              <p>No se encontraron cursos que coincidan con tu búsqueda.</p>
             </div>
-          ))}
+          )}
         </div>
       </div>
+
+      {/* Modal para detalles del curso */}
+      {modalOpen && selectedCourse && (
+        <div className={styles["modal-overlay"]} onClick={closeModal}>
+          <div className={styles["modal-content"]} onClick={(e) => e.stopPropagation()}>
+            <button className={styles["close-modal"]} onClick={closeModal}>
+              <FaTimes />
+            </button>
+            <div className={styles["modal-image-container"]}>
+              <img 
+                src={selectedCourse.image} 
+                alt={selectedCourse.name} 
+                className={styles["modal-image"]} 
+              />
+            </div>
+            <div className={styles["modal-details"]}>
+              <h2 className={styles["modal-title"]}>{selectedCourse.name}</h2>
+              <p className={styles["modal-instructor"]}>
+                <FaUserGraduate /> Instructor: {selectedCourse.instructor}
+              </p>
+              <p className={styles["modal-description"]}>{selectedCourse.description}</p>
+              <div className={styles["modal-meta"]}>
+                <span><FaClock /> Duración: {selectedCourse.duration}</span>
+                <span><FaUsers /> {selectedCourse.students} estudiantes inscritos</span>
+                <span><FaTag /> Categoría: {selectedCourse.category}</span>
+              </div>
+              <div className={styles["modal-price-section"]}>
+                <p className={styles["modal-price"]}>${selectedCourse.price}</p>
+                <button className={styles["buy-button"]}>Comprar ahora</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
 
-export default Courses;
+export default Courses;

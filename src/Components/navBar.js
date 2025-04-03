@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Navbar.module.css";
-import menuside from "../assets/images/menuside.png";
 import logoside from "../assets/images/logoka.png";
 import logo from "../assets/images/logoka.png";
 import { useAuth } from "../context/AuthContext";
-// import logoSesion from "../assets/images/testimonio4.jpeg";
-import Swal from "sweetalert2"; // ✅ Importación de SweetAlert2
+
+import Swal from "sweetalert2";
 import { MdLogin } from "react-icons/md";
+
+import { RxHamburgerMenu } from "react-icons/rx";
+
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -52,10 +54,10 @@ const Navbar = () => {
       <div className={styles.menuContainer}>
         {isAuthenticated ? (
           <div className={styles.profileContainer}>
-            <img 
-              src="https://imgur.com/vnUR4HS.jpg" 
-              className={styles.profileImage} 
-              onClick={() => setIsProfileOpen(!isProfileOpen)} 
+            <img
+              src="https://imgur.com/vnUR4HS.jpg"
+              className={styles.profileImage}
+              onClick={() => setIsProfileOpen(!isProfileOpen)}
               alt="Perfil"
             />
             {isProfileOpen && (
@@ -63,7 +65,7 @@ const Navbar = () => {
                 <p className={styles.userName}>{user?.name || "Usuario"}</p>
                 <p className={styles.userEmail}>{user?.email || "Correo no disponible"}</p>
                 <button className={styles.ProfileButton} onClick={() => navigate("/Data")}>
-                  Tu cuenta 
+                  Tu cuenta
                 </button>
                 <button className={styles.logoutButton} onClick={handleLogout}>
                   Cerrar sesión
@@ -73,37 +75,35 @@ const Navbar = () => {
           </div>
         ) : (
           <>
-          
             <button className={styles.loginButton} onClick={() => navigate("/Signin")}>
-            <MdLogin className={styles.loginIcon} />
+              <MdLogin className={styles.loginIcon} />
               Ingresa
             </button>
             <button className={styles.registerButton} onClick={() => navigate("/Register")}>
               Registro
             </button>
+            {/* Corrigiendo la funcionalidad del menú hamburguesa */}
+            <RxHamburgerMenu
+              className={styles.sidebarMenu}
+              onClick={() => setMenuOpen(!menuOpen)} // Aquí aseguramos que cambia el estado
+            />
           </>
         )}
       </div>
+
 
       {menuOpen && <div className={styles.overlay} onClick={() => setMenuOpen(false)}></div>}
 
       <div className={`${styles.sidebar} ${menuOpen ? styles.sidebarOpen : ""}`}>
         <div className={styles.sidebarHeader}>
-          {!menuOpen ? (
-            <img
-              src={menuside}
-              alt="Sidebar Logo"
-              className={styles.sidebarLogo}
-              onClick={() => setMenuOpen(true)}
-            />
-          ) : (
+        
             <img
               src={logoside}
               alt="Kwan Academy Logo"
               className={styles.logosidebar}
               onClick={() => setMenuOpen(false)}
             />
-          )}
+        
           <h2 className={styles.sidebarTitle}>Kwan Academy</h2>
           <button className={styles.closeButton} onClick={() => setMenuOpen(false)}>
             ✖
