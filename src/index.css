@@ -32,6 +32,27 @@ code {
   display: none !important;
 }
 
+/* Asegurar que el HTML y el body ocupen toda la pantalla */
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hacer que el contenedor principal ocupe toda la pantalla */
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Hace que el contenido llene toda la pantalla */
+}
+
+/* Asegurar que el contenido empuje el footer hacia abajo */
+.main-content {
+  flex: 1;
+}
+
+
 /*FOTOS TESTOMONIOS
 
 CRIS. https://goo.su/onTlw

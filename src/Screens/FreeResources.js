@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import styles from "./FreeResources.module.css";
-import { FaSearch } from "react-icons/fa";
+import { FaTimes, FaSearch } from "react-icons/fa";
 
+// Agregando categorías de recursos
 const categories = [
   "Todos",
   "Taekwondo",
@@ -186,7 +187,7 @@ const FreeResources = () => {
       {modalOpen && selectedResource && (
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
-            <button className={styles.closeButton} onClick={closeModal}>×</button>
+            <button className={styles.closeButton} onClick={closeModal}><FaTimes /></button>
             <div className={styles.modalContent}>
               <div className={styles.modalImageContainer}>
                 <img 

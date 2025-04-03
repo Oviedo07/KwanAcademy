@@ -60,6 +60,7 @@ const Navbar = () => {
               onClick={() => setIsProfileOpen(!isProfileOpen)}
               alt="Perfil"
             />
+           
             {isProfileOpen && (
               <div className={styles.dropdownMenu}>
                 <p className={styles.userName}>{user?.name || "Usuario"}</p>
@@ -85,7 +86,7 @@ const Navbar = () => {
             {/* Corrigiendo la funcionalidad del menú hamburguesa */}
             <RxHamburgerMenu
               className={styles.sidebarMenu}
-              onClick={() => setMenuOpen(!menuOpen)} // Aquí aseguramos que cambia el estado
+              onClick={() => setMenuOpen(!menuOpen)}
             />
           </>
         )}
@@ -96,14 +97,14 @@ const Navbar = () => {
 
       <div className={`${styles.sidebar} ${menuOpen ? styles.sidebarOpen : ""}`}>
         <div className={styles.sidebarHeader}>
-        
-            <img
-              src={logoside}
-              alt="Kwan Academy Logo"
-              className={styles.logosidebar}
-              onClick={() => setMenuOpen(false)}
-            />
-        
+
+          <img
+            src={logoside}
+            alt="Kwan Academy Logo"
+            className={styles.logosidebar}
+            onClick={() => setMenuOpen(false)}
+          />
+
           <h2 className={styles.sidebarTitle}>Kwan Academy</h2>
           <button className={styles.closeButton} onClick={() => setMenuOpen(false)}>
             ✖
@@ -115,7 +116,6 @@ const Navbar = () => {
           <li onClick={() => navigate("/WhoWeAre")}>¿Quiénes somos? </li>
           <li onClick={() => navigate("/MissionVission")}>Misión y visión</li>
           <li onClick={() => navigate("/FAQ")}>FAQ</li>
-          <li onClick={() => navigate("/NewHome")}>Prueba</li>
         </ul>
       </div>
     </div>

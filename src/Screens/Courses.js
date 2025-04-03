@@ -1,7 +1,7 @@
 
 import { FaSearch, FaUserGraduate, FaClock, FaUsers, FaTag, FaTimes } from "react-icons/fa";
 import styles from "./Courses.module.css"; // Importación correcta de CSS Modules
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 
 const courses = [
   {
@@ -23,7 +23,7 @@ const courses = [
     instructor: "Laura Sánchez",
     duration: "10 semanas",
     students: 34,
-    category: "Taekwondo Intermedio",
+    category: "Artes Marciales",
     image: "https://img.freepik.com/foto-gratis/tiro-medio-personas-asiaticas-practicando-taekwondo_23-2150753761.jpg"
   },
   {
@@ -47,10 +47,21 @@ const courses = [
     students: 18,
     category: "Autoprotección",
     image: "https://img.freepik.com/foto-gratis/hombre-mujer-tiro-completo-compitiendo_23-2149235404.jpg"
+  },
+  {
+    id: 5,
+    name: "Técnicas para principiantes en Karate",
+    price: 29.99,
+    description: "Técnicas para defenderte en entornos urbanos y situaciones de riesgo.",
+    instructor: "Ana López",
+    duration: "7 semanas",
+    students: 13,
+    category: "Artes Marciales",
+    image: "https://img.freepik.com/foto-gratis/jugador-karate-realizando-postura-karate_107420-65076.jpg"
   }
 ];
 
-const categories = ["Todas las Categorías", "Defensa Personal", "Taekwondo", "Autoprotección"];
+const categories = ["Todas las Categorías", "Defensa Personal", "Artes Marciales", "Autoprotección"];
 const sortOptions = ["Popularidad", "Precio: Bajo a Alto", "Precio: Alto a Bajo", "Duración"];
 
 const Courses = () => {
@@ -66,7 +77,7 @@ const Courses = () => {
       setAnimatedCourses(getFilteredAndSortedCourses());
     }, 100);
     return () => clearTimeout(timer);
-  }, [searchTerm, selectedCategory, selectedSort]);
+  }, );
 
   const getFilteredAndSortedCourses = () => {
     const filtered = courses.filter((course) => {

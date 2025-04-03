@@ -232,16 +232,22 @@
   position: absolute;
   top: 15px;
   right: 15px;
-  background: none;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
   border: none;
-  font-size: 24px;
-  color: var(--black);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+  transition: background-color 0.3s;
   z-index: 10;
 }
 
 .closeButton:hover {
-  color: var(--primary-red);
+  background-color: var(--primary-red);
   transition: 0.3s;
 }
 
