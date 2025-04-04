@@ -1,6 +1,21 @@
 import Axios from "axios";
 import Swal from 'sweetalert2';
 
+
+// ------------------------------------ INICIO DE SESION ADMINISTRADORES -------------------------------------------
+export const signInAdministradores = async (email, contrasena) => {
+  try {
+    const response = await Axios.post(
+      "http://localhost:5000/api/signInAdmin",
+      { email, contrasena },
+      { withCredentials: true } // 🔹 necesario para manejar cookies/sesiones
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.error || "Error al iniciar sesión");
+  }
+};
+
 // ----------------------------------- OBTENER ADMINISTRADORES -----------------------------------------------------
 export const getAdministradores = async () => {
   try {

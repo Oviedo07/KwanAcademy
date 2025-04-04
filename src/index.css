@@ -28,9 +28,7 @@ code {
 
 
 
-::-webkit-scrollbar{
-  display: none !important;
-}
+
 
 /* Asegurar que el HTML y el body ocupen toda la pantalla */
 html, body {
