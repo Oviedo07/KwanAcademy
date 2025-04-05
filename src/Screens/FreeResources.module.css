@@ -8,6 +8,7 @@
   --dark-gray: #333333;
   --primary-orange: #FAB12F;
   --primary-rose: #D68FD3;
+  --background-color: #FDF8F2;
 }
 
 /* Contenedor principal */
@@ -54,7 +55,7 @@
   color: var(--primary-red);
   margin-right: 3px;
   margin-left: 5px;
-  margin-top: 3px;
+  margin-top: -1px;
 }
 
 .searchInput {
@@ -63,11 +64,19 @@
   padding: 10px;
   width: 100%;
   font-size: 1rem;
+  
 }
 
-.searchInput:focus {
+.searchInput:focus{
   outline: none;
+  
 }
+
+.searchBar:focus-within {
+  border-color: var(--primary-red);
+  
+}
+
 
 .filterContainer {
   min-width: 150px;
@@ -81,6 +90,11 @@
   font-size: 1rem;
   background-color: var(--white);
   cursor: pointer;
+}
+
+.filterSelect:focus {
+  border-color: var(--primary-red);
+  outline: none;
 }
 
 /* Grid de tarjetas */
@@ -336,3 +350,4 @@
 .buyButton:hover {
   background-color: #ce0012; /* Slightly darker red */
 }
+

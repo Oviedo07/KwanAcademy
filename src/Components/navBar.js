@@ -70,7 +70,7 @@ const Navbar = () => {
             <IoIosArrowDown className={isDropdownOpen ? styles.rotateIcon : ""} />
           </button>
           {isDropdownOpen && (
-            <div className={styles.dropdownMenu}>
+            <div className={styles.dropdownMenuLink}>
               <a href="/">Inicio</a>
               <a href="/Courses">Cursos</a>
               <a href="/FreeResources">Recursos gratuitos</a>
@@ -130,13 +130,16 @@ const Navbar = () => {
             <button className={styles.registerButton} onClick={() => navigate("/Register")}>
               Registro
             </button>
-            <RxHamburgerMenu
-              className={styles.sidebarMenu}
-              onClick={() => setMenuOpen(true)}
-            />
           </>
         )}
+
+        {/* Este icono SIEMPRE aparece */}
+        <RxHamburgerMenu
+          className={styles.sidebarMenu}
+          onClick={() => setMenuOpen(true)}
+        />
       </div>
+
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { LogIn, User, KeyRound } from "lucide-react";
+import { LogIn, User, KeyRound, Home } from "lucide-react";
 import "./css/Login.css";
 import Swal from 'sweetalert2';
 import { useLoginAdmin } from "./utils/FunctionsLoginAdmin";
@@ -40,7 +40,12 @@ const LoginAdmin = () => {
           html: "<i>¡Bienvenido a nuestro sistema!</i>",
           icon: "success",
           timer: 2000,
-          showConfirmButton: false
+          showConfirmButton: false,
+          customClass: {
+            popup: 'swal-custom-popup',
+            title: 'swal-custom-title',
+            content: 'swal-custom-content'
+          }
         });
   
         // Usar navigate en lugar de window.location para mejor manejo de enrutamiento
@@ -68,28 +73,33 @@ const LoginAdmin = () => {
   };
 
   return (
-    <div>
-      <nav className="nav">
+    <div className="login-page">
+      
         <div className="logo-container">
-          <Link to="/AdminViews/HomeAdmin" className="login-btn" size={20}>
-            Home
+          <Link to="/AdminViews/HomeAdmin" className="login-btn">
+            <Home size={18} className="mr-2" style={{ verticalAlign: 'middle', marginRight: '6px' }} />
+            Inicio
           </Link>
         </div>
-      </nav>  
+      
 
       <div className="login-container">
         <div className="login-wrapper">
           <div className="login-header">
-            <LogIn size={60} color="#FA812F" strokeWidth={1.5} className="mx-auto mb-4" />
+            <div className="icon-circle">
+              <LogIn size={50} color="#E70014" strokeWidth={1.5} />
+            </div>
             <h2 className="login-title">Iniciar Sesión</h2>
+            <p className="login-subtitle">Acceso al panel de administración</p>
           </div>
 
           {error && <div className="error-message">{error}</div>}
 
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleLogin} className="login-form">
             <div className="form-group">
               <label className="form-label">
-                <User size={20} className="inline-block mr-2" /> Usuario
+                <User size={18} style={{ marginRight: '8px' }} /> 
+                Usuario
               </label>
               <input 
                 type="text" 
@@ -103,7 +113,8 @@ const LoginAdmin = () => {
             
             <div className="form-group">
               <label className="form-label">
-                <KeyRound size={20} className="inline-block mr-2" /> Contraseña
+                <KeyRound size={18} style={{ marginRight: '8px' }} /> 
+                Contraseña
               </label>
               <input 
                 type="password" 

@@ -25,18 +25,20 @@
   font-size: 1.5rem;
   font-weight: bold;
   color: black;
-  margin-top: 17px;
+  margin-top: 9px;
   cursor: pointer;
 }
 
 .NavLink {
-  padding: 12px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
   font-size: 17px;
   text-decoration: none;
   color: #3d3d3d;
   margin-top: 2px;
-  margin-left: -990px;
 }
+
 
 .NavLink a{
   padding: 12px;
@@ -293,6 +295,7 @@
   cursor: pointer;
   transition: background 0.3s ease-in-out, border-color 0.3s ease-in-out;
   margin-right: 3px;
+  margin-left: -40px;
   padding: 6px;
   width: 115px;
   display: flex;
@@ -332,8 +335,9 @@
   padding: 1.5px;
   border-radius: 100%;
   cursor: pointer;
-  margin-right: 70px;
-  margin-top: 5px;
+  margin-right: 75px;
+  margin-top: -2px;
+  margin-left: 139px;
   width: 50px;
   height: 50px;
 }
@@ -341,15 +345,18 @@
 /* Menú emergente */
 .dropdownMenu {
   position: absolute;
-  top: 60px; /* Ajuste para evitar que se superponga */
-  right: 0;
-  background: #fff;
+  margin-top: 12px;
+  margin-left: 73px;
+  background: #FEF3E2;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   padding: 10px;
-  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
   z-index: 100;
 }
+
 
 /* Texto del usuario */
 .userName {
@@ -514,10 +521,10 @@
   transition: transform 0.3s ease-in-out;
 }
 
-.dropdownMenu {
+.dropdownMenuLink {
   position: absolute;
-  top: 30px;
-  left: 0;
+  margin-top: 30px;
+  margin-left: -80px;
   background: #FEF3E2;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
@@ -528,15 +535,16 @@
   z-index: 100;
 }
 
-.dropdownMenu a {
+.dropdownMenuLink a {
   padding: 10px;
   font-size: 15px;
   text-decoration: none;
   color: #3d3d3d;
   transition: background 0.3s ease-in-out;
+  text-align: center;
 }
 
-.dropdownMenu a:hover {
+.dropdownMenuLink a:hover {
   background: #E5D0AC;
   color: black;
 }

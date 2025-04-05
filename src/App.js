@@ -14,9 +14,9 @@ import HomeAdmin from "./screens/AdminViews/HomeAdmin";
 import LoginAdmin  from "./screens/AdminViews/LoginAdmin";
 import { AuthProvider } from "./context/AuthContext";
 import { AdminAuthProvider } from './context/AdminAuthContext';
-import ProtectedRouteAdmin from "./Screens/AdminViews/components/ProtectedRouteAdmin"; // ajusta la ruta si está en otra carpeta
-import MissionVission from "./Screens/MissionVission";
-import WhoWeAre from "./Screens/WhoWeAre";
+import ProtectedRouteAdmin from "./screens/AdminViews/components/ProtectedRouteAdmin"; // ajusta la ruta si está en otra carpeta
+import MissionVission from "./screens/MissionVission";
+import WhoWeAre from "./screens/WhoWeAre";
 
 function App() {
   return (

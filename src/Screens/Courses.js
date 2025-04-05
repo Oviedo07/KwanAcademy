@@ -76,10 +76,10 @@ const Courses = () => {
   const handlePurchase = () => {
     if (isAuthenticated) {
       Swal.fire({
-        title: "En desarrollo",
-        text: "Seguimos en desarrollo, vuelve pronto",
-        icon: "info",
-        confirmButtonText: "Entendido"
+        title: 'En desarrollo',
+        text: 'Seguimos en desarrollo, vuelve pronto',
+        icon: 'info',
+        confirmButtonText: 'Entendido'
       });
     } else {
       Swal.fire({
@@ -152,7 +152,7 @@ const Courses = () => {
             <FaSearch className={styles["search-icon"]} />
             <input
               type="text"
-              placeholder="Buscar cursos..."
+              placeholder="| Buscar cursos"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className={styles["search-input"]}

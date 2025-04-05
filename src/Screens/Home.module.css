@@ -124,7 +124,7 @@ p {
 
 /* Sección de Patrocinadores */
 .partnersSection {
-  background-color: var(--background-color);
+  background-color: #f1f1f1;
   padding: 3rem 0;
   text-align: center;
 }
