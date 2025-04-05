@@ -9,7 +9,12 @@ const session = require("express-session");
 
 dotenv.config();
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:3000", // Cambia esto al frontend que use tu app en producción
+  credentials: true
+} // Permite el uso de cookies y autenticación
+));
+
 app.use(express.json());
 
 // Sesion de admins
@@ -24,14 +29,6 @@ app.use(session({
 app.use(UserRoutes);
 //Rutas para CRUD Administrador
 app.use(AdminRoutes);
-
-
-
-
-
-
-
-
 // Configurar conexión a la base de datos
 const db = mysql.createConnection({
   host: process.env.DB_HOST,

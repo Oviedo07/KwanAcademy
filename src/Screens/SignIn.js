@@ -46,25 +46,30 @@ const SignIn = () => {
     }
 
     try {
+      console.log("Enviando solicitud de inicio de sesión...");
       const response = await axios.post("http://localhost:5000/api/signin", {
         email,
         password,
         role: activeTab.toLowerCase(),
       });
 
-      const userData = {
-        email,
-        name: response.data.name || "Usuario",
-        role: activeTab.toLowerCase(),
-        token: response.data.token,
-      };
-
-      login(userData);
-
-      if (activeTab === "Instructor") {
-        navigate("/instructor/courses");
+      console.log("Respuesta del servidor:", response.data);
+      
+      // CAMBIO IMPORTANTE: Usar todos los datos que devuelve el servidor
+      if (response.data.user) {
+        // Pasamos el objeto user completo al método login
+        await login(response.data.user);
+        
+        console.log("Usuario logueado correctamente");
+        
+        if (activeTab === "Instructor") {
+          navigate("/instructor/courses");
+        } else {
+          navigate("/courses");
+        }
       } else {
-        navigate("/courses");
+        setError("La respuesta del servidor no contiene datos de usuario");
+        console.error("Respuesta inesperada:", response.data);
       }
     } catch (err) {
       setError("Credenciales incorrectas");

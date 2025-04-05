@@ -1,52 +1,81 @@
 import React from "react";
-import axios from "axios";
-import { LogIn, User, KeyRound,  Mail, Phone } from "lucide-react";
-import "./css/Login.css"; // Enlace al CSS
+import { LogIn, User, KeyRound } from "lucide-react";
+import "./css/Login.css";
 import Swal from 'sweetalert2';
-import { useLoginAdmin, colors } from "./utils/FunctionsLoginAdmin";
-import { Link } from "react-router-dom";
+import { useLoginAdmin } from "./utils/FunctionsLoginAdmin";
+import { Link, useNavigate } from "react-router-dom";
+import { signInAdministradores } from "./services/adminService";
+import { useAdminAuth } from "../../context/AdminAuthContext";
 
-// ---------------------- Logica Back --------------------------  
 const LoginAdmin = () => {
+  const navigate = useNavigate();
+  const { loginAdmin } = useAdminAuth();
+  const { email, setEmail, contrasena, setContrasena, error, setError } = useLoginAdmin();
 
-    const { email, setEmail, contrasena, setContrasena, error, setError, navigate } = useLoginAdmin();
+  const handleLogin = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const response = await signInAdministradores(email, contrasena);
+      console.log("🔍 Respuesta del servidor:", response);
+  
+      if (response && response.user) {
+        console.log("✅ Usuario autenticado:", response.user);
+        
+        // Guardar en el contexto y localStorage correctamente
+        const adminData = {
+          id: response.user.id || "",
+          email: response.user.email || email,
+          nombre: response.user.nombre || "",
+          rol: response.user.rol || "admin"
+        };
+        
+        // Usar el método del contexto para guardar datos
+        await loginAdmin(adminData);
+        
+        console.log("🔐 Sesión guardada:", localStorage.getItem("admin"));
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        console.log("Email:", email, "Contrasena:", contrasena);
-    
-        try {
-          const response = await axios.post("http://localhost:5000/login", 
-            { email, contrasena }, 
-            { withCredentials: true } // 🔹 NECESARIO PARA SESIONES
-          );
-    
-          Swal.fire({
-            title: "Loguin Exitoso!",
-            html: "<i>!Bienvenido a nuestro sistema¡</i>",
-            icon: "success",
-            draggable: true,
-            timer: 2000
-          });
-    
+        Swal.fire({
+          title: "¡Login Exitoso!",
+          html: "<i>¡Bienvenido a nuestro sistema!</i>",
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false
+        });
+  
+        // Usar navigate en lugar de window.location para mejor manejo de enrutamiento
         setTimeout(() => {
-          navigate("/CenterAdmin");
-        }, 2000);
-           
-        } catch (error) {
-          setError(error.response?.data?.error || "Error al iniciar sesión");
-        }
-      };
+          console.log("🔀 Redirigiendo a AdminDashboard...");
+          navigate("/AdminViews/AdminDashboard");
+        }, 2100);
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: "Credenciales incorrectas",
+          icon: "error",
+        });
+      }
+    } catch (error) {
+      console.error("❌ Error al iniciar sesión:", error);
+      setError(error.message || "Error al iniciar sesión");
+      
+      Swal.fire({
+        title: "Error",
+        text: "Hubo un problema al iniciar sesión. Intenta nuevamente.",
+        icon: "error",
+      });
+    }
+  };
 
   return (
-       <div>
-        <nav className="nav">
-            <div className="logo-container">
-                <Link to="/AdminViews/HomeAdmin" className="login-btn" size={20} >
-                    Home
-                </Link>
-            </div>
-        </nav>  
+    <div>
+      <nav className="nav">
+        <div className="logo-container">
+          <Link to="/AdminViews/HomeAdmin" className="login-btn" size={20}>
+            Home
+          </Link>
+        </div>
+      </nav>  
 
       <div className="login-container">
         <div className="login-wrapper">
@@ -91,17 +120,6 @@ const LoginAdmin = () => {
             </button>
           </form>
         </div>
-        <section id="contacto" className="contact-section">
-        <h2>Contáctanos</h2>
-        <div className="contact-info">
-          <p><Mail className="contact-icon" /> contacto@kwanacademy.com</p>
-          <p><Phone className="contact-icon" /> +123 456 7890</p>
-        </div>
-      </section>
-
-      <footer className="site-footer">
-        <p>&copy; 2025 KwanAcademy. Todos los derechos reservados.</p>
-      </footer>
       </div>
     </div> 
   );

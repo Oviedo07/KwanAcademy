@@ -1,25 +1,70 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Home, LogOut, ShieldUser, Wallet, ShoppingCart, UsersRound, School, Cog } from 'lucide-react';
 import "./css/Sidebar.css";
 import "./css/AdminDashboard.css";
 import useSidebar from "./utils/FunctionsCenterAdmin";
 import AdminManagement from './components/AdminManagement';
 import UserManagement from './components/UserManagement';
+import { useAdminAuth } from "../../context/AdminAuthContext";
+import { Navigate, useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 const AdminDashboard = () => {
-    // Constantes de componente sidebar
+    // Hooks
+    const { isAdminAuthenticated, logoutAdmin } = useAdminAuth();
     const { expanded } = useSidebar();
-    
-    // Estado para controlar qué componente mostrar
     const [activeComponent, setActiveComponent] = useState('home');
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        try {
+            const adminData = localStorage.getItem("admin");
+            if (!adminData) {
+                console.log("🚫 No hay sesión activa, redirigiendo a Login...");
+                navigate("/AdminViews/LoginAdmin");
+                return;
+            }
+            
+            // Verificar que adminData es un JSON válido
+            const admin = JSON.parse(adminData);
+            console.log("🔎 Sesión verificada en AdminDashboard:", admin);
+        } catch (error) {
+            console.error("❌ Error al verificar sesión:", error);
+            localStorage.removeItem("admin"); // Eliminar dato corrupto
+            navigate("/AdminViews/LoginAdmin"); // Redirigir al login
+        }
+    }, [navigate]);
+    
+    // Si no hay autenticación, redirigir al login
+    const adminData = localStorage.getItem("admin");
+    if (!adminData) {
+      return <Navigate to="/AdminViews/LoginAdmin" replace />;
+    }
 
     // Función para manejar los clics en los elementos del menú
     const handleMenuClick = (component) => {
         setActiveComponent(component);
     };
-
-    // Función para renderizar el componente activo
+    
+    // Cierre de sesión
+    const handleLogout = () => {
+        // Mostrar mensaje de éxito primero
+        Swal.fire({
+            title: "¡Sesión Cerrada!",
+            text: "Has cerrado sesión correctamente",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false
+        });
+        
+        // Esperar a que se muestre el mensaje antes de redirigir
+        setTimeout(() => {
+            logoutAdmin(); // Usar función del contexto para limpiar todo
+            navigate("/AdminViews/LoginAdmin"); // Usar navigate para redirección
+        }, 2100);
+    };
+    // Renderizado de componentes
     const renderActiveComponent = () => {
         switch (activeComponent) {
             case 'home':
@@ -58,7 +103,7 @@ const AdminDashboard = () => {
 
     return (
         <div className="admin-layout">
-            {/* Sidebar integrado directamente */}
+            {/* Sidebar */}
             <div className={`sidebar-container ${expanded ? 'expanded' : 'collapsed'}`}>
                 <div className="sidebar-header">
                     <div className="app-logo">
@@ -116,14 +161,14 @@ const AdminDashboard = () => {
                         <Cog size={20} />
                         {expanded && <span>Soporte Técnico</span>}
                     </div>
-                    <div className="menu-item">
+                    <div className="menu-item" onClick={handleLogout}>
                         <LogOut size={20} />
                         {expanded && <span>Cerrar Sesión</span>}
                     </div>
                 </div>
             </div>
             
-            {/* Área de contenido dinámico */}
+            {/* Contenido */}
             <div className="content-container">
                 {renderActiveComponent()}
             </div>

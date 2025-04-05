@@ -13,12 +13,15 @@ import FAQ from "./screens/FAQ";
 import HomeAdmin from "./screens/AdminViews/HomeAdmin";
 import LoginAdmin  from "./screens/AdminViews/LoginAdmin";
 import { AuthProvider } from "./context/AuthContext";
-import MissionVission from "./screens/MissionVission";
-import WhoWeAre from "./screens/WhoWeAre";
+import { AdminAuthProvider } from './context/AdminAuthContext';
+import ProtectedRouteAdmin from "./Screens/AdminViews/components/ProtectedRouteAdmin"; // ajusta la ruta si está en otra carpeta
+import MissionVission from "./Screens/MissionVission";
+import WhoWeAre from "./Screens/WhoWeAre";
 
 function App() {
   return (
     <AuthProvider>
+      <AdminAuthProvider>
       <Router>
         <div className="App">
           <Navbar />
@@ -31,7 +34,8 @@ function App() {
             <Route path="/Data" element={<Data />} />
             <Route path="/AdminViews/HomeAdmin" element={<HomeAdmin/>} />
             <Route path="/AdminViews/LoginAdmin" element={<LoginAdmin/>} />
-            <Route path="/AdminViews/AdminDashboard" element={<AdminDashboard/>}/>
+            <Route path="/AdminViews/AdminDashboard" element={<ProtectedRouteAdmin><AdminDashboard />
+            </ProtectedRouteAdmin>} />
             <Route path="/MissionVission" element={<MissionVission />} />
             <Route path="/WhoWeAre" element={<WhoWeAre />} />
             <Route path="/FreeResources" element={<FreeResources />} />
@@ -40,6 +44,7 @@ function App() {
           <Footer />
         </div>
       </Router>
+      </AdminAuthProvider>
     </AuthProvider>
   );
 }
