@@ -2,8 +2,12 @@
 import { FaSearch, FaUserGraduate, FaClock, FaUsers, FaTag, FaTimes } from "react-icons/fa";
 import styles from "./Courses.module.css"; // Importación correcta de CSS Modules
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import { useAuth } from "../context/AuthContext";
 
 const courses = [
+
   {
     id: 1,
     name: "Curso Básico de Defensa Personal",
@@ -65,6 +69,31 @@ const categories = ["Todas las Categorías", "Defensa Personal", "Artes Marciale
 const sortOptions = ["Popularidad", "Precio: Bajo a Alto", "Precio: Alto a Bajo", "Duración"];
 
 const Courses = () => {
+
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  
+  const handlePurchase = () => {
+    if (isAuthenticated) {
+      Swal.fire({
+        title: "En desarrollo",
+        text: "Seguimos en desarrollo, vuelve pronto",
+        icon: "info",
+        confirmButtonText: "Entendido"
+      });
+    } else {
+      Swal.fire({
+        title: "Acceso denegado",
+        text: "No has iniciado sesión, vuelve pronto",
+        icon: "warning",
+        confirmButtonText: "Iniciar sesión",
+        timer: 3000
+      }).then(() => {
+        navigate('/SignIn'); // Redirige a la página de inicio de sesión
+      });
+    }
+    closeModal(); // Cierra el modal después de mostrar el mensaje
+  };
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Todas las Categorías");
   const [selectedSort, setSelectedSort] = useState("Popularidad");
@@ -220,7 +249,7 @@ const Courses = () => {
               </div>
               <div className={styles["modal-price-section"]}>
                 <p className={styles["modal-price"]}>${selectedCourse.price}</p>
-                <button className={styles["buy-button"]}>Comprar ahora</button>
+                <button className={styles["buy-button"]} onClick={handlePurchase} >Comprar ahora</button>
               </div>
             </div>
           </div>
