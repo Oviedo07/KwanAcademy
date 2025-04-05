@@ -1,20 +1,49 @@
 const db = require("../config/db");
 
-// Controlador para autenticación
+// Controlador signIn.js en el backend
 const signIn = (req, res) => {
-    const { email, password } = req.body;
+  const { email, password, role } = req.body;
+  
+  console.log(`Intento de login: ${email}, rol: ${role}`);
 
-    const query = "SELECT * FROM Usuario WHERE email = ? AND contrasena = ?";
-    db.query(query, [email, password], (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: "Error en el servidor" });
-        }
-        if (results.length === 0) {
-            return res.status(401).json({ error: "Credenciales incorrectas" });
-        }
-        res.json({ message: "Autenticación exitosa. Usuario logueado", user: results[0] });
-    });
+  // Asumiendo que tienes una tabla Usuario con estos campos
+  const query = "SELECT * FROM Usuario WHERE email = ? AND contrasena = ?";
+  
+  db.query(query, [email, password], (err, results) => {
+      if (err) {
+          console.error("Error en consulta SQL:", err);
+          return res.status(500).json({ error: "Error en el servidor" });
+      }
+      
+      console.log(`Resultados encontrados: ${results.length}`);
+      
+      if (results.length === 0) {
+          return res.status(401).json({ error: "Credenciales incorrectas" });
+      }
+      
+      const usuario = results[0];
+      console.log("Usuario encontrado:", usuario);
+      
+      // Formatear la respuesta para el frontend - IMPORTANTE
+      const userData = {
+          id: usuario.id,
+          nombre: usuario.nombre,           // Estos son los campos de tu DB
+          apellido: usuario.apellido,
+          email: usuario.email,
+          fecha_nacimiento: usuario.fecha_nacimiento,
+          genero: usuario.genero,
+          role: role || 'general',          // Añadimos el rol
+          token: "token123456"              // Aquí generarías un JWT real
+      };
+      
+      res.json({ 
+          message: "Autenticación exitosa",
+          user: userData 
+      });
+  });
 };
+
+
 
 // Verificar sesion de usuario
 const sessionUser = (req, res) => {
@@ -93,6 +122,60 @@ const updateStatusUsuarios = (req, res) => {
       }
     );
   };
+
+  // Ejemplo de endpoint para actualizar perfil (para backend - NodeJS)
+// Ruta: /api/user/:id
+const updateUserProfile = (req, res) => {
+  const userId = req.params.id;
+  const { nombre, apellido, email, contrasena, fecha_nacimiento, genero } = req.body;
+  
+  // Construir la consulta SQL dinámicamente
+  let updateFields = [];
+  let updateValues = [];
+  
+  if (nombre) {
+    updateFields.push("nombre = ?");
+    updateValues.push(nombre);
+  }
+  
+  if (apellido) {
+    updateFields.push("apellido = ?");
+    updateValues.push(apellido);
+  }
+  
+  if (email) {
+    updateFields.push("email = ?");
+    updateValues.push(email);
+  }
+  
+  if (contrasena) {
+    updateFields.push("contrasena = ?");
+    updateValues.push(contrasena);
+  }
+  
+  if (fecha_nacimiento) {
+    updateFields.push("fecha_nacimiento = ?");
+    updateValues.push(fecha_nacimiento);
+  }
+  
+  if (genero) {
+    updateFields.push("genero = ?");
+    updateValues.push(genero);
+  }
+  
+  // Añadir el ID al final de los valores
+  updateValues.push(userId);
+  
+  const query = `UPDATE Usuario SET ${updateFields.join(", ")} WHERE id = ?`;
+  
+  db.query(query, updateValues, (err, results) => {
+    if (err) {
+      return res.status(500).json({ success: false, error: "Error al actualizar el perfil" });
+    }
+    
+    res.json({ success: true, message: "Perfil actualizado correctamente" });
+  });
+};
   
 
 // Exportar funciones
@@ -102,7 +185,8 @@ module.exports = {
     sessionUser,
     getUsuariosActivos,
     getUsuariosInactivos,
-    updateStatusUsuarios
+    updateStatusUsuarios,
+    updateUserProfile
 };
 
 

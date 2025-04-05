@@ -9,7 +9,6 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // Verificar si hay un usuario en localStorage al cargar
   useEffect(() => {
     try {
       const storedUser = localStorage.getItem('user');
@@ -19,28 +18,59 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.error("Error al recuperar datos del usuario:", error);
-      localStorage.removeItem('user'); // Eliminar datos corruptos
+      localStorage.removeItem('user');
     } finally {
       setLoading(false);
     }
   }, []);
 
-  // Función para iniciar sesión
+  // Función para iniciar sesión con los datos correctos
   const login = (userData) => {
     return new Promise((resolve) => {
       try {
-        setUser(userData);
+        console.log("AuthContext - Datos recibidos del backend:", userData);
+
+        // IMPORTANTE: Comprueba qué campos recibe realmente
+        const availableFields = Object.keys(userData);
+        console.log("Campos disponibles en el objeto userData:", availableFields);
+        
+        // Mapeo de los campos de la base de datos a los del frontend
+        const userToStore = {
+          id: userData.id,
+          firstName: userData.nombre || "",
+          lastName: userData.apellido || "",
+          email: userData.email || "",
+          birthDate: userData.fecha_nacimiento || "",
+          gender: userData.genero || "",
+          role: userData.role || "general"
+        };
+        
+        console.log("AuthContext - Datos transformados para almacenar:", userToStore);
+        
+        setUser(userToStore);
         setIsAuthenticated(true);
-        localStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem('user', JSON.stringify(userToStore));
         resolve(true);
       } catch (error) {
-        console.error("Error al guardar datos del usuario:", error);
+        console.error("Error al procesar login:", error);
         resolve(false);
       }
     });
   };
 
-  // Función para cerrar sesión
+  // Nueva función para actualizar el perfil de usuario en el contexto
+  const updateUserContext = (updatedUserData) => {
+    try {
+      console.log("AuthContext - Actualizando datos del usuario:", updatedUserData);
+      setUser(updatedUserData);
+      localStorage.setItem('user', JSON.stringify(updatedUserData));
+      return true;
+    } catch (error) {
+      console.error("Error al actualizar el contexto del usuario:", error);
+      return false;
+    }
+  };
+
   const logout = () => {
     return new Promise((resolve) => {
       setUser(null);
@@ -51,12 +81,13 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{
-      user,
-      isAuthenticated,
-      loading,
-      login,
-      logout
+    <AuthContext.Provider value={{ 
+      user, 
+      isAuthenticated, 
+      loading, 
+      login, 
+      logout,
+      updateUserContext // Exponemos la nueva función
     }}>
       {children}
     </AuthContext.Provider>

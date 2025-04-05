@@ -1,10 +1,10 @@
-import Axios from "axios";
+import axios from 'axios';
 import Swal from 'sweetalert2';
 
 // Obtener lista de usuarios activos
 export const getUsuariosActivos = async (setUsuariosLista) => {
   try {
-    const response = await Axios.get("http://localhost:5000/api/usuariosActivos");
+    const response = await axios.get("http://localhost:5000/api/usuariosActivos");
     setUsuariosLista(response.data);
   } catch (error) {
     console.error("Error al obtener usuarios activos:", error);
@@ -14,7 +14,7 @@ export const getUsuariosActivos = async (setUsuariosLista) => {
 // Obtener lista de usuarios inactivos
 export const getUsuariosInactivos = async (setUsuariosLista) => {
   try {
-    const response = await Axios.get("http://localhost:5000/api/usuariosInactivos");
+    const response = await axios.get("http://localhost:5000/api/usuariosInactivos");
     setUsuariosLista(response.data);
   } catch (error) {
     console.error("Error al obtener usuarios inactivos:", error);
@@ -37,7 +37,7 @@ export const desactivarUsuario = async (id, nombre, apellido, estadoActual, getU
 
     const nuevoEstado = estadoActual === "activo" ? "inactivo" : "activo";
 
-    await Axios.put("http://localhost:5000/api/updateStatusUsuarios", {
+    await axios.put("http://localhost:5000/api/updateStatusUsuarios", {
       id,
       estado: nuevoEstado,
     });
@@ -52,5 +52,19 @@ export const desactivarUsuario = async (id, nombre, apellido, estadoActual, getU
     getUsuariosActivos(); // Recargar lista de usuarios activos
   } catch (err) {
     console.error("Error al actualizar estado del usuario:", err);
+  }
+};
+
+// ---------------------------- Editar Datos de Usuario -------------------------------------------------
+
+// En userServices.js
+export const updateUserProfile = async (id, userData) => {
+  try {
+    // Esta URL debe coincidir con la ruta del router
+    const response = await axios.put(`http://localhost:5000/api/updateUserProfile/${id}`, userData);
+    return response.data;
+  } catch (error) {
+    console.error("Error al actualizar el perfil:", error);
+    throw error;
   }
 };
