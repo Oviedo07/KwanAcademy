@@ -4,6 +4,7 @@ import axios from "axios";
 import styles from "./SignIn.module.css";
 import { useAuth } from "../context/AuthContext";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -20,8 +21,8 @@ const SignIn = () => {
 
   const getDefaultEmail = () => {
     return activeTab === "Instructor"
-      ? "instructor@kwan.com"
-      : "usuario@ejemplo.com";
+      ? " "
+      : " ";
   };
 
   const handleTabChange = (tab) => {
@@ -34,46 +35,70 @@ const SignIn = () => {
     e.preventDefault();
     setError("");
 
-    // Validar inicio de sesión según el apartado correspondiente
-    if (activeTab === "General" && email === "instructor@kwan.com") {
-      alert("Eres instructor, ve a tu apartado para ingresar.");
-      return;
-    }
-
-    if (activeTab === "Instructor" && email !== "instructor@kwan.com") {
-      alert("Eres usuario general, inicia sesión desde tu apartado.");
-      return;
-    }
+    // Eliminamos la validación rígida que limitaba el acceso a un correo específico
+    // y permitimos que cualquier instructor pueda iniciar sesión
 
     try {
       console.log("Enviando solicitud de inicio de sesión...");
-      const response = await axios.post("http://localhost:5000/api/signin", {
-        email,
-        password,
-        role: activeTab.toLowerCase(),
-      });
+      
+      // Endpoint diferente según el tipo de usuario
+      const endpoint = activeTab === "Instructor" 
+        ? "http://localhost:5000/api/signInInstructor" 
+        : "http://localhost:5000/api/signin";
+      
+      // Ahora usamos "contrasena" en lugar de "password" para instructores
+      // para coincidir con lo que espera el backend
+      const payload = activeTab === "Instructor" 
+        ? { email, contrasena: password } 
+        : { email, password, role: activeTab.toLowerCase() };
+      
+      console.log("Enviando payload:", payload);
+      
+      const response = await axios.post(endpoint, payload);
 
       console.log("Respuesta del servidor:", response.data);
       
-      // CAMBIO IMPORTANTE: Usar todos los datos que devuelve el servidor
       if (response.data.user) {
         // Pasamos el objeto user completo al método login
         await login(response.data.user);
         
         console.log("Usuario logueado correctamente");
         
+        // Mostrar alerta de éxito
+        Swal.fire({
+          icon: 'success',
+          title: 'Acceso exitoso',
+          text: `Bienvenido ${response.data.user.nombre || ''}`,
+          timer: 1500,
+          showConfirmButton: false
+        });
+        
+        // Redirección según el tipo de usuario
         if (activeTab === "Instructor") {
-          navigate("/instructor/courses");
+          navigate("/FormularioCurso");
         } else {
           navigate("/courses");
         }
       } else {
         setError("La respuesta del servidor no contiene datos de usuario");
         console.error("Respuesta inesperada:", response.data);
+        
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'La respuesta del servidor no contiene datos de usuario'
+        });
       }
     } catch (err) {
-      setError("Credenciales incorrectas");
+      const errorMessage = err.response?.data?.error || "Credenciales incorrectas";
+      setError(errorMessage);
       console.error("Error de inicio de sesión:", err);
+      
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de inicio de sesión',
+        text: errorMessage
+      });
     }
   };
 

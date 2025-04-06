@@ -137,8 +137,9 @@ p {
   color: var(--accent-color);
   text-transform: uppercase;
   letter-spacing: 1px;
-
+  font-weight: 600;
 }
+
 
 .sectionTitle::after {
   content: '';

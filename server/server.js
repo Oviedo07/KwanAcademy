@@ -4,6 +4,7 @@ const mysql = require("mysql2");
 const dotenv = require("dotenv");
 const UserRoutes = require("./routes/UserRoutes");
 const AdminRoutes = require("./routes/AdminRoutes")
+const InstructorRoutes = require("./routes/InstructrorRoutes")
 const { user } = require("@heroui/react");
 const session = require("express-session");
 
@@ -29,6 +30,10 @@ app.use(session({
 app.use(UserRoutes);
 //Rutas para CRUD Administrador
 app.use(AdminRoutes);
+//Rutas para CRUD Instructores
+app.use(InstructorRoutes);
+
+
 // Configurar conexión a la base de datos
 const db = mysql.createConnection({
   host: process.env.DB_HOST,

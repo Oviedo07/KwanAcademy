@@ -2,20 +2,26 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styles from "./Register.module.css";
+import Swal from "sweetalert2"; // Importamos SweetAlert2
 
 const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
+    // Campos para usuarios regulares
     nombre: "",
     apellido: "",
     fecha_nacimiento: "",
     genero: "masculino",
     email: "",
     contrasena: "",
-    id_rol: 2, // Por defecto, usuario regular
+    id_rol: "", // Se actualizará según el tab activo
+
+    // Campos para instructores
     tipo_documento: "",
     numero_identificacion: "",
+    primer_nombre: "", // Campo mapeado desde nombre
     segundo_nombre: "",
+    primer_apellido: "", // Campo mapeado desde apellido
     segundo_apellido: "",
     numero_telefonico: "",
     ocupacion: "",
@@ -33,11 +39,19 @@ const Register = () => {
       description: "Accede como usuario para comprar y ver cursos",
     },
     Instructor: {
-      id: 3,
+      id: 4, // Actualizado según el controlador proporcionado
       title: "Instructor",
       description: "Accede como instructor para gestionar cursos",
     },
   };
+
+  // Establecer el rol inicial
+  useState(() => {
+    setFormData(prev => ({
+      ...prev,
+      id_rol: roleInfo[activeTab].id,
+    }));
+  }, []);
 
   // Validación del formulario
   const validateForm = () => {
@@ -85,6 +99,9 @@ const Register = () => {
     setFormData(prev => ({
       ...prev,
       [name]: value,
+      // Mantener sincronizados los campos que se mapean para el instructor
+      ...(name === "nombre" ? { primer_nombre: value } : {}),
+      ...(name === "apellido" ? { primer_apellido: value } : {}),
     }));
     
     // Limpiar error cuando el usuario empieza a escribir
@@ -96,6 +113,30 @@ const Register = () => {
     }
   };
 
+  // Mostrar notificación de éxito
+  const showSuccessAlert = (message) => {
+    Swal.fire({
+      icon: 'success',
+      title: '¡Registro exitoso!',
+      text: message,
+      confirmButtonColor: '#4CAF50',
+      confirmButtonText: 'Continuar'
+    }).then(() => {
+      navigate("/signin");
+    });
+  };
+
+  // Mostrar notificación de error
+  const showErrorAlert = (message) => {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: message,
+      confirmButtonColor: '#f44336',
+      confirmButtonText: 'Intentar nuevamente'
+    });
+  };
+
   // Enviar datos al backend
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -105,13 +146,38 @@ const Register = () => {
     setIsSubmitting(true);
     
     try {
-      const response = await axios.post("http://localhost:5000/api/register", formData);
-      alert(response.data.message || "¡Registro exitoso! Redirigiendo...");
-      navigate("/signin");
+      let endpoint = "";
+      let dataToSend = {};
+
+      if (activeTab === "General") {
+        endpoint = "http://localhost:5000/api/register";
+        dataToSend = formData;
+      } else if (activeTab === "Instructor") {
+        endpoint = "http://localhost:5000/api/registerInstructor";
+        dataToSend = {
+          tipo_documento: formData.tipo_documento,
+          numero_identificacion: formData.numero_identificacion,
+          primer_nombre: formData.nombre,
+          segundo_nombre: formData.segundo_nombre,
+          primer_apellido: formData.apellido,
+          segundo_apellido: formData.segundo_apellido,
+          genero: formData.genero,
+          fecha_nacimiento: formData.fecha_nacimiento,
+          numero_telefonico: formData.numero_telefonico,
+          ocupacion: formData.ocupacion,
+          descripcion_perfil: formData.descripcion_perfil,
+          email: formData.email,
+          contrasena: formData.contrasena,
+          id_rol: formData.id_rol
+        };
+      }
+
+      const response = await axios.post(endpoint, dataToSend);
+      showSuccessAlert(response.data.message || "¡Registro exitoso!");
     } catch (error) {
-      const errorMsg = error.response?.data?.message || 
-                      "Error al registrar usuario. Por favor, inténtalo de nuevo.";
-      alert(errorMsg);
+      const errorMsg = error.response?.data?.error || error.response?.data?.message || 
+                    "Error al registrar. Por favor, inténtalo de nuevo.";
+      showErrorAlert(errorMsg);
       console.error("Error:", error.response?.data || error.message);
     } finally {
       setIsSubmitting(false);
@@ -227,6 +293,26 @@ const Register = () => {
           {/* Campos adicionales solo para instructores */}
           {activeTab === "Instructor" && (
             <>
+              <div className={styles.formField}>
+                <label>Segundo Nombre</label>
+                <input
+                  type="text"
+                  name="segundo_nombre"
+                  value={formData.segundo_nombre}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className={styles.formField}>
+                <label>Segundo Apellido</label>
+                <input
+                  type="text"
+                  name="segundo_apellido"
+                  value={formData.segundo_apellido}
+                  onChange={handleChange}
+                />
+              </div>
+
               <div className={styles.formField}>
                 <label>Tipo de Documento*</label>
                 <input
