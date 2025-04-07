@@ -1,4 +1,5 @@
 const db = require("../config/db");
+const path = require("path");
 
 // Controlador signIn.js en el backend
 const signInInstructor = (req, res) => {
@@ -67,10 +68,6 @@ const signInInstructor = (req, res) => {
       }
   };
   
-  module.exports = {
-      signInInstructor,
-      sessionInstructor
-  };
 
 
 // Controlador para registrar usuario
@@ -148,10 +145,99 @@ const registerInstructor = (req, res) => {
     });
 };
 
+const registerCurso = async(req, res) => {
+  try {
+    const {
+      id_instructor,
+      nombre,
+      descripcion,
+      objetivos,
+      precio
+    } = req.body;
 
+    let imagen_url = null;
+    if (req.file) {
+      imagen_url = `/uploads/${req.file.filename}`;
+    }
+
+    const fecha = new Date();
+
+    const sql = `
+      INSERT INTO curso (id_instructor, nombre, descripcion, objetivos, precio, imagen_url, fecha_creacion, fecha_actualizacion)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+    await db.query(sql, [
+      id_instructor,
+      nombre,
+      descripcion,
+      objetivos,
+      precio,
+      imagen_url,
+      fecha,
+      fecha
+    ]);
+
+    res.status(201).json({ message: 'Curso creado exitosamente' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al crear el curso' });
+  }
+}
+
+const updateCurso = async (req, res) => {
+  try {
+    const cursoId = req.params.id;
+    const {
+      id_instructor,
+      nombre,
+      descripcion,
+      objetivos,
+      precio
+    } = req.body;
+
+    let imagen_url = null;
+    if (req.file) {
+      imagen_url = `/uploads/${req.file.filename}`;
+    }
+
+    const fecha_actualizacion = new Date();
+
+    const sql = `
+      UPDATE curso SET 
+        id_instructor = ?, 
+        nombre = ?, 
+        descripcion = ?, 
+        objetivos = ?, 
+        precio = ?, 
+        ${imagen_url ? 'imagen_url = ?, ' : ''} 
+        fecha_actualizacion = ?
+      WHERE id = ?
+    `;
+
+    const values = [
+      id_instructor,
+      nombre,
+      descripcion,
+      objetivos,
+      precio,
+      ...(imagen_url ? [imagen_url] : []),
+      fecha_actualizacion,
+      cursoId
+    ];
+
+    await db.query(sql, values);
+
+    res.json({ message: 'Curso actualizado exitosamente' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al actualizar el curso' });
+  }
+};
 
 module.exports = {
-    signInInstructor,
     registerInstructor,
-    sessionInstructor
+    sessionInstructor,
+    signInInstructor,
+    registerCurso,
+    updateCurso
 }

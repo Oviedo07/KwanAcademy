@@ -1,215 +1,203 @@
-import React, { useState } from 'react';
- 
- const FormularioCurso = () => {
-   const [formulario, setFormulario] = useState({
-     nombreInstructor: '',
-     apellidoInstructor: '',
-     nombreCurso: '',
-     descripcionCurso: '',
-     objetivosCurso: '',
-     precioCurso: '',
-     fotoCurso: null
-   });
- 
-   const handleChange = (e) => {
-     const { name, value } = e.target;
-     setFormulario(prevState => ({
-       ...prevState,
-       [name]: value
-     }));
-   };
- 
-   const handleImageChange = (e) => {
-     setFormulario(prevState => ({
-       ...prevState,
-       fotoCurso: e.target.files[0]
-     }));
-   };
- 
-   const handleSubmit = (e) => {
-     e.preventDefault();
-     // Aquí iría la lógica para publicar el curso
-     console.log("Curso publicado:", formulario);
-   };
- 
-   const handleEdit = () => {
-     // Lógica para editar
-     console.log("Editando curso");
-   };
- 
-   const handleDelete = () => {
-     // Lógica para eliminar
-     console.log("Eliminando curso");
-     setFormulario({
-       nombreInstructor: '',
-       apellidoInstructor: '',
-       nombreCurso: '',
-       descripcionCurso: '',
-       objetivosCurso: '',
-       precioCurso: '',
-       fotoCurso: null
-     });
-   };
- 
-   return (
-     <div className="flex justify-center items-center min-h-screen bg-[#FEF3E2] p-4">
-       <div className="w-full max-w-4xl p-6 rounded-lg shadow-lg bg-white">
-         <h1 className="text-3xl font-bold text-[#FA4032] mb-6 text-center">Crear Nuevo Curso</h1>
-         
-         <form onSubmit={handleSubmit}>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-             {/* Columna izquierda */}
-             <div className="space-y-4">
-               <div className="grid grid-cols-2 gap-4">
-                 <div>
-                   <label className="block text-sm font-medium text-gray-700">Nombre Instructor</label>
-                   <input
-                     type="text"
-                     name="nombreInstructor"
-                     value={formulario.nombreInstructor}
-                     onChange={handleChange}
-                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#FAB12F]"
-                     required
-                   />
-                 </div>
-                 
-                 <div>
-                   <label className="block text-sm font-medium text-gray-700">Apellido Instructor</label>
-                   <input
-                     type="text"
-                     name="apellidoInstructor"
-                     value={formulario.apellidoInstructor}
-                     onChange={handleChange}
-                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#FAB12F]"
-                     required
-                   />
-                 </div>
-               </div>
-               
-               <div>
-                 <label className="block text-sm font-medium text-gray-700">Nombre Curso</label>
-                 <input
-                   type="text"
-                   name="nombreCurso"
-                   value={formulario.nombreCurso}
-                   onChange={handleChange}
-                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#FAB12F]"
-                   required
-                 />
-               </div>
-               
-               <div>
-                 <label className="block text-sm font-medium text-gray-700">Precio Curso</label>
-                 <div className="mt-1 relative rounded-md shadow-sm">
-                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                     <span className="text-gray-500 sm:text-sm">$</span>
-                   </div>
-                   <input
-                     type="number"
-                     name="precioCurso"
-                     value={formulario.precioCurso}
-                     onChange={handleChange}
-                     className="block w-full pl-7 pr-12 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FAB12F]"
-                     placeholder="0.00"
-                     required
-                   />
-                 </div>
-               </div>
-               
-               <div>
-                 <label className="block text-sm font-medium text-gray-700">Foto Curso</label>
-                 <div className="mt-1 flex items-center">
-                   <span className="inline-block h-16 w-16 rounded-md overflow-hidden bg-gray-100">
-                     {formulario.fotoCurso ? (
-                       <img 
-                         src={URL.createObjectURL(formulario.fotoCurso)} 
-                         alt="Preview" 
-                         className="h-full w-full object-cover"
-                       />
-                     ) : (
-                       <svg className="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                         <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                       </svg>
-                     )}
-                   </span>
-                   <input
-                     type="file"
-                     name="fotoCurso"
-                     onChange={handleImageChange}
-                     className="ml-4 py-2"
-                     accept="image/*"
-                   />
-                 </div>
-               </div>
-             </div>
-             
-             {/* Columna derecha */}
-             <div className="space-y-4">
-               <div>
-                 <label className="block text-sm font-medium text-gray-700">Descripción Curso</label>
-                 <textarea
-                   name="descripcionCurso"
-                   value={formulario.descripcionCurso}
-                   onChange={handleChange}
-                   rows="4"
-                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#FAB12F]"
-                   required
-                 ></textarea>
-               </div>
-               
-               <div>
-                 <label className="block text-sm font-medium text-gray-700">Objetivos Curso</label>
-                 <textarea
-                   name="objetivosCurso"
-                   value={formulario.objetivosCurso}
-                   onChange={handleChange}
-                   rows="4"
-                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#FAB12F]"
-                   required
-                 ></textarea>
-               </div>
-             </div>
-           </div>
-           
-           <div className="flex justify-between mt-6">
-             <button
-               type="button"
-               onClick={handleDelete}
-               className="inline-flex items-center justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#FA4032] hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-             >
-               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-               </svg>
-               Eliminar
-             </button>
-             
-             <div className="space-x-3">
-               <button
-                 type="button"
-                 onClick={handleEdit}
-                 className="inline-flex items-center justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#FA812F] hover:bg-[#e67429] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FA812F]"
-               >
-                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                 </svg>
-                 Editar
-               </button>
-               
-               <button
-                 type="submit"
-                 className="inline-flex items-center justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-[#FAB12F] hover:bg-[#e59d1f] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FAB12F]"
-               >
-                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                 </svg>
-                 Publicar
-               </button>
-             </div>
-           </div>
-         </form>
-       </div>
-     </div>
-   );
- };
- 
- export default FormularioCurso;
+import React, { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import { User, Book, FileText, Target, DollarSign, Camera, Upload, Save, Edit, Trash2, X } from 'lucide-react';
+import './FormularioCurso.css';
+import { useAuth } from '../context/AuthContext';
+const MySwal = withReactContent(Swal);
+
+const FormularioCurso = () => {
+  const { user } = useAuth();
+  const [formData, setFormData] = useState({
+    nombreInstructor: '', apellidoInstructor: '', nombreCurso: '',
+    descripcionCurso: '', objetivosCurso: '', precioCurso: '', fotoCurso: null,
+  });
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
+
+  useEffect(() => {
+    return () => previewUrl && URL.revokeObjectURL(previewUrl);
+  }, [previewUrl]);
+
+  useEffect(() => {
+    if (user) {
+      console.log("Cargando datos del usuario en el formulario:", user);
+      setFormData(prevData => ({
+        ...prevData,
+        nombreInstructor: user.firstName || '',
+        apellidoInstructor: user.lastName || ''
+      }));
+    }
+  }, [user]);
+
+
+  const validate = (field, value) => {
+    const validations = {
+      nombreInstructor: v => v.trim() ? '' : 'Campo obligatorio',
+      apellidoInstructor: v => v.trim() ? '' : 'Campo obligatorio',
+      nombreCurso: v => v.trim() ? '' : 'Agrega un título',
+      descripcionCurso: v => v.trim().length >= 20 ? '' : 'Mínimo 20 caracteres',
+      objetivosCurso: v => v.trim().length >= 10 ? '' : 'Mínimo 10 caracteres',
+      precioCurso: v => v && !isNaN(v) && v > 0 ? '' : 'Precio inválido',
+    };
+    return validations[field] ? validations[field](value) : '';
+  };
+
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    if (touched[name]) setErrors(prev => ({ ...prev, [name]: validate(name, value) }));
+  };
+
+  const handleBlur = e => {
+    const { name, value } = e.target;
+    setTouched(prev => ({ ...prev, [name]: true }));
+    setErrors(prev => ({ ...prev, [name]: validate(name, value) }));
+  };
+
+  const handleFileChange = e => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormData(prev => ({ ...prev, fotoCurso: file }));
+      previewUrl && URL.revokeObjectURL(previewUrl);
+      setPreviewUrl(URL.createObjectURL(file));
+    }
+  };
+
+  const removeImage = () => {
+    previewUrl && URL.revokeObjectURL(previewUrl);
+    setPreviewUrl(null);
+    setFormData(prev => ({ ...prev, fotoCurso: null }));
+  };
+
+  const mostrarAlerta = (titulo, texto, icono, color = '#4caf50') => {
+    MySwal.fire({ title: titulo, text: texto, icon: icono, confirmButtonColor: color, timer: 2000, timerProgressBar: true });
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    const campos = Object.keys(formData).filter(f => f !== 'fotoCurso');
+    const nuevosErrores = {};
+    campos.forEach(f => { nuevosErrores[f] = validate(f, formData[f]); });
+    setErrors(nuevosErrores);
+    setTouched(Object.fromEntries(campos.map(f => [f, true])));
+    if (Object.values(nuevosErrores).some(err => err)) return;
+
+    MySwal.fire({
+      title: '¿Publicar curso?', icon: 'question', showCancelButton: true,
+      confirmButtonText: 'Sí, publicar', cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#4caf50', cancelButtonColor: '#6c757d',
+    }).then(result => {
+      if (result.isConfirmed) mostrarAlerta('¡Éxito!', 'Curso publicado correctamente', 'success');
+    });
+  };
+
+  const handleEdit = () => {
+    MySwal.fire({ title: 'Editando curso', text: 'Campos habilitados para edición', icon: 'info', confirmButtonColor: '#ffa726', timer: 2000 });
+  };
+
+  const handleDelete = () => {
+    MySwal.fire({
+      title: '¿Eliminar curso?', text: 'Esta acción no se puede deshacer.', icon: 'warning',
+      showCancelButton: true, confirmButtonText: 'Eliminar', cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#ff4d4d', cancelButtonColor: '#6c757d'
+    }).then(res => {
+      if (res.isConfirmed) {
+        setFormData({ nombreCurso: '', descripcionCurso: '', objetivosCurso: '', precioCurso: '', fotoCurso: null });
+        previewUrl && URL.revokeObjectURL(previewUrl);
+        setPreviewUrl(null);
+        setErrors({}); setTouched({});
+        mostrarAlerta('Curso eliminado', 'Se ha eliminado correctamente', 'success', '#ff4d4d');
+      }
+    });
+  };
+
+  const renderInput = (icon, label, name, type = 'text') => {
+    // Determinar si el campo debe ser de solo lectura
+    const isReadOnly = name === 'nombreInstructor' || name === 'apellidoInstructor';
+    
+    return (
+      <div className="form-group mb-3">
+        <label className="form-label d-flex align-items-center">
+          {icon} <span className="ms-2">{label}</span>
+        </label>
+        <input
+          type={type} 
+          name={name} 
+          value={formData[name]} 
+          onChange={handleChange} 
+          onBlur={handleBlur}
+          className={`form-control ${errors[name] && touched[name] ? 'is-invalid' : ''} ${isReadOnly ? 'bg-light' : ''}`} 
+          placeholder={label}
+          readOnly={isReadOnly}
+        />
+        {errors[name] && touched[name] && <div className="invalid-feedback">{errors[name]}</div>}
+      </div>
+    );
+  };
+
+  const renderTextarea = (icon, label, name, rows = 3) => (
+    <div className="form-group mb-3">
+      <label className="form-label d-flex align-items-center">
+        {icon} <span className="ms-2">{label}</span>
+      </label>
+      <textarea
+        name={name} rows={rows} value={formData[name]} onChange={handleChange} onBlur={handleBlur}
+        className={`form-control ${errors[name] && touched[name] ? 'is-invalid' : ''}`} placeholder={label}
+      />
+      {errors[name] && touched[name] && <div className="invalid-feedback">{errors[name]}</div>}
+    </div>
+  );
+
+
+  return (
+    <div className="container mt-4 formulario-curso">
+      <h3 className="mb-4 d-flex align-items-center"><Book size={24} className="me-2" /> Crear Curso</h3>
+      <form onSubmit={handleSubmit}>
+        <div className="row">
+          <div className="col-md-6">{renderInput(<User size={16} />, 'Nombre del Instructor', 'nombreInstructor')}</div>
+          <div className="col-md-6">{renderInput(<User size={16} />, 'Apellido del Instructor', 'apellidoInstructor')}</div>
+        </div>
+
+        {renderInput(<Book size={16} />, 'Nombre del Curso', 'nombreCurso')}
+        {renderTextarea(<FileText size={16} />, 'Descripción del Curso', 'descripcionCurso', 4)}
+        {renderTextarea(<Target size={16} />, 'Objetivos del Curso', 'objetivosCurso', 3)}
+        {renderInput(<DollarSign size={16} />, 'Precio del Curso', 'precioCurso', 'number')}
+
+        <div className="form-group mb-4">
+          <label className="form-label d-flex align-items-center">
+            <Camera size={16} /> <span className="ms-2">Imagen del Curso</span>
+          </label>
+          {previewUrl ? (
+            <div className="position-relative">
+              <img src={previewUrl} alt="Vista previa" className="img-thumbnail mb-2" style={{ maxHeight: '200px' }} />
+              <button type="button" className="btn btn-sm btn-danger position-absolute top-0 end-0" onClick={removeImage}>
+                <X size={16} />
+              </button>
+            </div>
+          ) : (
+            <div className="btn btn-outline-secondary" onClick={() => document.getElementById('fotoCurso').click()}>
+              <Upload size={16} className="me-2" /> Seleccionar imagen
+            </div>
+          )}
+          <input type="file" id="fotoCurso" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} />
+        </div>
+
+        <div className="d-flex justify-content-between gap-2">
+          <button type="button" className="btn btn-danger" onClick={handleDelete}>
+            <Trash2 size={16} className="me-1" /> Eliminar
+          </button>
+          <button type="button" className="btn btn-warning" onClick={handleEdit}>
+            <Edit size={16} className="me-1" /> Editar
+          </button>
+          <button type="submit" className="btn btn-success">
+            <Save size={16} className="me-1" /> Publicar
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default FormularioCurso;

@@ -1,0 +1,281 @@
+/* Importar fuentes de Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Estilos base del formulario */
+.container {
+  padding: 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.formulario-curso {
+  max-width: 800px;
+  margin: 20px auto;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.formulario-curso:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* Encabezado del formulario */
+.form-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.form-icon {
+  color: #4c84ff;
+  margin-right: 12px;
+}
+
+.formulario-curso h2 {
+  text-align: center;
+  margin: 0;
+  color: #333;
+  font-weight: 600;
+  font-size: 24px;
+}
+
+/* Secciones del formulario */
+.form-section {
+  margin-bottom: 25px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.form-section:hover {
+  background-color: #f3f6ff;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  color: #4c84ff;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.section-title svg {
+  margin-right: 10px;
+}
+
+/* Campos del formulario */
+.input-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.input-row label {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.input-icon {
+  margin-right: 8px;
+  color: #4c84ff;
+}
+
+.input-row input,
+.input-row textarea {
+  padding: 12px 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.input-row input:focus,
+.input-row textarea:focus {
+  border-color: #4c84ff;
+  box-shadow: 0 0 0 3px rgba(76, 132, 255, 0.2);
+  outline: none;
+}
+
+.input-row textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Manejo de errores en formularios */
+.has-error input,
+.has-error textarea {
+  border-color: #ff4d4d;
+}
+
+.has-error input:focus,
+.has-error textarea:focus {
+  box-shadow: 0 0 0 3px rgba(255, 77, 77, 0.2);
+}
+
+.error-message {
+  color: #ff4d4d;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+/* Input de tipo file personalizado */
+.file-input-container {
+  position: relative;
+  margin-top: 5px;
+}
+
+.file-input-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  background-color: #f2f4ff;
+  border: 1px dashed #4c84ff;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  height: 120px;
+}
+
+.file-input-button:hover {
+  background-color: #e6ebff;
+}
+
+.upload-icon {
+  margin-right: 10px;
+  color: #4c84ff;
+}
+
+/* Vista previa de imagen */
+.preview-container {
+  position: relative;
+  display: inline-block;
+}
+
+.image-preview {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid #4c84ff;
+  transition: all 0.3s ease;
+}
+
+.remove-image-btn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos para el input-group de Bootstrap */
+.input-group-text {
+  background-color: #f2f4ff;
+  border-color: #e0e0e0;
+  color: #666;
+}
+
+/* Fila de botones */
+.button-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+button.btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button.btn svg {
+  margin-right: 8px;
+}
+
+.btn-delete {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: #e53935;
+  transform: translateY(-2px);
+}
+
+.btn-edit {
+  background-color: #ffa726;
+  color: white;
+}
+
+.btn-edit:hover {
+  background-color: #fb8c00;
+  transform: translateY(-2px);
+}
+
+.btn-publish {
+  background-color: #4caf50;
+  color: white;
+}
+
+.btn-publish:hover {
+  background-color: #43a047;
+  transform: translateY(-2px);
+}
+
+/* Efectos de focus para accesibilidad */
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(76, 132, 255, 0.4);
+}
+
+/* Diseño responsive */
+@media (max-width: 768px) {
+  .formulario-curso {
+    padding: 20px;
+    margin: 10px auto;
+  }
+  
+  .form-section {
+    padding: 15px;
+  }
+  
+  .button-row {
+    flex-direction: column;
+  }
+  
+  button.btn {
+    margin-bottom: 10px;
+  }
+}

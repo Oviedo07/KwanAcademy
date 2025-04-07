@@ -7,6 +7,7 @@ const AdminRoutes = require("./routes/AdminRoutes")
 const InstructorRoutes = require("./routes/InstructrorRoutes")
 const { user } = require("@heroui/react");
 const session = require("express-session");
+const path = require('path');
 
 dotenv.config();
 const app = express();
@@ -32,7 +33,8 @@ app.use(UserRoutes);
 app.use(AdminRoutes);
 //Rutas para CRUD Instructores
 app.use(InstructorRoutes);
-
+// Servcicios Estaticos
+app.use('/uploads', express.static(path.join(__dirname, '../public/uploads')));
 
 // Configurar conexión a la base de datos
 const db = mysql.createConnection({
