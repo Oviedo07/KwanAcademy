@@ -72,7 +72,7 @@ const Courses = () => {
 
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
-  
+
   const handlePurchase = () => {
     if (isAuthenticated) {
       Swal.fire({
@@ -106,15 +106,15 @@ const Courses = () => {
       setAnimatedCourses(getFilteredAndSortedCourses());
     }, 100);
     return () => clearTimeout(timer);
-  }, );
+  },);
 
   const getFilteredAndSortedCourses = () => {
     const filtered = courses.filter((course) => {
-      const matchesSearch = 
-        course.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      const matchesSearch =
+        course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         course.description.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = 
-        selectedCategory === "Todas las Categorías" || 
+      const matchesCategory =
+        selectedCategory === "Todas las Categorías" ||
         course.category === selectedCategory;
       return matchesSearch && matchesCategory;
     });
@@ -146,7 +146,9 @@ const Courses = () => {
         <div className={styles["courses-header"]}>
           <h2 className={styles["section-title"]}>Explora nuestros cursos</h2>
         </div>
-
+        <p className={styles.subtitle}>
+          Con nuestros cursos premium podrás transformar y afianzar tu aprendizaje en resultados reales.
+        </p>
         <div className={styles["search-filter-container"]}>
           <div className={styles["search-bar"]}>
             <FaSearch className={styles["search-icon"]} />
@@ -160,7 +162,7 @@ const Courses = () => {
           </div>
 
           <div className={styles["filter-container"]}>
-            <select 
+            <select
               className={styles["filter-select"]}
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
@@ -170,7 +172,7 @@ const Courses = () => {
               ))}
             </select>
 
-            <select 
+            <select
               className={styles["filter-select"]}
               value={selectedSort}
               onChange={(e) => setSelectedSort(e.target.value)}
@@ -187,10 +189,10 @@ const Courses = () => {
             animatedCourses.map((course) => (
               <div key={course.id} className={styles["course-card"]}>
                 <div className={styles["course-image-container"]}>
-                  <img 
-                    src={course.image} 
-                    alt={course.name} 
-                    className={styles["course-image"]} 
+                  <img
+                    src={course.image}
+                    alt={course.name}
+                    className={styles["course-image"]}
                   />
                 </div>
                 <div className={styles["course-content"]}>
@@ -205,7 +207,7 @@ const Courses = () => {
                     <span><FaUsers /> {course.students} estudiantes</span>
                     <span><FaTag /> {course.category}</span>
                   </div>
-                  <button 
+                  <button
                     className={styles["details-button"]}
                     onClick={() => openModal(course)}
                   >
@@ -230,10 +232,10 @@ const Courses = () => {
               <FaTimes />
             </button>
             <div className={styles["modal-image-container"]}>
-              <img 
-                src={selectedCourse.image} 
-                alt={selectedCourse.name} 
-                className={styles["modal-image"]} 
+              <img
+                src={selectedCourse.image}
+                alt={selectedCourse.name}
+                className={styles["modal-image"]}
               />
             </div>
             <div className={styles["modal-details"]}>
@@ -259,4 +261,4 @@ const Courses = () => {
   );
 };
 
-export default Courses;
+export default Courses;

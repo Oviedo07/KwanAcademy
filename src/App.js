@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
 import Home from "./screens/Home";
 import Courses from "./screens/Courses";
 import Register from "./screens/Register";
@@ -29,7 +30,6 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/SignIn" element={<SignIn />} />
             <Route path="/Courses" element={<Courses />} />
-            {/* <Route path="/Contact" element={<Contact />} /> */}
             <Route path="/Register" element={<Register />} />
             <Route path="/Data" element={<Data />} />
             <Route path="/AdminViews/HomeAdmin" element={<HomeAdmin/>} />

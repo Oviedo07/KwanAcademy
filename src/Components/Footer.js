@@ -6,6 +6,7 @@ import { IoMdMail } from "react-icons/io";
 import logo from "../assets/images/logoka.png";
 import styles from "./Footer.module.css";
 import { FaWhatsapp } from "react-icons/fa6";
+import { FaPhoneAlt } from "react-icons/fa";
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -24,22 +25,22 @@ const Footer = () => {
               Academia líder en artes marciales y defensa personal. Formando campeones dentro y fuera del tatami.
             </p>
             <div className={styles.socialIcons}>
-              <a 
-                href="https://www.facebook.com/KwanAcademy" 
+              <a
+                href="https://www.facebook.com/KwanAcademy"
                 className={`${styles.socialIcon} ${styles.facebook}`}
                 aria-label="Facebook"
               >
                 <FaFacebookF />
               </a>
-              <a 
-                href="https://youtube.com/KwanAcademy" 
+              <a
+                href="https://youtube.com/KwanAcademy"
                 className={`${styles.socialIcon} ${styles.youtube}`}
                 aria-label="YouTube"
               >
                 <FaYoutube />
               </a>
-              <a 
-                href="https://instagram.com/KwanAcademy" 
+              <a
+                href="https://instagram.com/KwanAcademy"
                 className={`${styles.socialIcon} ${styles.instagram}`}
                 aria-label="Instagram"
               >
@@ -57,11 +58,11 @@ const Footer = () => {
                 <span>Cra. 65 #32C-31, Medellín, Belén, Antioquia</span>
               </li>
               <li className={styles.contactItem}>
-                <FaWhatsapp className={styles.contactIcon} />
+                <FaPhoneAlt className={styles.contactIcon} />
                 <a className={styles.contactNumber} href="https://wa.me/+573145036324">+57 314 503 63 24</a>
               </li>
               <li className={styles.contactItem}>
-                <IoMdMail className={styles.contactIcon}  />
+                <IoMdMail className={styles.contactIcon} />
                 <span>kwanacademy@support.com</span>
               </li>
             </ul>
@@ -72,16 +73,26 @@ const Footer = () => {
       <div className={styles.footerBottom}>
         <div className={`${styles.footerContainer} ${styles.footerBottomContent}`}>
           <p className={styles.copyright}>
-             {currentYear} © Kwan Academy. Todos los derechos reservados.
+            {currentYear} © Kwan Academy. Todos los derechos reservados.
           </p>
-          
-          <button 
+
+          {/* <button 
             className={styles.adminButton}
             onClick={() => navigate("./AdminViews/HomeAdmin")}
           >
             <RiAdminLine className={styles.adminIcon} />
             <span>Acceso administrador</span>
-          </button>
+          </button> */}
+          <a
+            href="https://wa.me/573146975509"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.adminButton}
+          >
+            <FaWhatsapp className={styles.adminIcon} />
+            <span>Contacta un asesor</span>
+          </a>
+
         </div>
       </div>
     </footer>

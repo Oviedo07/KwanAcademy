@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { User, Book, FileText, Target, DollarSign, Camera, Upload, Save, Edit, Trash2, X } from 'lucide-react';
-import './FormularioCurso.module.css';
+import styles from './FormularioCurso.module.css';
 import { useAuth } from '../context/AuthContext';
 const MySwal = withReactContent(Swal);
 
@@ -30,7 +30,6 @@ const FormularioCurso = () => {
       }));
     }
   }, [user]);
-
 
   const validate = (field, value) => {
     const validations = {
@@ -71,8 +70,20 @@ const FormularioCurso = () => {
     setFormData(prev => ({ ...prev, fotoCurso: null }));
   };
 
-  const mostrarAlerta = (titulo, texto, icono, color = '#4caf50') => {
-    MySwal.fire({ title: titulo, text: texto, icon: icono, confirmButtonColor: color, timer: 2000, timerProgressBar: true });
+  const mostrarAlerta = (titulo, texto, icono, color = '#E70014') => {
+    MySwal.fire({
+      title: titulo,
+      text: texto,
+      icon: icono,
+      confirmButtonColor: color,
+      timer: 2000,
+      timerProgressBar: true,
+      customClass: {
+        popup: 'swal-custom-popup',
+        title: 'swal-custom-title',
+        confirmButton: 'swal-custom-confirm'
+      }
+    });
   };
 
   const handleSubmit = e => {
@@ -85,118 +96,195 @@ const FormularioCurso = () => {
     if (Object.values(nuevosErrores).some(err => err)) return;
 
     MySwal.fire({
-      title: '¿Publicar curso?', icon: 'question', showCancelButton: true,
-      confirmButtonText: 'Sí, publicar', cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#4caf50', cancelButtonColor: '#6c757d',
+      title: '¿Publicar curso?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, publicar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#E70014',
+      cancelButtonColor: '#414141',
+      customClass: {
+        popup: 'swal-custom-popup',
+        title: 'swal-custom-title',
+        confirmButton: 'swal-custom-confirm',
+        cancelButton: 'swal-custom-cancel'
+      }
     }).then(result => {
       if (result.isConfirmed) mostrarAlerta('¡Éxito!', 'Curso publicado correctamente', 'success');
     });
   };
 
   const handleEdit = () => {
-    MySwal.fire({ title: 'Editando curso', text: 'Campos habilitados para edición', icon: 'info', confirmButtonColor: '#ffa726', timer: 2000 });
+    MySwal.fire({
+      title: 'Editando curso',
+      text: 'Campos habilitados para edición',
+      icon: 'info',
+      confirmButtonColor: '#E70014',
+      timer: 2000,
+      customClass: {
+        popup: 'swal-custom-popup',
+        title: 'swal-custom-title',
+        confirmButton: 'swal-custom-confirm'
+      }
+    });
   };
 
   const handleDelete = () => {
     MySwal.fire({
-      title: '¿Eliminar curso?', text: 'Esta acción no se puede deshacer.', icon: 'warning',
-      showCancelButton: true, confirmButtonText: 'Eliminar', cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#ff4d4d', cancelButtonColor: '#6c757d'
+      title: '¿Eliminar curso?',
+      text: 'Esta acción no se puede deshacer.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#E70014',
+      cancelButtonColor: '#414141',
+      customClass: {
+        popup: 'swal-custom-popup',
+        title: 'swal-custom-title',
+        confirmButton: 'swal-custom-confirm',
+        cancelButton: 'swal-custom-cancel'
+      }
     }).then(res => {
       if (res.isConfirmed) {
         setFormData({ nombreCurso: '', descripcionCurso: '', objetivosCurso: '', precioCurso: '', fotoCurso: null });
         previewUrl && URL.revokeObjectURL(previewUrl);
         setPreviewUrl(null);
         setErrors({}); setTouched({});
-        mostrarAlerta('Curso eliminado', 'Se ha eliminado correctamente', 'success', '#ff4d4d');
+        mostrarAlerta('Curso eliminado', 'Se ha eliminado correctamente', 'success', '#E70014');
       }
     });
   };
 
   const renderInput = (icon, label, name, type = 'text') => {
-    // Determinar si el campo debe ser de solo lectura
     const isReadOnly = name === 'nombreInstructor' || name === 'apellidoInstructor';
-    
+
     return (
-      <div className="form-group mb-3">
-        <label className="form-label d-flex align-items-center">
-          {icon} <span className="ms-2">{label}</span>
-        </label>
-        <input
-          type={type} 
-          name={name} 
-          value={formData[name]} 
-          onChange={handleChange} 
-          onBlur={handleBlur}
-          className={`form-control ${errors[name] && touched[name] ? 'is-invalid' : ''} ${isReadOnly ? 'bg-light' : ''}`} 
-          placeholder={label}
-          readOnly={isReadOnly}
-        />
-        {errors[name] && touched[name] && <div className="invalid-feedback">{errors[name]}</div>}
-      </div>
+      <section className={styles.containerSection}>
+        <div className={styles.formGroup}>
+          <label className={styles.label}>
+            <span className={styles.iconWrapper}>
+              {React.cloneElement(icon, { size: 16, color: '#E70014' })}
+            </span>
+            <span>{label}</span>
+          </label>
+          <input
+            type={type}
+            name={name}
+            value={formData[name]}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            className={`form-control ${styles.input} ${errors[name] && touched[name] ? styles.inputError : ''} ${isReadOnly ? styles.readOnlyField : ''}`}
+            placeholder={label}
+            readOnly={isReadOnly}
+          />
+          {errors[name] && touched[name] && <div className={styles.errorText}>{errors[name]}</div>}
+        </div>
+      </section>
+
     );
   };
 
   const renderTextarea = (icon, label, name, rows = 3) => (
-    <div className="form-group mb-3">
-      <label className="form-label d-flex align-items-center">
-        {icon} <span className="ms-2">{label}</span>
+    <div className={styles.formGroup}>
+      <label className={styles.label}>
+        <span className={styles.iconWrapper}>
+          {React.cloneElement(icon, { size: 16, color: '#E70014' })}
+        </span>
+        <span>{label}</span>
       </label>
       <textarea
-        name={name} rows={rows} value={formData[name]} onChange={handleChange} onBlur={handleBlur}
-        className={`form-control ${errors[name] && touched[name] ? 'is-invalid' : ''}`} placeholder={label}
+        name={name}
+        rows={rows}
+        value={formData[name]}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        className={`form-control ${styles.input} ${errors[name] && touched[name] ? styles.inputError : ''}`}
+        placeholder={label}
       />
-      {errors[name] && touched[name] && <div className="invalid-feedback">{errors[name]}</div>}
+      {errors[name] && touched[name] && <div className={styles.errorText}>{errors[name]}</div>}
     </div>
   );
 
-
   return (
-    <div className="container mt-4 formulario-curso">
-      <h3 className="mb-4 d-flex align-items-center"><Book size={24} className="me-2" /> Crear Curso</h3>
-      <form onSubmit={handleSubmit}>
-        <div className="row">
-          <div className="col-md-6">{renderInput(<User size={16} />, 'Nombre del Instructor', 'nombreInstructor')}</div>
-          <div className="col-md-6">{renderInput(<User size={16} />, 'Apellido del Instructor', 'apellidoInstructor')}</div>
-        </div>
+    <section className={styles.containerSection}>
+      <div className={styles.container}>
+        <h3 className={styles.header}>
+          <Book size={28} className={styles.headerIcon} />
+          Crear Curso
+        </h3>
+        <form onSubmit={handleSubmit}>
+          <div className="row">
+            <div className="col-md-6">{renderInput(<User size={16} />, 'Nombre del Instructor', 'nombreInstructor')}</div>
+            <div className="col-md-6">{renderInput(<User size={16} />, 'Apellido del Instructor', 'apellidoInstructor')}</div>
+          </div>
 
-        {renderInput(<Book size={16} />, 'Nombre del Curso', 'nombreCurso')}
-        {renderTextarea(<FileText size={16} />, 'Descripción del Curso', 'descripcionCurso', 4)}
-        {renderTextarea(<Target size={16} />, 'Objetivos del Curso', 'objetivosCurso', 3)}
-        {renderInput(<DollarSign size={16} />, 'Precio del Curso', 'precioCurso', 'number')}
+          {renderInput(<Book size={16} />, 'Nombre del Curso', 'nombreCurso')}
+          {renderTextarea(<FileText size={16} />, 'Descripción del Curso', 'descripcionCurso', 4)}
+          {renderTextarea(<Target size={16} />, 'Objetivos del Curso', 'objetivosCurso', 3)}
+          {renderInput(<DollarSign size={16} />, 'Precio del Curso', 'precioCurso', 'number')}
 
-        <div className="form-group mb-4">
-          <label className="form-label d-flex align-items-center">
-            <Camera size={16} /> <span className="ms-2">Imagen del Curso</span>
-          </label>
-          {previewUrl ? (
-            <div className="position-relative">
-              <img src={previewUrl} alt="Vista previa" className="img-thumbnail mb-2" style={{ maxHeight: '200px' }} />
-              <button type="button" className="btn btn-sm btn-danger position-absolute top-0 end-0" onClick={removeImage}>
-                <X size={16} />
-              </button>
-            </div>
-          ) : (
-            <div className="btn btn-outline-secondary" onClick={() => document.getElementById('fotoCurso').click()}>
-              <Upload size={16} className="me-2" /> Seleccionar imagen
-            </div>
-          )}
-          <input type="file" id="fotoCurso" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} />
-        </div>
+          <div className={styles.formGroup}>
+            <label className={styles.label}>
+              <span className={styles.iconWrapper}>
+                <Camera size={16} color="#E70014" />
+              </span>
+              <span>Imagen del Curso</span>
+            </label>
+            {previewUrl ? (
+              <div className={styles.imageContainer}>
+                <img
+                  src={previewUrl}
+                  alt="Vista previa"
+                  className={styles.imagePreview}
+                />
+                <button
+                  type="button"
+                  className={styles.removeImageBtn}
+                  onClick={removeImage}
+                >
+                  <X size={16} />
+                </button>
+              </div>
+            ) : (
+              <div
+                className={styles.uploadButton}
+                onClick={() => document.getElementById('fotoCurso').click()}
+              >
+                <Upload size={32} color="#E70014" className={styles.uploadIcon} />
+                <div className={styles.uploadText}>Seleccionar imagen</div>
+                <div className={styles.uploadHint}>Arrastra o haz clic aquí</div>
+              </div>
+            )}
+            <input type="file" id="fotoCurso" accept="image/*" onChange={handleFileChange} className={styles.fileInput} />
+          </div>
 
-        <div className="d-flex justify-content-between gap-2">
-          <button type="button" className="btn btn-danger" onClick={handleDelete}>
-            <Trash2 size={16} className="me-1" /> Eliminar
-          </button>
-          <button type="button" className="btn btn-warning" onClick={handleEdit}>
-            <Edit size={16} className="me-1" /> Editar
-          </button>
-          <button type="submit" className="btn btn-success">
-            <Save size={16} className="me-1" /> Publicar
-          </button>
-        </div>
-      </form>
-    </div>
+          <div className={styles.buttonContainer}>
+            <button
+              type="button"
+              className={styles.buttonEliminar}
+              onClick={handleDelete}
+            >
+              <Trash2 size={16} className={styles.buttonIcon} /> Eliminar
+            </button>
+            <button
+              type="button"
+              className={styles.buttonEditar}
+              onClick={handleEdit}
+            >
+              <Edit size={16} className={styles.buttonIcon} /> Editar
+            </button>
+            <button
+              type="submit"
+              className={styles.buttonPublicar}
+            >
+              <Save size={16} className={styles.buttonIcon} /> Publicar
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
   );
 };
 

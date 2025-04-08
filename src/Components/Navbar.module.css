@@ -206,7 +206,9 @@
   text-align: center;
 }
 
-
+.FAQ{
+  margin-bottom: 400px;
+}
 
 .sidebar li {
   padding: 10px 0;
@@ -280,6 +282,11 @@
   margin-right: 75px;
 }
 
+.registerButton:focus{
+  outline: none;
+  box-shadow: none !important;
+}
+
 .registerButton:hover {
   background-color: #b9a584; 
   border-color: #b9a584 ; 
@@ -313,6 +320,11 @@
 .loginButton:hover {
   background-color: #E5D0AC; 
   border-color: #E5D0AC ; 
+}
+
+.loginButton:focus{
+  outline: none;
+  box-shadow: none !important;
 }
 
 .logosidebar{

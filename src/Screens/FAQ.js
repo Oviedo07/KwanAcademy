@@ -56,7 +56,10 @@ const FAQ = () => {
   return (
     <div className={styles.container}>
       <div className={styles.faqWrapper}>
-        <h2 className={styles.title}>Preguntas frecuentes</h2>
+        <div className={styles.containerTitle}>
+          <h2 className={styles.Title}>Preguntas frecuentes</h2>
+        </div>
+
         <p className={styles.subtitle}>Encuentra la respuesta a esas preguntas sobre Kwan Academy</p>
 
         {/* Barra de búsqueda */}
