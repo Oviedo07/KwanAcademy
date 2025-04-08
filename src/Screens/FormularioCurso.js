@@ -60,14 +60,22 @@ const FormularioCurso = () => {
     Swal.fire({
       title: 'Editar Curso',
       html: `
-        <label htmlFor="nombre" class="swal2-label">Nombre Curso</label>
-        <input id="nombreCurso" class="swal2-input" placeholder="Nombre" value="${curso.nombre}">
-        <label htmlFor="descripcion" class="swal2-label">Descripción</label>
-        <textarea id="descripcionCurso" class="swal2-textarea" placeholder="Descripción">${curso.descripcion}</textarea>
-        <label htmlFor="objetivos" class="swal2-label">Objetivos</label>
-        <textarea id="objetivosCurso" class="swal2-textarea" placeholder="Objetivos">${curso.objetivos}</textarea>
-        <label htmlFor="precio" class="swal2-label">Precio</label>
-        <input id="precioCurso" class="swal2-input" placeholder="Precio" value="${curso.precio}" type="number">
+    <div style="display: flex; flex-direction: column; gap: 10px; padding: 10px;">
+
+      <label for="nombreCurso" class="swal2-label">Nombre Curso</label>
+      <input id="nombreCurso" class="swal2-input" placeholder="Nombre" value="${curso.nombre}" style="margin-bottom: 10px;">
+
+      <label for="descripcionCurso" class="swal2-label">Descripción</label>
+      <textarea id="descripcionCurso" class="swal2-textarea" placeholder="Descripción" style="margin-bottom: 10px;">${curso.descripcion}</textarea>
+
+      <label for="objetivosCurso" class="swal2-label">Objetivos</label>
+      <textarea id="objetivosCurso" class="swal2-textarea" placeholder="Objetivos" style="margin-bottom: 10px;">${curso.objetivos}</textarea>
+
+      <label for="precioCurso" class="swal2-label">Precio</label>
+      <input id="precioCurso" class="swal2-input" placeholder="Precio" value="${curso.precio}" type="number" style="margin-bottom: 10px;">
+
+    </div>
+
       `,
       showCancelButton: true,
       confirmButtonText: 'Guardar',
