@@ -1,7 +1,7 @@
 /* Estilos generales de la sección de cursos */
 .courses-section {
   padding: 4rem 2rem;
-  background-color: #ededed;
+  background-color: #FDF8F2;
 }
 
 .courses-container {
@@ -13,14 +13,16 @@
 .courses-header {
   text-align: center;
   margin-bottom: 2rem;
+  margin-top: 0px;
 }
 
 .section-title {
-  font-size: 2.5rem;
+  font-size: 2rem;
   color: #000;
   margin-bottom: 1rem;
   position: relative;
   display: inline-block;
+  font-weight: 600;
 }
 
 .section-title:after {
@@ -32,6 +34,13 @@
   width: 80px;
   height: 3px;
   background-color: #E70014;
+}
+
+.subtitle {
+  color: var(--dark-gray);
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  text-align: center;
 }
 
 /* Estilos de búsqueda y filtros */

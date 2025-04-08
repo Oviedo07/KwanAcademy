@@ -6,6 +6,7 @@
     "@craco/craco": "^7.1.0",
     "@heroui/navbar": "^2.2.12",
     "@heroui/react": "^2.7.2",
+    "@hookform/resolvers": "^5.0.1",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
@@ -25,6 +26,7 @@
     "mysql2": "^3.13.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hook-form": "^7.55.0",
     "react-icons": "^5.5.0",
     "react-player": "^2.16.0",
     "react-router-dom": "^7.2.0",
@@ -35,7 +37,8 @@
     "sweetalert2": "^11.17.2",
     "sweetalert2-react-content": "^5.1.0",
     "tailwind-merge": "^3.0.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^1.6.1"
   },
   "scripts": {
     "start": "react-scripts start",

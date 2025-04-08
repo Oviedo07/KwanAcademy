@@ -1,8 +1,12 @@
+.MissionVissionSection{
+  background-color: #FDF8F2;
+}
+
 .missionContainer {
   max-width: 1200px;
   margin: 0 auto;
   padding: 3rem 2rem;
-  background-color: #ffffff;
+  background-color: #FDF8F2;
 }
 
 .missionContent {

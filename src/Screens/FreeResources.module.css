@@ -11,11 +11,27 @@
   --background-color: #FDF8F2;
 }
 
+.FreeResourcesSection{
+  background-color: #FDF8F2;
+}
+
+
+.container {
+  background-color: var(--background-color);
+}
+
+
 /* Contenedor principal */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+}
+
+.containerTitle{
+  align-items: center;
+  text-align: center;
+  margin-top: 70px;
 }
 
 /* Títulos y subtítulos */
@@ -25,6 +41,29 @@
   margin-bottom: 10px;
   text-align: center;
 }
+
+.title {
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+  position: relative;
+  display: inline-block;
+  margin-bottom: 30px;
+  align-items: center;
+}
+
+.title::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background-color: red;
+  border-radius: 2px;
+}
+
 
 .subtitle {
   color: var(--dark-gray);

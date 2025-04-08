@@ -1,7 +1,6 @@
 .sidebar-container {
     position: relative; /* Cambia de fixed a relative */
     height: 100%; /* Toma la altura del contenedor padre */
-
     overflow: hidden;
     transition: width 0.3s ease;
     padding-top: 80px;
@@ -12,10 +11,10 @@
     color: white;
     left: 0;
     z-index: 1000;
-    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
 
     /* Mantiene el sidebar fijo y cubre toda la altura sin desplazarse */
-    width: 220px; /* Ajusta el ancho según tu diseño */
+    width: 240px; /* Ajusta el ancho según tu diseño */
     
     border-radius: 0 0 15px 0; /* Esquina redondeada en la parte inferior derecha */
     overflow-y: auto; /* Agrega scroll interno si el contenido es más grande */
@@ -46,6 +45,7 @@
     font-size: 18px;
     color: black;
     font-weight: bold;
+    margin-top: -50px;
   }
   
   .logo-icon {
@@ -103,11 +103,11 @@
   
   .menu-item:hover {
     background-color: rgba(255, 255, 255, 0.1);
-    color: #FA812F;
+    color: #E70014;
   }
   
   .menu-item.active {
-    background-color: #FEF3E2;
+    background-color: #E5D0AC;
 
     font-weight: 500;
   }

@@ -15,10 +15,7 @@ import {
   Layers,
   Award as CertificateIcon
 } from 'lucide-react';
-// Importaciones de imágenes
-import ciberseguridad from "./img/ciberseguridad.jpg";
-import karate from "./img/karate.jpg";
-import workteam from "./img/workteam.jpg";
+
 import { Link } from "react-router-dom";
 
 // Definición de colores y datos
@@ -114,7 +111,7 @@ const HomeAdmin = () => {
   return (
     <div className="home-body">
       <header className="hero" style={{ 
-        background: `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url(${workteam})`,
+        background: `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("https://imgur.com/txn9Yai.jpg")`,
         backgroundSize: 'cover',
         backgroundPosition: 'center'
       }}>
@@ -198,21 +195,21 @@ const HomeAdmin = () => {
         <h2>Lo que puedes hacer</h2>
         <div className="benefits-grid">
           <div className="benefit-card">
-            <img src={workteam} alt="Equipo de trabajo" />
+            <img src="https://imgur.com/txn9Yai.jpg" alt="Equipo de trabajo" />
             <div className="benefit-content">
               <h5>Expande tu equipo</h5>
               <p>Añade administradores para mejorar la supervisión del sitio.</p>
             </div>
           </div>
           <div className="benefit-card">
-            <img src={karate} alt="Calidad" />
+            <img src="https://imgur.com/YEEwZFA.jpg" alt="Calidad" />
             <div className="benefit-content">
               <h5>Garantiza calidad</h5>
               <p>Supervisa los cursos y asegura su confiabilidad.</p>
             </div>
           </div>
           <div className="benefit-card">
-            <img src={ciberseguridad} alt="Seguridad" />
+            <img src="https://imgur.com/8ZupIsd.jpg" alt="Seguridad" />
             <div className="benefit-content">
               <h5>Protege a tus usuarios</h5>
               <p>Evita riesgos con medidas de ciberseguridad.</p>

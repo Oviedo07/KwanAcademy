@@ -304,29 +304,38 @@ const FormularioCurso = () => {
   const renderInput = (icon, label, name, type = 'text') => {
     const isReadOnly = name === 'nombreInstructor' || name === 'apellidoInstructor';
     return (
-      <div className="form-group mb-3">
-        <label className="form-label d-flex align-items-center">
-          {icon} <span className="ms-2">{label}</span>
-        </label>
-        <input
-          type={type} 
-          name={name} 
-          value={formData[name]} 
-          onChange={handleChange} 
-          onBlur={handleBlur}
-          className={`form-control ${errors[name] && touched[name] ? 'is-invalid' : ''} ${isReadOnly ? 'bg-light' : ''}`} 
-          placeholder={label}
-          readOnly={isReadOnly}
-        />
-        {errors[name] && touched[name] && <div className="invalid-feedback">{errors[name]}</div>}
-      </div>
+      <section className={styles.containerSection}>
+        <div className={styles.formGroup}>
+          <label className={styles.label}>
+            <span className={styles.iconWrapper}>
+              {React.cloneElement(icon, { size: 16, color: '#E70014' })}
+            </span>
+            <span>{label}</span>
+          </label>
+          <input
+            type={type}
+            name={name}
+            value={formData[name]}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            className={`form-control ${styles.input} ${errors[name] && touched[name] ? styles.inputError : ''} ${isReadOnly ? styles.readOnlyField : ''}`}
+            placeholder={label}
+            readOnly={isReadOnly}
+          />
+          {errors[name] && touched[name] && <div className={styles.errorText}>{errors[name]}</div>}
+        </div>
+      </section>
+
     );
   };
 
   const renderTextarea = (icon, label, name, rows = 3) => (
-    <div className="form-group mb-3">
-      <label className="form-label d-flex align-items-center">
-        {icon} <span className="ms-2">{label}</span>
+    <div className={styles.formGroup}>
+      <label className={styles.label}>
+        <span className={styles.iconWrapper}>
+          {React.cloneElement(icon, { size: 16, color: '#E70014' })}
+        </span>
+        <span>{label}</span>
       </label>
       <textarea
         name={name} 
@@ -337,7 +346,7 @@ const FormularioCurso = () => {
         className={`form-control ${errors[name] && touched[name] ? 'is-invalid' : ''}`} 
         placeholder={label}
       />
-      {errors[name] && touched[name] && <div className="invalid-feedback">{errors[name]}</div>}
+      {errors[name] && touched[name] && <div className={styles.errorText}>{errors[name]}</div>}
     </div>
   );
 
@@ -354,13 +363,17 @@ const FormularioCurso = () => {
   }
 
   return (
-    <div className="container mt-4 formulario-curso">
-      <h3 className="mb-4 d-flex align-items-center"><Book size={24} className="me-2" /> Crear Curso</h3>
-      <form onSubmit={handleSubmit}>
-        <div className="row">
-          <div className="col-md-6">{renderInput(<User size={16} />, 'Nombre del Instructor', 'nombreInstructor')}</div>
-          <div className="col-md-6">{renderInput(<User size={16} />, 'Apellido del Instructor', 'apellidoInstructor')}</div>
-        </div>
+    <section className={styles.containerSection}>
+      <div className={styles.container}>
+        <h3 className={styles.header}>
+          <Book size={28} className={styles.headerIcon} />
+          Crear Curso
+        </h3>
+        <form onSubmit={handleSubmit}>
+          <div className="row">
+            <div className="col-md-6">{renderInput(<User size={16} />, 'Nombre del Instructor', 'nombreInstructor')}</div>
+            <div className="col-md-6">{renderInput(<User size={16} />, 'Apellido del Instructor', 'apellidoInstructor')}</div>
+          </div>
 
         {renderInput(<Book size={16} />, 'Nombre del Curso', 'nombreCurso')}
         {renderTextarea(<FileText size={16} />, 'Descripción del Curso', 'descripcionCurso', 4)}

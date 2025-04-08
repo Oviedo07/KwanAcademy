@@ -1,3 +1,4 @@
+
 const db = require("../config/db");
 
 // Controlador signIn.js en el backend
@@ -173,5 +174,3 @@ module.exports = {
     updateStatusUsuarios,
     updateUserProfile
 };
-
-
