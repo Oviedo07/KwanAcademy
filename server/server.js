@@ -7,21 +7,21 @@ const AdminRoutes = require("./routes/AdminRoutes");
 const InstructorRoutes = require("./routes/InstructorRoutes");
 const session = require("express-session");
 const path = require('path');
-
-dotenv.config();
 const app = express();
+
+app.use(express.json());
+
 app.use(cors({
   origin: "http://localhost:3000",
   credentials: true
 }));
-
-app.use(express.json());
-
+dotenv.config();
 app.use(session({
   secret: "clave_secreta",
   resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false }
+  saveUninitialized: false,
+  cookie: { secure: false,  httpOnly: true,
+  sameSite: 'lax' }
 }));
 
 app.use(UserRoutes);

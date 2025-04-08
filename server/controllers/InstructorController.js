@@ -1,40 +1,52 @@
 const db = require("../config/db");
 
 const signInInstructor = async (req, res) => {
-  try {
-    const { email, contrasena } = req.body;
-    const query = "SELECT * FROM Instructor WHERE email = ?";
-    const [results] = await db.query(query, [email]);
+  const { email, contrasena } = req.body;
 
-    if (results.length === 0 || results[0].contrasena !== contrasena) {
-      return res.status(401).json({ error: "Credenciales incorrectas" });
+  try {
+    
+    const [rows] = await db.query(
+      'SELECT * FROM instructor WHERE email = ? AND contrasena = ?',
+      [email, contrasena]
+    );
+
+    if (rows.length === 0) {
+      return res.status(401).json({ error: "Credenciales inválidas" });
     }
 
-    const instructor = results[0];
-    const userData = {
-      id: instructor.id,
-      nombre: instructor.primer_nombre,
-      apellido: instructor.primer_apellido,
-      email: instructor.email,
-      role: 'instructor',
-      token: "token123456"
+    const usuario = rows[0];
+
+    // ✅ Aquí se guarda la sesión correctamente
+    req.session.user = {
+      id: usuario.id,
+      nombre: usuario.nombre,
+      primer_nombre: usuario.primer_nombre,
+      primer_apellido: usuario.primer_apellido,
+      email: usuario.email,
+      rol: 'instructor'
     };
-
-    if (req.session) req.session.user = userData;
-
-    res.json({ message: "Autenticación exitosa", user: userData });
-  } catch (err) {
-    res.status(500).json({ error: "Error en el servidor", details: err.message });
+    console.log("🔎 Usuario en sesión (updateCurso):", req.session.user);
+    req.session.save(() => {
+      res.json({ message: "Inicio de sesión exitoso", user: req.session.user });
+    });
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error en el servidor" });
   }
 };
+
 
 const sessionInstructor = (req, res) => {
-  if (req.session?.user?.role === 'instructor') {
-    res.json({ message: "Sesión de instructor activa", user: req.session.user });
+  if (req.session && req.session.user) {
+    console.log("✅ Sesión activa:", req.session.user);
+    res.status(200).json({ session: req.session.user });
   } else {
-    res.status(401).json({ error: "No hay sesión de instructor activa" });
+    console.log("❌ No hay sesión activa");
+    res.status(401).json({ error: "No hay sesión activa" });
   }
 };
+
 
 const registerInstructor = async (req, res) => {
   try {
@@ -96,39 +108,30 @@ const registerCurso = async (req, res) => {
 };
 
 const updateCurso = async (req, res) => {
+  const cursoId = req.params.id;
+  const { nombre, descripcion, objetivos, precio } = req.body;
+
+  // Validamos sesión
+  if (!req.session.user || req.session.user.rol !== 'instructor') {
+    return res.status(403).json({ error: "Acceso denegado. No hay sesión activa o rol incorrecto." });
+  }
+
+  console.log("🔒 Usuario autenticado (updateCurso):", req.session.user);
+
   try {
-    const cursoId = req.params.id;
-    const { id_instructor, nombre, descripcion, objetivos, precio } = req.body;
-
-    const [cursoActual] = await db.query('SELECT * FROM curso WHERE id = ?', [cursoId]);
-
-    if (cursoActual.length === 0) {
-      return res.status(404).json({ error: 'Curso no encontrado' });
-    }
-
-    if (req.session?.user?.id !== parseInt(id_instructor)) {
-      return res.status(403).json({ error: 'No tienes permiso para editar este curso' });
-    }
-
-    const fecha_actualizacion = new Date();
-
-    const sql = `
-      UPDATE curso SET 
-        nombre = ?, descripcion = ?, objetivos = ?, precio = ?, fecha_actualizacion = ?
-      WHERE id = ? AND id_instructor = ?
-    `;
-
-    const [result] = await db.query(sql, [
-      nombre, descripcion, objetivos, precio, fecha_actualizacion, cursoId, id_instructor
-    ]);
+    const [result] = await db.query(
+      'UPDATE curso SET nombre = ?, descripcion = ?, objetivos = ?, precio = ?, fecha_actualizacion = NOW() WHERE id = ? AND id_instructor = ?',
+      [nombre, descripcion, objetivos, precio, cursoId, req.session.user.id]
+    );
 
     if (result.affectedRows === 0) {
-      return res.status(404).json({ error: 'Curso no encontrado o sin permiso para editarlo' });
+      return res.status(404).json({ error: "Curso no encontrado o no autorizado" });
     }
 
-    res.json({ message: 'Curso actualizado exitosamente' });
+    res.json({ message: "Curso actualizado correctamente" });
   } catch (error) {
-    res.status(500).json({ error: 'Error al actualizar el curso', details: error.message });
+    console.error("❌ Error al actualizar curso:", error);
+    res.status(500).json({ error: "Error en el servidor" });
   }
 };
 

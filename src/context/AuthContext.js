@@ -10,19 +10,32 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    try {
-      const storedUser = localStorage.getItem('user');
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-        setIsAuthenticated(true);
+    const checkSession = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/sessionInstructor", {
+          credentials: "include",
+        });
+  
+        const data = await res.json();
+        if (data.session) {
+          setUser(data.session);
+          setIsAuthenticated(true);
+          localStorage.setItem("user", JSON.stringify(data.session));
+        } else {
+          setUser(null);
+          setIsAuthenticated(false);
+          localStorage.removeItem("user");
+        }
+      } catch (error) {
+        console.error("❌ Error al verificar sesión:", error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error("Error al recuperar datos del usuario:", error);
-      localStorage.removeItem('user');
-    } finally {
-      setLoading(false);
-    }
+    };
+  
+    checkSession();
   }, []);
+  
 
   // Función para iniciar sesión con los datos correctos
   const login = (userData) => {
@@ -38,11 +51,12 @@ export const AuthProvider = ({ children }) => {
         const userToStore = {
           id: userData.id,
           firstName: userData.nombre || "",
-          lastName: userData.apellido || "",
+          lastName: "",  // Inicialmente vacío, se llenará con datos del instructor
           email: userData.email || "",
-          birthDate: userData.fecha_nacimiento || "",
-          gender: userData.genero || "",
-          role: userData.role || "general"
+          rol: userData.rol || "instructor",
+          // Campos adicionales para instructores
+          primer_nombre: userData.nombre || "",
+          primer_apellido: userData.primer_apellido || "",
         };
         
         console.log("AuthContext - Datos transformados para almacenar:", userToStore);

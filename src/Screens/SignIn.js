@@ -30,77 +30,84 @@ const SignIn = () => {
     setEmail(getDefaultEmail());
     setPassword("");
   };
+// Solo actualizamos la parte relevante del handleSubmit en SignIn.js
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError("");
 
-    // Eliminamos la validación rígida que limitaba el acceso a un correo específico
-    // y permitimos que cualquier instructor pueda iniciar sesión
+  try {
+    console.log("Enviando solicitud de inicio de sesión...");
+    
+    // Endpoint diferente según el tipo de usuario
+    const endpoint = activeTab === "Instructor" 
+      ? "http://localhost:5000/api/signInInstructor" 
+      : "http://localhost:5000/api/signin";
+    
+    // Ahora usamos "contrasena" en lugar de "password" para instructores
+    // para coincidir con lo que espera el backend
+    const payload = activeTab === "Instructor" 
+      ? { email, contrasena: password } 
+      : { email, password, role: activeTab.toLowerCase() };
+    
+    console.log("Enviando payload:", payload);
+    
+    const response = await axios.post(endpoint, payload, {
+      withCredentials: true // Importante para mantener la sesión
+    });
 
-    try {
-      console.log("Enviando solicitud de inicio de sesión...");
+    console.log("Respuesta del servidor:", response.data);
+    
+    if (response.data.user) {
+      // Pasamos el objeto user completo al método login
+      const userData = response.data.user;
       
-      // Endpoint diferente según el tipo de usuario
-      const endpoint = activeTab === "Instructor" 
-        ? "http://localhost:5000/api/signInInstructor" 
-        : "http://localhost:5000/api/signin";
-      
-      // Ahora usamos "contrasena" en lugar de "password" para instructores
-      // para coincidir con lo que espera el backend
-      const payload = activeTab === "Instructor" 
-        ? { email, contrasena: password } 
-        : { email, password, role: activeTab.toLowerCase() };
-      
-      console.log("Enviando payload:", payload);
-      
-      const response = await axios.post(endpoint, payload);
-
-      console.log("Respuesta del servidor:", response.data);
-      
-      if (response.data.user) {
-        // Pasamos el objeto user completo al método login
-        await login(response.data.user);
-        
-        console.log("Usuario logueado correctamente");
-        
-        // Mostrar alerta de éxito
-        Swal.fire({
-          icon: 'success',
-          title: 'Acceso exitoso',
-          text: `Bienvenido ${response.data.user.nombre || ''}`,
-          timer: 1500,
-          showConfirmButton: false
-        });
-        
-        // Redirección según el tipo de usuario
-        if (activeTab === "Instructor") {
-          navigate("/FormularioCurso");
-        } else {
-          navigate("/courses");
-        }
-      } else {
-        setError("La respuesta del servidor no contiene datos de usuario");
-        console.error("Respuesta inesperada:", response.data);
-        
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'La respuesta del servidor no contiene datos de usuario'
-        });
+      // Asegurarnos de que el usuario tenga un rol definido
+      if (!userData.rol) {
+        userData.rol = activeTab === "Instructor" ? "instructor" : "general";
       }
-    } catch (err) {
-      const errorMessage = err.response?.data?.error || "Credenciales incorrectas";
-      setError(errorMessage);
-      console.error("Error de inicio de sesión:", err);
+      
+      await login(userData);
+      
+      console.log("Usuario logueado correctamente");
+      
+      // Mostrar alerta de éxito
+      Swal.fire({
+        icon: 'success',
+        title: 'Acceso exitoso',
+        text: `Bienvenido ${userData.nombre || ''}`,
+        timer: 1500,
+        showConfirmButton: false
+      });
+      
+      // Redirección según el tipo de usuario
+      if (activeTab === "Instructor") {
+        navigate("/FormularioCurso");
+      } else {
+        navigate("/courses");
+      }
+    } else {
+      setError("La respuesta del servidor no contiene datos de usuario");
+      console.error("Respuesta inesperada:", response.data);
       
       Swal.fire({
         icon: 'error',
-        title: 'Error de inicio de sesión',
-        text: errorMessage
+        title: 'Error',
+        text: 'La respuesta del servidor no contiene datos de usuario'
       });
     }
-  };
+  } catch (err) {
+    const errorMessage = err.response?.data?.error || "Credenciales incorrectas";
+    setError(errorMessage);
+    console.error("Error de inicio de sesión:", err);
+    
+    Swal.fire({
+      icon: 'error',
+      title: 'Error de inicio de sesión',
+      text: errorMessage
+    });
+  }
+};
 
   const renderUserTypeTitle = () => {
     return activeTab === "Instructor" ? "Instructor" : "Usuario Regular";
