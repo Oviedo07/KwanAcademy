@@ -1,4 +1,4 @@
-const db = require("../config/db");
+const getConnection = require("../config/db");
 
 // INICIO DE SESIÓN CON SESIÓN
 const signIn = async (req, res) => {
@@ -9,6 +9,7 @@ const signIn = async (req, res) => {
   const query = "SELECT * FROM Usuario WHERE email = ? AND contrasena = ?";
 
   try {
+    const db = await getConnection();
     const [results] = await db.query(query, [email, password]);
 
     if (results.length === 0) {
@@ -28,7 +29,6 @@ const signIn = async (req, res) => {
       role: role || 'general'
     };
 
-    // 🔐 Guardar en sesión
     req.session.user = userData;
     req.session.save(() => {
       res.json({
@@ -63,6 +63,7 @@ const registerUser = async (req, res) => {
       return res.status(400).json({ error: "Todos los campos son obligatorios" });
     }
 
+    const db = await getConnection();
     const query = "INSERT INTO Usuario (nombre, apellido, fecha_nacimiento, genero, email, contrasena, id_rol) VALUES (?, ?, ?, ?, ?, ?, ?)";
     const values = [nombre, apellido, fecha_nacimiento, genero, email, contrasena, id_rol];
 
@@ -78,6 +79,7 @@ const registerUser = async (req, res) => {
 // OBTENER USUARIOS ACTIVOS
 const getUsuariosActivos = async (req, res) => {
   try {
+    const db = await getConnection();
     const [result] = await db.query("SELECT * FROM Usuario WHERE estado = 'activo'");
     res.json(result);
   } catch (err) {
@@ -89,6 +91,7 @@ const getUsuariosActivos = async (req, res) => {
 // OBTENER USUARIOS INACTIVOS
 const getUsuariosInactivos = async (req, res) => {
   try {
+    const db = await getConnection();
     const [result] = await db.query("SELECT * FROM Usuario WHERE estado = 'inactivo'");
     res.json(result);
   } catch (err) {
@@ -101,6 +104,7 @@ const getUsuariosInactivos = async (req, res) => {
 const updateStatusUsuarios = async (req, res) => {
   try {
     const { id, estado } = req.body;
+    const db = await getConnection();
     const [result] = await db.query("UPDATE Usuario SET estado = ? WHERE id = ?", [estado, id]);
     res.json(result);
   } catch (err) {
@@ -130,6 +134,7 @@ const updateUserProfile = async (req, res) => {
     }
 
     updateValues.push(userId);
+    const db = await getConnection();
     const query = `UPDATE Usuario SET ${updateFields.join(", ")} WHERE id = ?`;
 
     await db.query(query, updateValues);

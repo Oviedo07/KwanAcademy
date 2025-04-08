@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import Axios from "axios";
 import Swal from 'sweetalert2';
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../css/UserManagement.css"
 
 // Import services from userService
 import { 
@@ -68,8 +67,8 @@ const UserManagement = () => {
     };
 
     return (
-        <div className="container-fluid">
-    <div className="row">
+    <div className="container-fluid">
+        <div className="row">
         {/* Main Content - Cambiado a col-md-12 para usar todo el ancho disponible */}
         <main className="col-md-12 align-items-center justify-content-start mt-4">
             <div className="card p-4 shadow-lg">
