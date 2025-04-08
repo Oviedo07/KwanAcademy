@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import { User, Book, FileText, Target, DollarSign, Camera, Upload, Save, Edit, Trash2, X } from 'lucide-react';
+import { User, Book, FileText, Target, DollarSign, ImagePlus, Save, Edit, Trash2 } from 'lucide-react';
 import './FormularioCurso.module.css';
 import { useAuth } from '../context/AuthContext';
 const MySwal = withReactContent(Swal);
@@ -9,28 +9,36 @@ const MySwal = withReactContent(Swal);
 const FormularioCurso = () => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({
-    nombreInstructor: '', apellidoInstructor: '', nombreCurso: '',
-    descripcionCurso: '', objetivosCurso: '', precioCurso: '', fotoCurso: null,
+    nombreInstructor: '', 
+    apellidoInstructor: '', 
+    nombreCurso: '',
+    descripcionCurso: '', 
+    objetivosCurso: '', 
+    precioCurso: '', 
+    fotoCurso: '',
   });
   const [previewUrl, setPreviewUrl] = useState(null);
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
-
-  useEffect(() => {
-    return () => previewUrl && URL.revokeObjectURL(previewUrl);
-  }, [previewUrl]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (user) {
-      console.log("Cargando datos del usuario en el formulario:", user);
-      setFormData(prevData => ({
-        ...prevData,
+      setFormData(prev => ({
+        ...prev,
         nombreInstructor: user.firstName || '',
         apellidoInstructor: user.lastName || ''
       }));
     }
   }, [user]);
 
+  useEffect(() => {
+    if (formData.fotoCurso && formData.fotoCurso.startsWith('http')) {
+      setPreviewUrl(formData.fotoCurso);
+    } else {
+      setPreviewUrl(null);
+    }
+  }, [formData.fotoCurso]);
 
   const validate = (field, value) => {
     const validations = {
@@ -40,6 +48,7 @@ const FormularioCurso = () => {
       descripcionCurso: v => v.trim().length >= 20 ? '' : 'Mínimo 20 caracteres',
       objetivosCurso: v => v.trim().length >= 10 ? '' : 'Mínimo 10 caracteres',
       precioCurso: v => v && !isNaN(v) && v > 0 ? '' : 'Precio inválido',
+      fotoCurso: v => v.trim().startsWith('http') ? '' : 'URL no válida'
     };
     return validations[field] ? validations[field](value) : '';
   };
@@ -56,67 +65,122 @@ const FormularioCurso = () => {
     setErrors(prev => ({ ...prev, [name]: validate(name, value) }));
   };
 
-  const handleFileChange = e => {
-    const file = e.target.files[0];
-    if (file) {
-      setFormData(prev => ({ ...prev, fotoCurso: file }));
-      previewUrl && URL.revokeObjectURL(previewUrl);
-      setPreviewUrl(URL.createObjectURL(file));
-    }
-  };
-
-  const removeImage = () => {
-    previewUrl && URL.revokeObjectURL(previewUrl);
-    setPreviewUrl(null);
-    setFormData(prev => ({ ...prev, fotoCurso: null }));
-  };
-
   const mostrarAlerta = (titulo, texto, icono, color = '#4caf50') => {
-    MySwal.fire({ title: titulo, text: texto, icon: icono, confirmButtonColor: color, timer: 2000, timerProgressBar: true });
+    MySwal.fire({ 
+      title: titulo, 
+      text: texto, 
+      icon: icono, 
+      confirmButtonColor: color, 
+      timer: 2000, 
+      timerProgressBar: true 
+    });
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const campos = Object.keys(formData).filter(f => f !== 'fotoCurso');
+
+    const campos = Object.keys(formData);
     const nuevosErrores = {};
     campos.forEach(f => { nuevosErrores[f] = validate(f, formData[f]); });
     setErrors(nuevosErrores);
     setTouched(Object.fromEntries(campos.map(f => [f, true])));
-    if (Object.values(nuevosErrores).some(err => err)) return;
 
-    MySwal.fire({
-      title: '¿Publicar curso?', icon: 'question', showCancelButton: true,
-      confirmButtonText: 'Sí, publicar', cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#4caf50', cancelButtonColor: '#6c757d',
-    }).then(result => {
-      if (result.isConfirmed) mostrarAlerta('¡Éxito!', 'Curso publicado correctamente', 'success');
+    if (Object.values(nuevosErrores).some(err => err)) {
+      mostrarAlerta('Error', 'Por favor, completa correctamente todos los campos', 'error', '#f44336');
+      return;
+    }
+
+    const result = await MySwal.fire({
+      title: '¿Publicar curso?', 
+      icon: 'question', 
+      showCancelButton: true,
+      confirmButtonText: 'Sí, publicar', 
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#4caf50', 
+      cancelButtonColor: '#6c757d',
     });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      setLoading(true);
+
+      const body = {
+        id_instructor: user.id,
+        nombre: formData.nombreCurso,
+        descripcion: formData.descripcionCurso,
+        objetivos: formData.objetivosCurso,
+        precio: formData.precioCurso,
+        imagen: formData.fotoCurso
+      };
+
+      const response = await fetch('http://localhost:5000/api/registerCurso', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Error al crear el curso: ${response.status} ${response.statusText}\n${errorText}`);
+      }
+
+      await response.json();
+      mostrarAlerta('¡Éxito!', 'Curso publicado correctamente', 'success');
+      resetForm();
+    } catch (error) {
+      console.error('Error al publicar el curso:', error);
+      mostrarAlerta('Error', `No se pudo publicar el curso: ${error.message}`, 'error', '#f44336');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      nombreInstructor: user?.firstName || '',
+      apellidoInstructor: user?.lastName || '',
+      nombreCurso: '',
+      descripcionCurso: '', 
+      objetivosCurso: '', 
+      precioCurso: '', 
+      fotoCurso: '',
+    });
+    setErrors({});
+    setTouched({});
+    setPreviewUrl(null);
   };
 
   const handleEdit = () => {
-    MySwal.fire({ title: 'Editando curso', text: 'Campos habilitados para edición', icon: 'info', confirmButtonColor: '#ffa726', timer: 2000 });
+    MySwal.fire({ 
+      title: 'Editando curso', 
+      text: 'Campos habilitados para edición', 
+      icon: 'info', 
+      confirmButtonColor: '#ffa726', 
+      timer: 2000 
+    });
   };
 
   const handleDelete = () => {
     MySwal.fire({
-      title: '¿Eliminar curso?', text: 'Esta acción no se puede deshacer.', icon: 'warning',
-      showCancelButton: true, confirmButtonText: 'Eliminar', cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#ff4d4d', cancelButtonColor: '#6c757d'
+      title: '¿Eliminar curso?', 
+      text: 'Esta acción no se puede deshacer.', 
+      icon: 'warning',
+      showCancelButton: true, 
+      confirmButtonText: 'Eliminar', 
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#ff4d4d', 
+      cancelButtonColor: '#6c757d'
     }).then(res => {
       if (res.isConfirmed) {
-        setFormData({ nombreCurso: '', descripcionCurso: '', objetivosCurso: '', precioCurso: '', fotoCurso: null });
-        previewUrl && URL.revokeObjectURL(previewUrl);
-        setPreviewUrl(null);
-        setErrors({}); setTouched({});
+        resetForm();
         mostrarAlerta('Curso eliminado', 'Se ha eliminado correctamente', 'success', '#ff4d4d');
       }
     });
   };
 
   const renderInput = (icon, label, name, type = 'text') => {
-    // Determinar si el campo debe ser de solo lectura
     const isReadOnly = name === 'nombreInstructor' || name === 'apellidoInstructor';
-    
     return (
       <div className="form-group mb-3">
         <label className="form-label d-flex align-items-center">
@@ -143,13 +207,28 @@ const FormularioCurso = () => {
         {icon} <span className="ms-2">{label}</span>
       </label>
       <textarea
-        name={name} rows={rows} value={formData[name]} onChange={handleChange} onBlur={handleBlur}
-        className={`form-control ${errors[name] && touched[name] ? 'is-invalid' : ''}`} placeholder={label}
+        name={name} 
+        rows={rows} 
+        value={formData[name]} 
+        onChange={handleChange} 
+        onBlur={handleBlur}
+        className={`form-control ${errors[name] && touched[name] ? 'is-invalid' : ''}`} 
+        placeholder={label}
       />
       {errors[name] && touched[name] && <div className="invalid-feedback">{errors[name]}</div>}
     </div>
   );
 
+  if (!user || !user.id) {
+    return (
+      <div className="container mt-4">
+        <div className="alert alert-warning">
+          <h4>Acceso restringido</h4>
+          <p>Debes iniciar sesión como instructor para publicar cursos.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mt-4 formulario-curso">
@@ -164,35 +243,32 @@ const FormularioCurso = () => {
         {renderTextarea(<FileText size={16} />, 'Descripción del Curso', 'descripcionCurso', 4)}
         {renderTextarea(<Target size={16} />, 'Objetivos del Curso', 'objetivosCurso', 3)}
         {renderInput(<DollarSign size={16} />, 'Precio del Curso', 'precioCurso', 'number')}
+        {renderInput(<ImagePlus size={16} />, 'Enlace de la Imagen del Curso', 'fotoCurso')}
 
-        <div className="form-group mb-4">
-          <label className="form-label d-flex align-items-center">
-            <Camera size={16} /> <span className="ms-2">Imagen del Curso</span>
-          </label>
-          {previewUrl ? (
-            <div className="position-relative">
-              <img src={previewUrl} alt="Vista previa" className="img-thumbnail mb-2" style={{ maxHeight: '200px' }} />
-              <button type="button" className="btn btn-sm btn-danger position-absolute top-0 end-0" onClick={removeImage}>
-                <X size={16} />
-              </button>
-            </div>
-          ) : (
-            <div className="btn btn-outline-secondary" onClick={() => document.getElementById('fotoCurso').click()}>
-              <Upload size={16} className="me-2" /> Seleccionar imagen
-            </div>
-          )}
-          <input type="file" id="fotoCurso" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} />
-        </div>
+        {previewUrl && (
+          <div className="text-center mb-4">
+            <img src={previewUrl} alt="Vista previa" className="img-thumbnail" style={{ maxHeight: '200px' }} />
+          </div>
+        )}
 
         <div className="d-flex justify-content-between gap-2">
-          <button type="button" className="btn btn-danger" onClick={handleDelete}>
+          <button type="button" className="btn btn-danger" onClick={handleDelete} disabled={loading}>
             <Trash2 size={16} className="me-1" /> Eliminar
           </button>
-          <button type="button" className="btn btn-warning" onClick={handleEdit}>
-            <Edit size={16} className="me-1" /> Editar
+          <button type="button" className="btn btn-warning" onClick={handleEdit} disabled={loading}>
+            <Edit size={16} className="me-1" /> Ver Cursos
           </button>
-          <button type="submit" className="btn btn-success">
-            <Save size={16} className="me-1" /> Publicar
+          <button type="submit" className="btn btn-success" disabled={loading}>
+            {loading ? (
+              <>
+                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                Publicando...
+              </>
+            ) : (
+              <>
+                <Save size={16} className="me-1" /> Publicar
+              </>
+            )}
           </button>
         </div>
       </form>

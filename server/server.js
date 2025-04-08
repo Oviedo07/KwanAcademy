@@ -3,40 +3,32 @@ const cors = require("cors");
 const mysql = require("mysql2");
 const dotenv = require("dotenv");
 const UserRoutes = require("./routes/UserRoutes");
-const AdminRoutes = require("./routes/AdminRoutes")
-const InstructorRoutes = require("./routes/InstructrorRoutes")
-const { user } = require("@heroui/react");
+const AdminRoutes = require("./routes/AdminRoutes");
+const InstructorRoutes = require("./routes/InstructorRoutes");
 const session = require("express-session");
 const path = require('path');
 
 dotenv.config();
 const app = express();
 app.use(cors({
-  origin: "http://localhost:3000", // Cambia esto al frontend que use tu app en producción
+  origin: "http://localhost:3000",
   credentials: true
-} // Permite el uso de cookies y autenticación
-));
+}));
 
 app.use(express.json());
 
-// Sesion de admins
 app.use(session({
-  secret: "clave_secreta", // Cambia esto por una clave segura
+  secret: "clave_secreta",
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false } // true si usas HTTPS
+  cookie: { secure: false }
 }));
 
-//Rutas para CRUD Usuario
 app.use(UserRoutes);
-//Rutas para CRUD Administrador
 app.use(AdminRoutes);
-//Rutas para CRUD Instructores
 app.use(InstructorRoutes);
-// Servcicios Estaticos
-app.use('/uploads', express.static(path.join(__dirname, '../public/uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
-// Configurar conexión a la base de datos
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -48,10 +40,12 @@ db.connect((err) => {
   if (err) {
     console.error("Error conectando a la base de datos:", err);
     return;
+  } else {
+    console.log("Conexión Exitosa A DB")
+    return;
   }
 });
 
 app.listen(5000, () => {
   console.log("Servidor corriendo en http://localhost:5000");
 });
-
