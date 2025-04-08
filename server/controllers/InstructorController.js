@@ -1,10 +1,11 @@
-const db = require("../config/db");
+const getConnection = require("../config/db");
 
 const signInInstructor = async (req, res) => {
   const { email, contrasena } = req.body;
 
   try {
-    
+    const db = await getConnection();
+
     const [rows] = await db.query(
       'SELECT * FROM instructor WHERE email = ? AND contrasena = ?',
       [email, contrasena]
@@ -16,7 +17,6 @@ const signInInstructor = async (req, res) => {
 
     const usuario = rows[0];
 
-    // ✅ Aquí se guarda la sesión correctamente
     req.session.user = {
       id: usuario.id,
       nombre: usuario.nombre,
@@ -25,17 +25,18 @@ const signInInstructor = async (req, res) => {
       email: usuario.email,
       rol: 'instructor'
     };
+
     console.log("🔎 Usuario en sesión (updateCurso):", req.session.user);
+
     req.session.save(() => {
       res.json({ message: "Inicio de sesión exitoso", user: req.session.user });
     });
-    
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error en el servidor" });
   }
 };
-
 
 const sessionInstructor = (req, res) => {
   if (req.session && req.session.user) {
@@ -47,9 +48,9 @@ const sessionInstructor = (req, res) => {
   }
 };
 
-
 const registerInstructor = async (req, res) => {
   try {
+    const db = await getConnection();
     const {
       tipo_documento, numero_identificacion, primer_nombre, segundo_nombre = null,
       primer_apellido, segundo_apellido = null, genero, numero_telefonico,
@@ -82,6 +83,7 @@ const registerInstructor = async (req, res) => {
 
 const registerCurso = async (req, res) => {
   try {
+    const db = await getConnection();
     const { id_instructor, nombre, descripcion, objetivos, precio, imagen } = req.body;
 
     if (!id_instructor || !nombre || !descripcion || !objetivos || !precio || !imagen) {
@@ -111,7 +113,6 @@ const updateCurso = async (req, res) => {
   const cursoId = req.params.id;
   const { nombre, descripcion, objetivos, precio } = req.body;
 
-  // Validamos sesión
   if (!req.session.user || req.session.user.rol !== 'instructor') {
     return res.status(403).json({ error: "Acceso denegado. No hay sesión activa o rol incorrecto." });
   }
@@ -119,6 +120,8 @@ const updateCurso = async (req, res) => {
   console.log("🔒 Usuario autenticado (updateCurso):", req.session.user);
 
   try {
+    const db = await getConnection();
+
     const [result] = await db.query(
       'UPDATE curso SET nombre = ?, descripcion = ?, objetivos = ?, precio = ?, fecha_actualizacion = NOW() WHERE id = ? AND id_instructor = ?',
       [nombre, descripcion, objetivos, precio, cursoId, req.session.user.id]
@@ -137,6 +140,8 @@ const updateCurso = async (req, res) => {
 
 const getCursos = async (req, res) => {
   try {
+    const db = await getConnection();
+
     const [cursos] = await db.query(`
       SELECT c.*, CONCAT(i.primer_nombre, ' ', i.primer_apellido) AS nombre_instructor
       FROM curso c
@@ -152,6 +157,7 @@ const getCursos = async (req, res) => {
 
 const getCursoById = async (req, res) => {
   try {
+    const db = await getConnection();
     const cursoId = req.params.id;
 
     const [cursos] = await db.query(`
@@ -176,6 +182,7 @@ const getCursoById = async (req, res) => {
 
 const getCursosByInstructor = async (req, res) => {
   try {
+    const db = await getConnection();
     const instructorId = req.params.id;
 
     const [cursos] = await db.query(`
@@ -195,6 +202,7 @@ const getCursosByInstructor = async (req, res) => {
 
 const deleteCurso = async (req, res) => {
   try {
+    const db = await getConnection();
     const cursoId = req.params.id;
     const userId = req.session.user.id;
 
