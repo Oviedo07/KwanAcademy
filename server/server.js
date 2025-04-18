@@ -8,6 +8,7 @@ const path = require("path");
 const UserRoutes = require("./routes/UserRoutes");
 const AdminRoutes = require("./routes/AdminRoutes");
 const InstructorRoutes = require("./routes/InstructorRoutes");
+const CursosRoutes = require('./routes/CursosRoutes');
 
 dotenv.config();
 
@@ -35,6 +36,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 app.use(UserRoutes);
 app.use(AdminRoutes);
 app.use(InstructorRoutes);
+app.use(CursosRoutes);
 
 async function startServer() {
   try {

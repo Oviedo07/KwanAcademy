@@ -1,13 +1,13 @@
-
-import { FaSearch, FaUserGraduate, FaClock, FaUsers, FaTag, FaTimes } from "react-icons/fa";
-import styles from "./Courses.module.css"; // Importación correcta de CSS Modules
+import { FaSearch, FaUserGraduate, FaClock, FaUsers, FaTag, FaTimes, FaCalendar } from "react-icons/fa";
+import styles from "./Courses.module.css";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useAuth } from "../context/AuthContext";
+import api from "../axios.js"; // Importamos la instancia configurada de axios
 
-const courses = [
-
+// Datos estáticos para mostrar mientras se desarrolla la API
+const staticCourses = [
   {
     id: 1,
     name: "Curso Básico de Defensa Personal",
@@ -56,7 +56,7 @@ const courses = [
     id: 5,
     name: "Técnicas para principiantes en Karate",
     price: 29.99,
-    description: "Técnicas para defenderte en entornos urbanos y situaciones de riesgo.",
+    description: "Aprende los fundamentos del Karate con un enfoque práctico y directo.",
     instructor: "Ana López",
     duration: "7 semanas",
     students: 13,
@@ -65,13 +65,120 @@ const courses = [
   }
 ];
 
-const categories = ["Todas las Categorías", "Defensa Personal", "Artes Marciales", "Autoprotección"];
-const sortOptions = ["Popularidad", "Precio: Bajo a Alto", "Precio: Alto a Bajo", "Duración"];
+const staticCategories = ["Todas las Categorías", "Defensa Personal", "Artes Marciales", "Autoprotección"];
+const sortOptions = ["Popularidad", "Precio: Bajo a Alto", "Precio: Alto a Bajo", "Fecha: Más reciente"];
 
 const Courses = () => {
-
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+
+  const [courses, setCourses] = useState([]);
+  const [categories, setCategories] = useState(staticCategories);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("Todas las Categorías");
+  const [selectedSort, setSelectedSort] = useState("Popularidad");
+  const [animatedCourses, setAnimatedCourses] = useState([]);
+  const [selectedCourse, setSelectedCourse] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [useStaticData, setUseStaticData] = useState(true); // Bandera para usar datos estáticos
+
+  // Función para cargar los cursos desde la API
+  const fetchCourses = async () => {
+    setLoading(true);
+    try {
+      // Intentamos cargar desde la API
+      const response = await api.get('/api/getAllcursos');
+      
+      if (response.data && response.data.length > 0) {
+        // Si hay datos, actualizamos el estado
+        const coursesWithDetails = response.data.map(course => ({
+          ...course,
+          // Asignamos valores por defecto para campos que podrían faltar
+          duration: course.duration || `${Math.floor(Math.random() * 5) + 8} semanas`,
+          students: course.students || Math.floor(Math.random() * 50) + 10,
+          category: course.category || "General"
+        }));
+        
+        setCourses(coursesWithDetails);
+        setUseStaticData(false);
+      } else {
+        // Si no hay datos, usamos los estáticos
+        console.log("No se recibieron datos de la API, usando datos estáticos");
+        setCourses(staticCourses);
+        setUseStaticData(true);
+      }
+      setLoading(false);
+    } catch (err) {
+      console.error("Error al cargar los cursos:", err);
+      console.log("Usando datos estáticos debido al error");
+      setCourses(staticCourses);
+      setUseStaticData(true);
+      setLoading(false);
+    }
+  };
+
+  // Función para cargar las categorías
+  // const fetchCategories = async () => {
+  //   try {
+  //     // Solo intentamos si estamos usando datos de la API
+  //     if (!useStaticData) {
+  //       const response = await api.get('api/getCategorias/todas');
+  //       if (response.data && response.data.length > 0) {
+  //         setCategories(["Todas las Categorías", ...response.data]);
+  //       }
+  //     }
+  //   } catch (err) {
+  //     console.error("Error al cargar las categorías:", err);
+  //     // Si hay error, mantenemos las categorías estáticas
+  //   }
+  // };
+
+  useEffect(() => {
+    // Cargar datos al montar el componente
+    fetchCourses();
+  }, []);
+
+  // useEffect(() => {
+  //   // Cargar categorías después de decidir si usamos datos estáticos o de API
+  //   fetchCategories();
+  // }, [useStaticData]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAnimatedCourses(getFilteredAndSortedCourses());
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [searchTerm, selectedCategory, selectedSort, courses]);
+
+  const getFilteredAndSortedCourses = () => {
+    if (!courses.length) return [];
+    
+    const filtered = courses.filter((course) => {
+      const matchesSearch =
+        course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        course.description.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCategory =
+        selectedCategory === "Todas las Categorías" ||
+        course.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+    });
+
+    return [...filtered].sort((a, b) => {
+      if (selectedSort === "Precio: Bajo a Alto") return a.price - b.price;
+      if (selectedSort === "Precio: Alto a Bajo") return b.price - a.price;
+      if (selectedSort === "Fecha: Más reciente") {
+        // Verificamos si existe la fecha de creación
+        if (a.fecha_creacion && b.fecha_creacion) {
+          return new Date(b.fecha_creacion) - new Date(a.fecha_creacion);
+        }
+        return 0;
+      }
+      // Por defecto, ordenar por popularidad (número de estudiantes)
+      return b.students - a.students;
+    });
+  };
 
   const handlePurchase = () => {
     if (isAuthenticated) {
@@ -94,40 +201,6 @@ const Courses = () => {
     }
     closeModal(); // Cierra el modal después de mostrar el mensaje
   };
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("Todas las Categorías");
-  const [selectedSort, setSelectedSort] = useState("Popularidad");
-  const [animatedCourses, setAnimatedCourses] = useState([]);
-  const [selectedCourse, setSelectedCourse] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setAnimatedCourses(getFilteredAndSortedCourses());
-    }, 100);
-    return () => clearTimeout(timer);
-  },);
-
-  const getFilteredAndSortedCourses = () => {
-    const filtered = courses.filter((course) => {
-      const matchesSearch =
-        course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        course.description.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory =
-        selectedCategory === "Todas las Categorías" ||
-        course.category === selectedCategory;
-      return matchesSearch && matchesCategory;
-    });
-
-    return [...filtered].sort((a, b) => {
-      if (selectedSort === "Precio: Bajo a Alto") return a.price - b.price;
-      if (selectedSort === "Precio: Alto a Bajo") return b.price - a.price;
-      if (selectedSort === "Duración") {
-        return parseInt(a.duration) - parseInt(b.duration);
-      }
-      return b.students - a.students;
-    });
-  };
 
   const openModal = (course) => {
     setSelectedCourse(course);
@@ -139,6 +212,33 @@ const Courses = () => {
     setModalOpen(false);
     document.body.style.overflow = 'auto'; // Reactivar scroll
   };
+
+  // Formatear fecha para mostrar
+  const formatDate = (dateString) => {
+    if (!dateString) return "Fecha no disponible";
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('es-ES', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+    } catch (error) {
+      return "Fecha no válida";
+    }
+  };
+
+  if (loading) {
+    return (
+      <section className={styles["courses-section"]} id="courses">
+        <div className={styles["courses-container"]}>
+          <div className={styles["courses-header"]}>
+            <h2 className={styles["section-title"]}>Cargando cursos...</h2>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className={styles["courses-section"]} id="courses">
@@ -244,14 +344,25 @@ const Courses = () => {
                 <FaUserGraduate /> Instructor: {selectedCourse.instructor}
               </p>
               <p className={styles["modal-description"]}>{selectedCourse.description}</p>
+              
+              {selectedCourse.objetivos && (
+                <div className={styles["modal-objectives"]}>
+                  <h3>Objetivos del curso:</h3>
+                  <p>{selectedCourse.objetivos}</p>
+                </div>
+              )}
+              
               <div className={styles["modal-meta"]}>
                 <span><FaClock /> Duración: {selectedCourse.duration}</span>
                 <span><FaUsers /> {selectedCourse.students} estudiantes inscritos</span>
                 <span><FaTag /> Categoría: {selectedCourse.category}</span>
+                {selectedCourse.fecha_creacion && (
+                  <span><FaCalendar /> Creado: {formatDate(selectedCourse.fecha_creacion)}</span>
+                )}
               </div>
               <div className={styles["modal-price-section"]}>
                 <p className={styles["modal-price"]}>${selectedCourse.price}</p>
-                <button className={styles["buy-button"]} onClick={handlePurchase} >Comprar ahora</button>
+                <button className={styles["buy-button"]} onClick={handlePurchase}>Comprar ahora</button>
               </div>
             </div>
           </div>
