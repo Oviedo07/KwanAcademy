@@ -141,7 +141,7 @@ const Courses = () => {
   }, []);
 
   // useEffect(() => {
-  //   // Cargar categorías después de decidir si usamos datos estáticos o de API
+  //   // Cargar categorías después de decidir si usamos datos estáticos o de API asdwasd
   //   fetchCategories();
   // }, [useStaticData]);
 
