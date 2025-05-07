@@ -92,9 +92,9 @@ const Navbar = () => {
           <li onClick={() => navigate("/")}>Inicio</li>
           <li onClick={() => navigate("/WhoWeAre")}>¿Quiénes somos?</li>
           <li onClick={() => navigate("/MissionVission")}>Misión y visión</li>
-          <li onClick={() => navigate("/FAQ")} className={styles.FAQ}>FAQ</li>
-          <li onClick={() => navigate("/AdminViews/HomeAdmin")}>Acceso admin</li>
+          <li onClick={() => navigate("/FAQ")}>FAQ</li>
         </ul>
+        <li onClick={() => navigate("/AdminViews/HomeAdmin")} className={styles.adminLink}>Acceso administrador</li>
       </div>
 
       {/* Overlay para cerrar el menú al hacer clic fuera */}

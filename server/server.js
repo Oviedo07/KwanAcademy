@@ -53,10 +53,10 @@ async function startServer() {
     app.locals.db = db;
 
     app.listen(5000, () => {
-      console.log("Servidor corriendo en http://localhost:5000");
+      console.log("✅ Servidor corriendo en http://localhost:5000");
     });
   } catch (error) {
-    console.error("Error conectando a la base de datos:", error);
+    console.error("❌ Error conectando a la base de datos:", error);
   }
 }
 

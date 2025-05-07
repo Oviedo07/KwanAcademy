@@ -1,3 +1,5 @@
+
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -18,7 +20,7 @@
   width: 55px;
   height: 55px;
   margin-right: 4px;
-  cursor: pointer;
+  cursor: url(../assets/images/hand.png);
 }
 
 .title {
@@ -26,8 +28,9 @@
   font-weight: bold;
   color: black;
   margin-top: 9px;
-  cursor: pointer;
+  cursor: url(../assets/images/hand.png);
 }
+
 
 .NavLink {
   display: flex;
@@ -39,69 +42,34 @@
   margin-top: 2px;
 }
 
-
-.NavLink a{
-  padding: 12px;
-  font-size: 17px;
-  text-decoration: none;
-  color: #3d3d3d;
-  margin-top: 5px;
-  transition: color 0.3s ease-in-out;
+.NavLink a {
   position: relative;
+  text-decoration: none;
+  color: inherit;
+  margin: 0 15px;
+  font-size: 1.1rem;
+  transition: color 0.4s ease-in-out;
 }
-
-.NavLink a:hover{
-  color: #000000;
-  transition: 0.5s;
-  font-weight: 500;
-}
-
 
 .NavLink a::after {
   content: "";
   position: absolute;
-  left: 0;
-  bottom: 3px; /* Espaciado entre el texto y la línea */
-  width: 100%;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
   height: 2px;
   background-color: #E70014;
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 0.3s ease-in-out;
+  transition: width 0.4s ease-in-out;
 }
 
 .NavLink a:hover {
   color: #E70014;
-  font-weight: 500;
 }
 
 .NavLink a:hover::after {
-  transform: scaleX(1);
-  transform-origin: left;
+  width: 100%; /* Ajusta este valor si lo quieres más corto o más largo */
 }
-
-
-/* Efecto de subrayado en hover */
-.sidebar li::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -2px;
-  width: 0;
-  height: 2px;
-  background-color: #E70014;
-  transition: width 0.5s ;
-}
-
-.sidebar li:hover {
-  color: #E70014;
-}
-
-.sidebar li:hover::after {
-  width: 100%;
-}
-
-
 
 /* Fondo oscuro cuando el menú está abierto */
 .overlay {
@@ -131,13 +99,6 @@
   flex-direction: column;
   
 }
-
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
 
 .sidebarOpen {
   right: 0;
@@ -206,39 +167,43 @@
   text-align: center;
 }
 
-.FAQ{
-  margin-bottom: 400px;
-}
-
 .sidebar li {
-  padding: 10px 0;
   font-size: 1.2rem;
   cursor: pointer;
 }
 
 .sidebar li:hover {
   color: #3d3d3d;
-  
 }
 
 .sidebar li {
-  padding: 10px 0;
+  padding: 10px;
   font-size: 1.2rem;
   cursor: pointer;
   position: relative;
-  transition: color 0.3s ease-in-out;
+  transition: color 0.4s ease-in-out;
 }
+
+.adminLink {
+  margin-top: auto;
+  font-size: 1.2rem;
+  cursor: pointer;
+  text-align: center;
+  list-style: none;
+}
+
 
 /* Efecto de subrayado en hover */
 .sidebar li::after {
   content: "";
   position: absolute;
-  left: 0;
-  bottom: -2px;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
   width: 0;
   height: 2px;
   background-color: #E70014;
-  transition: width 0.5s ;
+  transition: width 0.4s;
 }
 
 .sidebar li:hover {
@@ -246,9 +211,8 @@
 }
 
 .sidebar li:hover::after {
-  width: 100%;
+  width: 60%; /* Ajusta esto al largo de tu texto */
 }
-
 
 .menuContainer {
   display: flex;
@@ -262,7 +226,7 @@
   font-weight: bold; 
   color: #000000;
   text-decoration: none;
-  transition: color 0.3s ease-in-out;
+  transition: color 0.4s ease-in-out;
 }
 
 .registerLink:hover {
@@ -439,9 +403,6 @@
   transition: background 0.3s ease-in-out, border-color 0.3s ease-in-out;
 }
 
-
-
-
 .sidebar {
   position: fixed;
   top: 0;
@@ -526,6 +487,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
+  margin-left: -20px;
 }
 
 .rotateIcon {
@@ -536,7 +498,7 @@
 .dropdownMenuLink {
   position: absolute;
   margin-top: 30px;
-  margin-left: -80px;
+  margin-left: -102px;
   background: #FEF3E2;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
@@ -552,14 +514,18 @@
   font-size: 15px;
   text-decoration: none;
   color: #3d3d3d;
-  transition: background 0.3s ease-in-out;
+  transition: 0.5s ease-in-out;
   text-align: center;
+  margin-bottom: 7px;
 }
 
 .dropdownMenuLink a:hover {
   background: #E5D0AC;
   color: black;
+  border-radius: 20px;
 }
+
+
 
 /* Ocultar dropdown en vista de PC */
 .dropdown {
@@ -577,4 +543,3 @@
     display: none;
   }
 }
-

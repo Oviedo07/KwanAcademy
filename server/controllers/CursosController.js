@@ -122,7 +122,6 @@ const getCursosByCategory = async (req, res) => {
 module.exports = {
   getAllCursos,
   getCursoById,
-  getCursosByCategory,
-  getCategorias,
+  getCursosByCategory
 };
 

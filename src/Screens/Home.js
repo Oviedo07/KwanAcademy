@@ -272,28 +272,56 @@ const Home = () => {
         </div>
       </motion.div>
 
-      {/* Contact Section */}
+ {/* Contact Section */}
       <div className={styles.contactSection}>
         <div className={styles.contactContainer}>
           <div className={styles.contactFormWrapper}>
             <h2 className={styles.contactTitle}>CONTÁCTANOS</h2>
-            <form className={styles.contactForm}>
+            <form
+              className={styles.contactForm}
+              action="https://formsubmit.co/pablooviedo3003@gmail.com"
+              method="POST"
+            >
               <div className={styles.formGroup}>
-                <input type="text" placeholder="Nombre completo" required />
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Nombre completo"
+                  required
+                />
               </div>
               <div className={styles.formGroup}>
-                <input type="email" placeholder="Correo electrónico" required />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Correo electrónico"
+                  required
+                />
               </div>
               <div className={styles.formGroup}>
-                <input type="tel" placeholder="Teléfono" required />
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="Teléfono"
+                  required
+                />
               </div>
               <div className={styles.formGroup}>
-                <textarea placeholder="¿En qué podemos ayudarte?" rows="4" required></textarea>
+                <textarea
+                  name="message"
+                  placeholder="¿En qué podemos ayudarte?"
+                  rows="4"
+                  required
+                ></textarea>
               </div>
+
+
+
               <button type="submit" className={styles.submitButton}>ENVIAR MENSAJE</button>
             </form>
           </div>
-          
+
+
           <div className={styles.contactMap}>
             <iframe
               title="Mapa de ubicación"
@@ -306,7 +334,7 @@ const Home = () => {
             />
           </div>
         </div>
-      </div>
+      </div>
 
       {/* Scroll to Top Button */}
       {showScrollButton && (
