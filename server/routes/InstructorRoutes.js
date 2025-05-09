@@ -8,13 +8,15 @@ const {
   getCursoById,
   getCursosByInstructor,
   deleteCurso,
-  sessionInstructor
+  sessionInstructor,
 } = require("../controllers/InstructorController");
 
 const router = express.Router();
 
 router.post("/api/signInInstructor", signInInstructor);
 router.post("/api/registerInstructor", registerInstructor);
+
+
 router.post("/api/registerCurso", registerCurso);
 router.put("/api/updateCurso/:id", updateCurso);
 router.get("/api/getCursos", getCursos);

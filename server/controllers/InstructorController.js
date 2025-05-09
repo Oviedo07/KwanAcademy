@@ -1,4 +1,5 @@
 const getConnection = require("../config/db");
+const { validationResult } = require('express-validator');
 
 const signInInstructor = async (req, res) => {
   const { email, contrasena } = req.body;
@@ -81,6 +82,10 @@ const registerInstructor = async (req, res) => {
   }
 };
 
+// -------------------------------------
+
+
+// ---------------------------------
 const registerCurso = async (req, res) => {
   try {
     const db = await getConnection();
@@ -137,6 +142,7 @@ const updateCurso = async (req, res) => {
     res.status(500).json({ error: "Error en el servidor" });
   }
 };
+
 
 const getCursos = async (req, res) => {
   try {
@@ -229,5 +235,6 @@ module.exports = {
   getCursos,
   getCursoById,
   getCursosByInstructor,
-  deleteCurso
+  updateInstructorInfo,
+  deleteCurso,
 };

@@ -82,7 +82,7 @@ const handleSubmit = async (e) => {
       
       // Redirección según el tipo de usuario
       if (activeTab === "Instructor") {
-        navigate("/FormularioCurso");
+        navigate("/PanelInstructor");
       } else {
         navigate("/courses");
       }
