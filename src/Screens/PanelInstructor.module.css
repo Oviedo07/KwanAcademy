@@ -299,7 +299,7 @@
   font-weight: 500;
 }
 
-/* Mensaje para listas vacías */
+/* Mensaje para listas vacías vvvv */
 .emptyMessage {
   text-align: center;
   color: var(--gray-dark);
