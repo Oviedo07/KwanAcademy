@@ -20,10 +20,18 @@ const signInInstructor = async (req, res) => {
 
     req.session.user = {
       id: usuario.id,
-      nombre: usuario.nombre,
+      tipo_documento: usuario.tipo_documento,
+      numero_identificacion: usuario.numero_identificacion,
       primer_nombre: usuario.primer_nombre,
+      segundo_nombre: usuario.segundo_nombre,
       primer_apellido: usuario.primer_apellido,
+      segundo_apellido: usuario.segundo_apellido,
       email: usuario.email,
+      genero: usuario.genero,
+      numero_telefonico: usuario.numero_telefonico,
+      contrasena: usuario.contrasena, 
+      ocupacion: usuario.ocupacion,
+      descripcion_perfil: usuario.descripcion_perfil,
       rol: 'instructor'
     };
 
@@ -48,6 +56,9 @@ const sessionInstructor = (req, res) => {
     res.status(401).json({ error: "No hay sesión activa" });
   }
 };
+
+
+
 
 const registerInstructor = async (req, res) => {
   try {
@@ -83,7 +94,73 @@ const registerInstructor = async (req, res) => {
 };
 
 // -------------------------------------
+const updateInstructorProfile = async (req, res) => {
+  try {
+    const instructorId = req.params.id;
+    const {
+      tipo_documento,
+      numero_documento,
+      primer_nombre,
+      segundo_nombre,
+      primer_apellido,
+      segundo_apellido,
+      telefono,
+      ocupacion,
+      descripcion_perfil
+    } = req.body;
 
+    let updateFields = [];
+    let updateValues = [];
+
+    if (tipo_documento) updateFields.push("tipo_documento = ?"), updateValues.push(tipo_documento);
+    if (numero_documento) updateFields.push("numero_documento = ?"), updateValues.push(numero_documento);
+    if (primer_nombre) updateFields.push("primer_nombre = ?"), updateValues.push(primer_nombre);
+    if (segundo_nombre) updateFields.push("segundo_nombre = ?"), updateValues.push(segundo_nombre);
+    if (primer_apellido) updateFields.push("primer_apellido = ?"), updateValues.push(primer_apellido);
+    if (segundo_apellido) updateFields.push("segundo_apellido = ?"), updateValues.push(segundo_apellido);
+    if (telefono) updateFields.push("telefono = ?"), updateValues.push(telefono);
+    if (ocupacion) updateFields.push("ocupacion = ?"), updateValues.push(ocupacion);
+    if (descripcion_perfil) updateFields.push("descripcion_perfil = ?"), updateValues.push(descripcion_perfil);
+
+    if (updateFields.length === 0) {
+      return res.status(400).json({ success: false, error: "No se proporcionaron campos a actualizar" });
+    }
+
+    updateValues.push(instructorId);
+    const db = await getConnection();
+    const query = `UPDATE Instructor SET ${updateFields.join(", ")} WHERE id = ?`;
+
+    await db.query(query, updateValues);
+    res.json({ success: true, message: "Perfil del instructor actualizado correctamente" });
+  } catch (err) {
+    console.error("Error al actualizar el perfil del instructor:", err);
+    res.status(500).json({ success: false, error: "Error al actualizar el perfil del instructor" });
+  }
+};
+
+const getInstructorProfile = async (req, res) => {
+  try {
+    const instructorId = req.params.id;
+    
+    if (!instructorId) {
+      return res.status(400).json({ success: false, error: "ID de instructor no proporcionado" });
+    }
+    
+    const db = await getConnection();
+    const query = `SELECT * FROM Instructor WHERE id = ?`;
+    
+    const [instructor] = await db.query(query, [instructorId]);
+    
+    if (!instructor || instructor.length === 0) {
+      return res.status(404).json({ success: false, error: "Instructor no encontrado" });
+    }
+    
+    res.json({ success: true, instructor: instructor[0] });
+  } catch (err) {
+    console.error("Error al obtener el perfil del instructor:", err);
+    res.status(500).json({ success: false, error: "Error al obtener el perfil del instructor" });
+  }
+};
 
 // ---------------------------------
 const registerCurso = async (req, res) => {
@@ -235,6 +312,7 @@ module.exports = {
   getCursos,
   getCursoById,
   getCursosByInstructor,
-  updateInstructorInfo,
   deleteCurso,
+  updateInstructorProfile,
+  getInstructorProfile 
 };

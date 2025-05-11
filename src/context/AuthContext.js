@@ -3,7 +3,7 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 const AuthContext = createContext();
 
 export const useAuth = () => useContext(AuthContext);
-
+export { AuthContext };  // Add this line
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -48,16 +48,23 @@ export const AuthProvider = ({ children }) => {
         console.log("Campos disponibles en el objeto userData:", availableFields);
         
         // Mapeo de los campos de la base de datos a los del frontend
+
         const userToStore = {
           id: userData.id,
-          firstName: userData.nombre || "",
-          lastName: "",  // Inicialmente vacío, se llenará con datos del instructor
-          email: userData.email || "",
-          rol: userData.rol || "instructor",
-          // Campos adicionales para instructores
-          primer_nombre: userData.nombre || "",
-          primer_apellido: userData.primer_apellido || "",
+          tipo_documento: userData.tipo_documento,
+          numero_identificacion: userData.numero_identificacion,
+          primer_nombre: userData.primer_nombre,
+          segundo_nombre: userData.segundo_nombre,
+          primer_apellido: userData.primer_apellido,
+          segundo_apellido: userData.segundo_apellido,
+          ocupacion: userData.ocupacion,
+          email: userData.email,
+          genero: userData.genero,
+          descripcion_perfil: userData.descripcion_perfil,
+          numero_telefonico: userData.numero_telefonico,
+          rol: userData.rol || "instructor"
         };
+
         
         console.log("AuthContext - Datos transformados para almacenar:", userToStore);
         
