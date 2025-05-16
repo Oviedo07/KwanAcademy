@@ -43,6 +43,22 @@ const PanelInstructor = () => {
     }
   }, [user]);
 
+
+  // Cargar cursos del instructor
+  useEffect(() => {
+    if (user?.id) {
+      fetch(`http://localhost:5000/api/getCursosByInstructor/${user.id}`, {
+        credentials: 'include'
+      })
+        .then(res => res.json())
+        .then(data => {
+          console.log("Cursos obtenidos:", data);
+          setCursos(data.cursos || []);
+        })
+        .catch(err => console.error('Error al obtener cursos:', err));
+    }
+  }, [user]);  
+
 const handleEditToggle = async () => {
   if (isEditing) {
     try {
@@ -126,6 +142,9 @@ const handleEditToggle = async () => {
 
   const handlePublicarCurso = () => {
     navigate("/FormCourse");
+  };
+  const handleEditarCurso = () => {
+    navigate("/FormCourse#footer");
   };
 
   const renderPerfilSection = () => (
@@ -283,7 +302,7 @@ const handleEditToggle = async () => {
   );
 
   const renderCursosSection = () => (
-    <div className={styles.cursosContainer}>
+ <div className={styles.cursosContainer}>
       <div className={styles.sectionHeader}>
         <h2>Mis Cursos</h2>
         <button className={styles.actionButton} onClick={handlePublicarCurso}>
@@ -295,15 +314,26 @@ const handleEditToggle = async () => {
         <div className={styles.cursosGrid}>
           {cursos.map(curso => (
             <div key={curso.id} className={styles.cursoCard}>
-              <div className={styles.cursoImagePlaceholder}>
-                <Book size={32} />
-              </div>
-              <h3>{curso.titulo}</h3>
+              {curso.imagen_url ? (
+                <img 
+                  src={curso.imagen_url} 
+                  alt={curso.nombre || curso.titulo} 
+                  className={styles.cursoImage}
+                />
+              ) : (
+                <div className={styles.cursoImagePlaceholder}>
+                  <Book size={32} />
+                </div>
+              )}
+              <h3>{curso.nombre || curso.titulo}</h3>
               <div className={styles.cursoStats}>
-                <span>{curso.estudiantes} estudiantes</span>
-                <span className={styles.cursoRating}>★ {curso.calificacion}</span>
+                <div className={styles.cursoPrecio}>
+                  ${curso.precio || 0}
+                </div>
+                <div className={styles.cursoMeta}>
+                </div>
               </div>
-              <button className={styles.secondaryButton}>Ver Detalles</button>
+              <button className={styles.secondaryButton} onClick={handleEditarCurso}>Gestionar Curso</button>
             </div>
           ))}
         </div>

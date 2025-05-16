@@ -4,9 +4,23 @@ import withReactContent from 'sweetalert2-react-content';
 import { User, Book, FileText, Target, DollarSign, ImagePlus, Save, Edit, Trash2, X, Plus, Check } from 'lucide-react';
 import styles from './FormCourse.module.css';
 import { useAuth } from '../context/AuthContext';
-const MySwal = withReactContent(Swal);
+import { useLocation } from "react-router-dom";
 
+const MySwal = withReactContent(Swal);
 const FormularioCurso = () => {
+  
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const element = document.querySelector(location.hash);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [location]);
+
+
   // Constantes para el modal
   const { user } = useAuth();
   const [mostrarModal, setMostrarModal] = useState(false);
