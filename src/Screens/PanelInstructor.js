@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Edit, Check, X, Plus, Book, DollarSign } from 'lucide-react';
+import { Edit, Check, X, Plus, Book, DollarSign, User } from 'lucide-react';
 import styles from './PanelInstructor.module.css';
 import { AuthContext } from '../context/AuthContext'; // Ajusta según tu estructura
+import Swal from 'sweetalert2';
+import { useNavigate } from "react-router-dom";
 
 const PanelInstructor = () => {
   const { user } = useContext(AuthContext);
-
+  const navigate = useNavigate();
   const [instructorInfo, setInstructorInfo] = useState({});
   const [tempInfo, setTempInfo] = useState({});
   const [isEditing, setIsEditing] = useState(false);
@@ -41,14 +43,73 @@ const PanelInstructor = () => {
     }
   }, [user]);
 
-  const handleEditToggle = () => {
-    if (isEditing) {
+const handleEditToggle = async () => {
+  if (isEditing) {
+    try {
+      // Verificar que tempInfo (no user) existe y contiene los datos actualizados
+      const nombreCompleto = tempInfo?.nombre || '';
+      const apellidoCompleto = tempInfo?.apellido || '';
+      
+      // Dividir el nombre y apellido
+      const nombreParts = nombreCompleto.split(' ');
+      const apellidoParts = apellidoCompleto.split(' ');
+      
+      // Crear el objeto de datos con los nombres de campo correctos
+      const userData = {
+        tipo_documento: tempInfo?.tipoDocumento || '',  // Corregido para que coincida con el backend
+        numero_identificacion: tempInfo?.numeroIdentificacion || '', // Corregido para que coincida
+        primer_nombre: nombreParts[0] || '',
+        segundo_nombre: nombreParts[1] || '',
+        primer_apellido: apellidoParts[0] || '',
+        segundo_apellido: apellidoParts[1] || '',
+        email: user?.email || '', // Asegurarnos de incluir el email
+        ocupacion: tempInfo?.ocupacion || '',
+        descripcion_perfil: tempInfo?.descripcionPerfil || '',
+        numero_telefonico: tempInfo?.telefono || '', // Corregido para que coincida con el formulario
+      };
+      
+      console.log('Datos a enviar:', userData);
+      
+      const response = await fetch(`http://localhost:5000/api/updateInstructor/${user.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Error al actualizar');
+      }
+      
+      const data = await response.json();
+      console.log('Respuesta del servidor:', data);
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'Datos actualizados',
+        text: 'Tu perfil fue actualizado correctamente.',
+        confirmButtonColor: '#3085d6',
+      });
+      
       setInstructorInfo({ ...tempInfo });
-    } else {
-      setTempInfo({ ...instructorInfo });
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Error al actualizar instructor:', error);
+      
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: `Ocurrió un error: ${error.message}`,
+        confirmButtonColor: '#d33',
+      });
     }
-    setIsEditing(!isEditing);
-  };
+  } else {
+    setTempInfo({ ...instructorInfo });
+    setIsEditing(true);
+  }
+};
 
   const handleCancelEdit = () => {
     setIsEditing(false);
@@ -64,7 +125,7 @@ const PanelInstructor = () => {
   };
 
   const handlePublicarCurso = () => {
-    alert('Redirigiendo a formulario de publicación de curso...');
+    navigate("/FormCourse");
   };
 
   const renderPerfilSection = () => (

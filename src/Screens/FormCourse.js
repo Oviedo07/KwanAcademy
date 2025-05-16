@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { User, Book, FileText, Target, DollarSign, ImagePlus, Save, Edit, Trash2, X, Plus, Check } from 'lucide-react';
-import styles from './FormularioCurso.module.css';
+import styles from './FormCourse.module.css';
 import { useAuth } from '../context/AuthContext';
 const MySwal = withReactContent(Swal);
 

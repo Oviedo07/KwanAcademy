@@ -16,7 +16,7 @@ import { AdminAuthProvider } from './context/AdminAuthContext';
 import ProtectedRouteAdmin from "./Screens/AdminViews/components/ProtectedRouteAdmin"; // ajusta la ruta si está en otra carpeta
 import MissionVission from "./Screens/MissionVission";
 import WhoWeAre from "./Screens/WhoWeAre";
-import FormularioCurso from "./Screens/FormularioCurso";
+import FormCourse from "./Screens/FormCourse";
 import PanelInstructor from "./Screens/PanelInstructor";
 
 function App() {
@@ -36,7 +36,7 @@ function App() {
             <Route path="/AdminViews/LoginAdmin" element={<LoginAdmin/>} />
             <Route path="/AdminViews/AdminDashboard" element={<ProtectedRouteAdmin><AdminDashboard />
             </ProtectedRouteAdmin>} />
-            <Route path="/FormularioCurso" element={<FormularioCurso/>} />
+            <Route path="/FormCourse" element={<FormCourse/>} />
             <Route path="/PanelInstructor" element={<PanelInstructor/>} />
             <Route path="/MissionVission" element={<MissionVission />} />
             <Route path="/WhoWeAre" element={<WhoWeAre />} />

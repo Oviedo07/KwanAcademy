@@ -3,7 +3,6 @@ const { validationResult } = require('express-validator');
 
 const signInInstructor = async (req, res) => {
   const { email, contrasena } = req.body;
-
   try {
     const db = await getConnection();
 
@@ -57,9 +56,6 @@ const sessionInstructor = (req, res) => {
   }
 };
 
-
-
-
 const registerInstructor = async (req, res) => {
   try {
     const db = await getConnection();
@@ -94,225 +90,61 @@ const registerInstructor = async (req, res) => {
 };
 
 // -------------------------------------
-const updateInstructorProfile = async (req, res) => {
+const updateInstructor = async (req, res) => {
   try {
-    const instructorId = req.params.id;
+    const db = await getConnection();
+    const { id } = req.params;
     const {
-      tipo_documento,
-      numero_documento,
+      tipo_documento,          // Añadido este campo que faltaba
+      numero_identificacion,
       primer_nombre,
       segundo_nombre,
       primer_apellido,
       segundo_apellido,
-      telefono,
+      email,
       ocupacion,
-      descripcion_perfil
+      descripcion_perfil,
+      numero_telefonico
     } = req.body;
 
-    let updateFields = [];
-    let updateValues = [];
-
-    if (tipo_documento) updateFields.push("tipo_documento = ?"), updateValues.push(tipo_documento);
-    if (numero_documento) updateFields.push("numero_documento = ?"), updateValues.push(numero_documento);
-    if (primer_nombre) updateFields.push("primer_nombre = ?"), updateValues.push(primer_nombre);
-    if (segundo_nombre) updateFields.push("segundo_nombre = ?"), updateValues.push(segundo_nombre);
-    if (primer_apellido) updateFields.push("primer_apellido = ?"), updateValues.push(primer_apellido);
-    if (segundo_apellido) updateFields.push("segundo_apellido = ?"), updateValues.push(segundo_apellido);
-    if (telefono) updateFields.push("telefono = ?"), updateValues.push(telefono);
-    if (ocupacion) updateFields.push("ocupacion = ?"), updateValues.push(ocupacion);
-    if (descripcion_perfil) updateFields.push("descripcion_perfil = ?"), updateValues.push(descripcion_perfil);
-
-    if (updateFields.length === 0) {
-      return res.status(400).json({ success: false, error: "No se proporcionaron campos a actualizar" });
+    // Verificamos los campos obligatorios
+    if (!tipo_documento) {
+      return res.status(400).json({ message: 'El tipo de documento es obligatorio' });
     }
 
-    updateValues.push(instructorId);
-    const db = await getConnection();
-    const query = `UPDATE Instructor SET ${updateFields.join(", ")} WHERE id = ?`;
+    const params = [
+      tipo_documento,
+      numero_identificacion || '',
+      primer_nombre || '',
+      segundo_nombre || '',
+      primer_apellido || '',
+      segundo_apellido || '',
+      email || '',         // Este campo lo mantienes aunque no parece venir del frontend
+      ocupacion || '',
+      descripcion_perfil || '',
+      numero_telefonico || '',
+      id
+    ];
 
-    await db.query(query, updateValues);
-    res.json({ success: true, message: "Perfil del instructor actualizado correctamente" });
-  } catch (err) {
-    console.error("Error al actualizar el perfil del instructor:", err);
-    res.status(500).json({ success: false, error: "Error al actualizar el perfil del instructor" });
-  }
-};
-
-const getInstructorProfile = async (req, res) => {
-  try {
-    const instructorId = req.params.id;
-    
-    if (!instructorId) {
-      return res.status(400).json({ success: false, error: "ID de instructor no proporcionado" });
-    }
-    
-    const db = await getConnection();
-    const query = `SELECT * FROM Instructor WHERE id = ?`;
-    
-    const [instructor] = await db.query(query, [instructorId]);
-    
-    if (!instructor || instructor.length === 0) {
-      return res.status(404).json({ success: false, error: "Instructor no encontrado" });
-    }
-    
-    res.json({ success: true, instructor: instructor[0] });
-  } catch (err) {
-    console.error("Error al obtener el perfil del instructor:", err);
-    res.status(500).json({ success: false, error: "Error al obtener el perfil del instructor" });
-  }
-};
-
-// ---------------------------------
-const registerCurso = async (req, res) => {
-  try {
-    const db = await getConnection();
-    const { id_instructor, nombre, descripcion, objetivos, precio, imagen } = req.body;
-
-    if (!id_instructor || !nombre || !descripcion || !objetivos || !precio || !imagen) {
-      return res.status(400).json({ error: 'Todos los campos son obligatorios' });
-    }
-
-    const fecha = new Date();
     const sql = `
-      INSERT INTO curso (id_instructor, nombre, descripcion, objetivos, precio, imagen_url, fecha_creacion, fecha_actualizacion)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    `;
+      UPDATE instructor
+      SET tipo_documento = ?, numero_identificacion = ?, primer_nombre = ?, segundo_nombre = ?,
+          primer_apellido = ?, segundo_apellido = ?, email = ?, ocupacion = ?,
+          descripcion_perfil = ?, numero_telefonico = ?
+      WHERE id = ?`;
 
-    const [result] = await db.query(sql, [
-      id_instructor, nombre, descripcion, objetivos, precio, imagen, fecha, fecha
-    ]);
+    const [result] = await db.execute(sql, params);
 
-    res.status(201).json({
-      message: 'Curso creado exitosamente',
-      cursoId: result.insertId
-    });
+    res.json({ message: 'Instructor actualizado correctamente', affectedRows: result.affectedRows });
   } catch (error) {
-    res.status(500).json({ error: 'Error al crear el curso', details: error.message });
-  }
-};
-
-const updateCurso = async (req, res) => {
-  const cursoId = req.params.id;
-  const { nombre, descripcion, objetivos, precio } = req.body;
-
-  if (!req.session.user || req.session.user.rol !== 'instructor') {
-    return res.status(403).json({ error: "Acceso denegado. No hay sesión activa o rol incorrecto." });
-  }
-
-  console.log("🔒 Usuario autenticado (updateCurso):", req.session.user);
-
-  try {
-    const db = await getConnection();
-
-    const [result] = await db.query(
-      'UPDATE curso SET nombre = ?, descripcion = ?, objetivos = ?, precio = ?, fecha_actualizacion = NOW() WHERE id = ? AND id_instructor = ?',
-      [nombre, descripcion, objetivos, precio, cursoId, req.session.user.id]
-    );
-
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ error: "Curso no encontrado o no autorizado" });
-    }
-
-    res.json({ message: "Curso actualizado correctamente" });
-  } catch (error) {
-    console.error("❌ Error al actualizar curso:", error);
-    res.status(500).json({ error: "Error en el servidor" });
-  }
-};
-
-
-const getCursos = async (req, res) => {
-  try {
-    const db = await getConnection();
-
-    const [cursos] = await db.query(`
-      SELECT c.*, CONCAT(i.primer_nombre, ' ', i.primer_apellido) AS nombre_instructor
-      FROM curso c
-      JOIN instructor i ON c.id_instructor = i.id
-      ORDER BY c.fecha_creacion DESC
-    `);
-
-    res.json({ cursos });
-  } catch (error) {
-    res.status(500).json({ error: 'Error al obtener los cursos' });
-  }
-};
-
-const getCursoById = async (req, res) => {
-  try {
-    const db = await getConnection();
-    const cursoId = req.params.id;
-
-    const [cursos] = await db.query(`
-      SELECT c.*, 
-             CONCAT(i.primer_nombre, ' ', i.primer_apellido) AS nombre_instructor,
-             i.email AS email_instructor,
-             i.descripcion_perfil
-      FROM curso c
-      JOIN instructor i ON c.id_instructor = i.id
-      WHERE c.id = ?
-    `, [cursoId]);
-
-    if (cursos.length === 0) {
-      return res.status(404).json({ error: 'Curso no encontrado' });
-    }
-
-    res.json({ curso: cursos[0] });
-  } catch (error) {
-    res.status(500).json({ error: 'Error al obtener el curso' });
-  }
-};
-
-const getCursosByInstructor = async (req, res) => {
-  try {
-    const db = await getConnection();
-    const instructorId = req.params.id;
-
-    const [cursos] = await db.query(`
-      SELECT c.*, 
-             CONCAT(i.primer_nombre, ' ', i.primer_apellido) AS nombre_instructor
-      FROM curso c
-      JOIN instructor i ON c.id_instructor = i.id
-      WHERE c.id_instructor = ?
-      ORDER BY c.fecha_creacion DESC
-    `, [instructorId]);
-
-    res.json({ cursos });
-  } catch (error) {
-    res.status(500).json({ error: 'Error al obtener los cursos del instructor' });
-  }
-};
-
-const deleteCurso = async (req, res) => {
-  try {
-    const db = await getConnection();
-    const cursoId = req.params.id;
-    const userId = req.session.user.id;
-
-    const [curso] = await db.query('SELECT * FROM curso WHERE id = ? AND id_instructor = ?', [cursoId, userId]);
-
-    if (curso.length === 0) {
-      return res.status(404).json({ error: 'Curso no encontrado o sin permiso' });
-    }
-
-    await db.query('DELETE FROM curso WHERE id = ?', [cursoId]);
-
-    res.json({ message: 'Curso eliminado exitosamente' });
-  } catch (error) {
-    res.status(500).json({ error: 'Error al eliminar el curso' });
+    console.error(error);
+    res.status(500).json({ message: 'Error al actualizar instructor', error: error.message });
   }
 };
 
 module.exports = {
   signInInstructor,
   registerInstructor,
-  registerCurso,
-  updateCurso,
   sessionInstructor,
-  getCursos,
-  getCursoById,
-  getCursosByInstructor,
-  deleteCurso,
-  updateInstructorProfile,
-  getInstructorProfile 
+  updateInstructor
 };
