@@ -49,6 +49,19 @@ const Navbar = () => {
     });
   };
 
+  // Función para redireccionar según el rol del usuario
+  const navigateToUserAccount = () => {
+    // Cerrar el menú desplegable
+    setIsProfileOpen(false);
+    
+    // Verificar el rol del usuario y redireccionar
+    if (user && user.rol === "instructor") {
+      navigate("/PanelInstructor");
+    } else {
+      navigate("/WhoWeAre");
+    }
+  };
+
   return (
     <div className={styles.navbar}>
       <div className={styles.logoContainer}>
@@ -111,9 +124,9 @@ const Navbar = () => {
             />
             {isProfileOpen && (
               <div className={styles.dropdownMenu}>
-                <p className={styles.userName}>{user?.name || "Usuario"}</p>
+                <p className={styles.userName}>{user?.name || user?.primer_nombre || "Usuario"}</p>
                 <p className={styles.userEmail}>{user?.email || "Correo no disponible"}</p>
-                <button className={styles.ProfileButton} onClick={() => navigate("/Data")}>
+                <button className={styles.ProfileButton} onClick={navigateToUserAccount}>
                   Tu cuenta
                 </button>
                 <button className={styles.logoutButton} onClick={handleLogout}>
