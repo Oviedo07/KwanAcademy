@@ -1,14 +1,14 @@
-import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 import { AuthProvider } from "./context/AuthContext";
 import { AdminAuthProvider } from './context/AdminAuthContext';
 import { UserAuthProvider } from './context/UserAuthContext';
 
-// ─── Pantallas y componentes ───────────────────────────────────────────────────
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+// ─── Layout ─────────────────────────────────────────────────────
+import Layout from "./components/Layout";
 
+// ─── Pantallas y componentes ────────────────────────────────────
 import Home from "./screens/Home";
 import Courses from "./screens/Courses";
 import Register from "./screens/Register";
@@ -26,28 +26,16 @@ import WhoWeAre from "./screens/WhoWeAre";
 import FreeResources from "./screens/FreeResources";
 import FAQ from "./screens/FAQ";
 
-import PanelInstructor from "./screens/PanelInstructor";            // 🆕
-import PanelUser from "./screens/PanelUser";                        // 🆕 (existe en tu árbol)
+import PanelInstructor from "./screens/PanelInstructor";
+import PanelUser from "./screens/PanelUser";
 import Error404 from "./screens/Error404";
 
-// ───────────────────────────────────────────────────────────────────────────────
+// ─── Rutas ───────────────────────────────────────────────────────
 function AppWrapper() {
-  const { pathname } = useLocation();
-
-  // Rutas donde SÍ se debe ocultar el layout
-  const hideLayout = ![
-    "/", "/SignIn", "/Courses", "/Register", "/Data",
-    "/AdminViews/HomeAdmin", "/AdminViews/LoginAdmin", "/AdminViews/AdminDashboard",
-    "/FormCourse", "/MissionVission", "/WhoWeAre", "/FreeResources",
-    "/FAQ", "/PanelInstructor", "/PanelUser"                          // 🆕
-  ].includes(pathname);
-
   return (
-    <div className="App">
-      {!hideLayout && <Navbar />}
-
-      <Routes>
-        {/* Públicas */}
+    <Routes>
+      {/* Rutas CON layout */}
+      <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/SignIn" element={<SignIn />} />
         <Route path="/Courses" element={<Courses />} />
@@ -58,33 +46,27 @@ function AppWrapper() {
         <Route path="/WhoWeAre" element={<WhoWeAre />} />
         <Route path="/FreeResources" element={<FreeResources />} />
         <Route path="/FAQ" element={<FAQ />} />
+        <Route path="/PanelInstructor" element={<PanelInstructor />} />
+        <Route path="/PanelUser" element={<PanelUser />} />
+      </Route>
 
-        {/* Paneles de usuario/instructor */}
-        <Route path="/PanelInstructor" element={<PanelInstructor />} />  {/* 🆕 */}
-        <Route path="/PanelUser" element={<PanelUser />} />              {/* 🆕 */}
-
-        {/* Área de administración */}
-        <Route path="/AdminViews/HomeAdmin" element={<HomeAdmin />} />
-        <Route path="/AdminViews/LoginAdmin" element={<LoginAdmin />} />
-        <Route
-          path="/AdminViews/AdminDashboard"
-          element={
-            <ProtectedRouteAdmin>
-              <AdminDashboard />
-            </ProtectedRouteAdmin>
-          }
-        />
-
-        {/* 404 */}
-        <Route path="*" element={<Error404 />} />
-      </Routes>
-
-      {!hideLayout && <Footer />}
-    </div>
+      {/* Rutas SIN layout */}
+      <Route path="/AdminViews/HomeAdmin" element={<HomeAdmin />} />
+      <Route path="/AdminViews/LoginAdmin" element={<LoginAdmin />} />
+      <Route
+        path="/AdminViews/AdminDashboard"
+        element={
+          <ProtectedRouteAdmin>
+            <AdminDashboard />
+          </ProtectedRouteAdmin>
+        }
+      />
+      <Route path="*" element={<Error404 />} />
+    </Routes>
   );
 }
 
-// ─── Providers de contexto y PayPal ────────────────────────────────────────────
+// ─── App con Providers ───────────────────────────────────────────
 export default function App() {
   return (
     <AuthProvider>
