@@ -5,6 +5,10 @@ import { AuthContext } from '../context/UserAuthContext'; // Ajusta según tu es
 import Swal from 'sweetalert2';
 import { useNavigate } from "react-router-dom";
 
+
+// AJAJAJAJAJJAJAJA
+
+
 const PaneUser = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
