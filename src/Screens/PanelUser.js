@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Edit, Check, X, Plus, Book, DollarSign, User } from 'lucide-react';
 import styles from './PanelInstructor.module.css';
-import { AuthContext } from '../context/UserAuthContext'; // Ajusta según tu estructura
+// import { AuthContext } from '../context/UserAuthContext'; // Ajusta según tu estructura
 import Swal from 'sweetalert2';
 import { useNavigate } from "react-router-dom";
 
@@ -9,8 +9,8 @@ import { useNavigate } from "react-router-dom";
 // AJAJAJAJAJJAJAJA
 
 
-const PaneUser = () => {
-  const { user } = useContext(AuthContext);
+const PanelUser = () => {
+  const { user } = useContext();
   const navigate = useNavigate();
   const [instructorInfo, setInstructorInfo] = useState({});
   const [tempInfo, setTempInfo] = useState({});

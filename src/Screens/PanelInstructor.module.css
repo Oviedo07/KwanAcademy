@@ -1,240 +1,248 @@
-/* Variables de colores según requerimientos */
+/* PanelInstructor.module.css */
 :root {
-  --primary-color: #E70014;
-  --primary-light: #ff5a5f;
-  --primary-dark: #c7000e;
-  --gray-light: #f5f5f5;
-  --gray-medium: #e0e0e0;
-  --gray-dark: #757575;
-  --white: #ffffff;
-  --text-dark: #333333;
-  --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  --primary-red: #E70014;
+  --primary-dark: #1A1A1A;
+  --gray-light: #F2F2F2;
+  --gray-medium: #E0E0E0;
+  --gray-dark: #666666;
+  --white: #FFFFFF;
+  --background: #FDF8F2;
+  --shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  --border-radius: 8px;
+  --transition: all 0.3s ease;
 }
 
-/* Contenedor principal */
+/* Añadir fondo global a la página */
+body {
+  background-color: var(--background) ;
+  margin: 0;
+  padding: 0;
+}
+
 .panelContainer {
-  width: 100%;
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: 'Arial', sans-serif;
-  color: var(--text-dark);
+  margin: 2rem auto;
+  background-color: var(--background);
+  border-radius: var(--border-radius);
+  padding: 2rem;
 }
 
 .panelTitle {
-  color: var(--primary-color);
-  font-size: 28px;
-  margin-bottom: 24px;
-  font-weight: 600;
+  color: var(--primary-dark);
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
   text-align: center;
+  position: relative;
 }
 
-/* Tabs de navegación */
+.panelTitle::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 4px;
+  background-color: var(--primary-red);
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+}
+
+/* Tabs Navigation */
 .tabsContainer {
   display: flex;
   justify-content: center;
-  margin-bottom: 30px;
   border-bottom: 1px solid var(--gray-medium);
+  margin-bottom: 2rem;
 }
 
 .tabButton {
   background: none;
   border: none;
-  padding: 12px 20px;
-  font-size: 16px;
-  font-weight: 500;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
   color: var(--gray-dark);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: var(--transition);
   position: relative;
 }
 
 .tabButton:hover {
-  color: var(--primary-color);
+  color: var(--primary-red);
 }
 
 .activeTab {
-  color: var(--primary-color);
-  font-weight: 600;
+  color: var(--primary-red);
 }
 
 .activeTab::after {
   content: '';
+  display: block;
   position: absolute;
   bottom: -1px;
   left: 0;
   width: 100%;
   height: 3px;
-  background-color: var(--primary-color);
+  background-color: var(--primary-red);
 }
 
-/* Contenedor de contenido */
+/* Content Container */
 .contentContainer {
-  background-color: var(--white);
-  border-radius: 8px;
-  box-shadow: var(--box-shadow);
-  padding: 24px;
   min-height: 500px;
+  padding: 1rem 0;
 }
 
-/* Estilos para el encabezado de sección */
+/* Profile Section */
+.perfilContainer {
+  animation: fadeIn 0.4s ease;
+}
+
 .sectionHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--gray-medium);
+  margin-bottom: 1.5rem;
 }
 
 .sectionHeader h2 {
-  font-size: 20px;
-  font-weight: 600;
   color: var(--primary-dark);
-  margin: 0;
-}
-
-/* Botones */
-.actionButton {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: var(--primary-color);
-  color: var(--white);
-  border: none;
-  border-radius: 4px;
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.actionButton:hover {
-  background-color: var(--primary-dark);
-}
-
-.cancelButton {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: var(--gray-dark);
-  color: var(--white);
-  border: none;
-  border-radius: 4px;
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.cancelButton:hover {
-  background-color: #616161;
-}
-
-.secondaryButton {
-  background-color: transparent;
-  color: var(--primary-color);
-  border: 1px solid var(--primary-color);
-  border-radius: 4px;
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.secondaryButton:hover {
-  background-color: var(--primary-light);
-  color: var(--white);
-}
-
-.editButtons {
-  display: flex;
-  gap: 10px;
-}
-
-/* Estilos para la sección de perfil */
-.perfilContainer {
-  width: 100%;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .perfilForm {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1.5rem;
 }
 
 .formRow {
   display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
+  gap: 1.5rem;
 }
 
 .formGroup {
   flex: 1;
-  min-width: 250px;
+  display: flex;
+  flex-direction: column;
 }
 
 .formGroup label {
-  display: block;
-  font-weight: 500;
-  margin-bottom: 6px;
-  color: var(--gray-dark);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--primary-dark);
+  font-size: 0.9rem;
 }
 
 .formGroup p {
-  padding: 10px 0;
-  margin: 0;
-  font-size: 16px;
+  padding: 0.75rem;
+  background-color: var(--gray-light);
+  border-radius: var(--border-radius);
+  color: var(--primary-dark);
+  min-height: 2.5rem;
+  display: flex;
+  align-items: center;
 }
 
 .formGroup input,
 .formGroup select,
 .formGroup textarea {
-  width: 100%;
-  padding: 10px;
+  padding: 0.75rem;
   border: 1px solid var(--gray-medium);
-  border-radius: 4px;
-  font-size: 16px;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  transition: var(--transition);
+  width: 100%;
+}
+
+.formGroup input:focus,
+.formGroup select:focus,
+.formGroup textarea:focus {
+  outline: none;
+  border-color: var(--primary-red);
+  box-shadow: 0 0 0 2px rgba(231, 0, 20, 0.1);
 }
 
 .formGroup textarea {
-  resize: vertical;
   min-height: 100px;
+  resize: vertical;
 }
 
-/* Estilos para la sección de cursos */
+/* Buttons */
+.actionButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--primary-red);
+  color: var(--white);
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 0.6rem 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.actionButton:hover {
+  background-color: #c8000f;
+  transform: translateY(-2px);
+}
+
+.cancelButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--gray-dark);
+  color: var(--white);
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 0.6rem 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.cancelButton:hover {
+  background-color: #4d4d4d;
+}
+
+.editButtons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* Cursos Section */
 .cursosContainer {
-  width: 100%;
+  animation: fadeIn 0.4s ease;
 }
 
 .cursosGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
+  gap: 1.5rem;
+  margin-top: 1rem;
 }
 
 .cursoCard {
   background-color: var(--white);
-  border-radius: 8px;
-  box-shadow: var(--box-shadow);
-  padding: 16px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: var(--transition);
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  transition: transform 0.3s ease;
+  height: 100%;
+  border: 1px solid var(--gray-medium);
 }
 
 .cursoCard:hover {
   transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
 }
 
-.cursoImagePlaceholder {
+.cursoImage, .cursoImagePlaceholder {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
   background-color: var(--gray-light);
-  height: 140px;
-  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -242,30 +250,60 @@
 }
 
 .cursoCard h3 {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 600;
+  padding: 1rem 1rem 0.5rem;
+  font-size: 1.1rem;
+  color: var(--primary-dark);
 }
 
 .cursoStats {
+  padding: 0 1rem 1rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.cursoPrecio {
+  font-weight: 700;
+  color: var(--primary-red);
+  font-size: 1.2rem;
+}
+
+.cursoMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
   color: var(--gray-dark);
-  font-size: 14px;
 }
 
-.cursoRating {
-  color: #FFB400;
+.secondaryButton {
+  margin: auto 1rem 1rem;
+  padding: 0.6rem 0;
+  background-color: transparent;
+  border: 2px solid var(--primary-red);
+  color: var(--primary-red);
+  border-radius: var(--border-radius);
   font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
 }
 
-/* Estilos para la sección de ventas */
+.secondaryButton:hover {
+  background-color: var(--primary-red);
+  color: var(--white);
+}
+
+/* Ventas Section */
 .ventasContainer {
-  width: 100%;
+  animation: fadeIn 0.4s ease;
 }
 
 .tableContainer {
-  overflow-x: auto;
+  margin-top: 1rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
 }
 
 .ventasTable {
@@ -273,37 +311,94 @@
   border-collapse: collapse;
 }
 
-.ventasTable th,
-.ventasTable td {
-  padding: 12px 16px;
+.ventasTable th, .ventasTable td {
+  padding: 1rem;
   text-align: left;
   border-bottom: 1px solid var(--gray-medium);
 }
 
 .ventasTable th {
-  background-color: var(--gray-light);
+  background-color: var(--primary-red);
+  color: var(--white);
   font-weight: 600;
 }
 
-.ventasTable tr:hover {
+.ventasTable tr:nth-child(even) {
   background-color: var(--gray-light);
+}
+
+.ventasTable tr:hover {
+  background-color: rgba(231, 0, 20, 0.05);
 }
 
 .ventasSummary {
   display: flex;
   justify-content: space-between;
-  margin-top: 16px;
-  padding: 12px;
-  background-color: var(--gray-light);
-  border-radius: 4px;
-  font-weight: 500;
+  padding: 1rem;
+  background-color: var(--primary-dark);
+  color: var(--white);
+  font-weight: 600;
 }
 
-/* Mensaje para listas vacías vvvv */
+/* Empty state message */
 .emptyMessage {
   text-align: center;
+  padding: 3rem 0;
   color: var(--gray-dark);
-  padding: 40px 0;
+  background-color: var(--gray-light);
+  border-radius: var(--border-radius);
   font-style: italic;
 }
 
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .panelContainer {
+    margin: 1rem;
+    padding: 1rem;
+  }
+  
+  .formRow {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .tabButton {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .sectionHeader {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .ventasTable th, .ventasTable td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .ventasSummary {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* Media query para tablets */
+@media (max-width: 992px) {
+  .cursosGrid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+}

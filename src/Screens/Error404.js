@@ -1,10 +1,13 @@
 import React from 'react';
 import styles from './Error404.module.css';
 
+// Imagenes desde la web
+// const errorImage = "https://imgur.com/6jpYZcf.png";
+// const goBack = "https://imgur.com/N9o65oU.png"
 
-const errorImage = "https://imgur.com/6jpYZcf.png";
-const goBack = "https://imgur.com/N9o65oU.png"
-
+// Imagenes locales
+const errorImage = "/404.png";
+const goBack = "/back.png"
 
 const Error404 = () => {
   return (

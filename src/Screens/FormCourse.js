@@ -479,7 +479,7 @@ const FormularioCurso = () => {
               onClick={() => setMostrarModal(true)} 
               disabled={loading}
             >
-              <Edit size={18} /> Ver Mis Cursos
+              <Edit size={18} /> Gestionar Curso
             </button>
             
             <button 
