@@ -177,6 +177,58 @@
   line-height: 1.5;
 }
 
+/* Estilos de la cuadrícula de cursos */
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  align-items: stretch; /* NUEVO: hace que todas las tarjetas se estiren igual */
+}
+
+.course-card {
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+
+  display: flex; /* NUEVO */
+  flex-direction: column; /* NUEVO */
+  height: 100%; /* NUEVO: importante para que el estiramiento funcione */
+}
+
+.course-content {
+  padding: 1.5rem;
+
+  display: flex; /* NUEVO */
+  flex-direction: column; /* NUEVO */
+  flex-grow: 1; /* NUEVO: para que el contenido ocupe todo el espacio */
+}
+
+.course-description {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+
+  flex-grow: 1; /* NUEVO: permite que crezca verticalmente */
+}
+
+.details-button {
+  background-color: #E70014;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+
+  margin-top: auto; /* NUEVO: empuja el botón hacia el fondo */
+}
+
+
 .course-meta {
   display: flex;
   flex-wrap: wrap;

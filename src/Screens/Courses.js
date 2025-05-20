@@ -5,67 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useAuth } from "../context/AuthContext";
 import api from "../axios.js"; // Importamos la instancia configurada de axios
+import PayPalButton from "../components/PayPalButton";
 
-// Datos estáticos para mostrar mientras se desarrolla la API
-const staticCourses = [
-  {
-    id: 1,
-    name: "Curso Básico de Defensa Personal",
-    price: 49.99,
-    description: "Aprende las bases de la defensa personal en situaciones cotidianas.",
-    instructor: "Carlos Martínez",
-    duration: "8 semanas",
-    students: 16,
-    category: "Defensa Personal",
-    image: "https://img.freepik.com/foto-gratis/cliente-campo-tiro-esta-preparando-equipo-recargar-cargador-pistola_482257-117732.jpg"
-  },
-  {
-    id: 2,
-    name: "Técnicas Avanzadas de Taekwondo",
-    price: 79.99,
-    description: "Mejora tu velocidad y precisión con técnicas avanzadas.",
-    instructor: "Laura Sánchez",
-    duration: "10 semanas",
-    students: 34,
-    category: "Artes Marciales",
-    image: "https://img.freepik.com/foto-gratis/tiro-medio-personas-asiaticas-practicando-taekwondo_23-2150753761.jpg"
-  },
-  {
-    id: 3,
-    name: "Defensa Contra Agresiones Múltiples",
-    price: 59.99,
-    description: "Estrategias efectivas para enfrentarte a múltiples atacantes.",
-    instructor: "Miguel Rodríguez",
-    duration: "12 semanas",
-    students: 21,
-    category: "Defensa Personal",
-    image: "https://img.freepik.com/foto-gratis/gente-entrenando-juntos-al-aire-libre-taekwondo_23-2149908491.jpg"
-  },
-  {
-    id: 4,
-    name: "Curso de Defensa Personal Urbana",
-    price: 39.99,
-    description: "Técnicas para defenderte en entornos urbanos y situaciones de riesgo.",
-    instructor: "Ana López",
-    duration: "6 semanas",
-    students: 18,
-    category: "Autoprotección",
-    image: "https://img.freepik.com/foto-gratis/hombre-mujer-tiro-completo-compitiendo_23-2149235404.jpg"
-  },
-  {
-    id: 5,
-    name: "Técnicas para principiantes en Karate",
-    price: 29.99,
-    description: "Aprende los fundamentos del Karate con un enfoque práctico y directo.",
-    instructor: "Ana López",
-    duration: "7 semanas",
-    students: 13,
-    category: "Artes Marciales",
-    image: "https://img.freepik.com/foto-gratis/jugador-karate-realizando-postura-karate_107420-65076.jpg"
-  }
-];
 
-const staticCategories = ["Todas las Categorías", "Defensa Personal", "Artes Marciales", "Autoprotección"];
 const sortOptions = ["Popularidad", "Precio: Bajo a Alto", "Precio: Alto a Bajo", "Fecha: Más reciente"];
 
 const Courses = () => {
@@ -73,7 +15,6 @@ const Courses = () => {
   const navigate = useNavigate();
 
   const [courses, setCourses] = useState([]);
-  const [categories, setCategories] = useState(staticCategories);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Todas las Categorías");
   const [selectedSort, setSelectedSort] = useState("Popularidad");
@@ -90,7 +31,7 @@ const Courses = () => {
     try {
       // Intentamos cargar desde la API
       const response = await api.get('/api/getAllcursos');
-      
+
       if (response.data && response.data.length > 0) {
         // Si hay datos, actualizamos el estado
         const coursesWithDetails = response.data.map(course => ({
@@ -100,20 +41,18 @@ const Courses = () => {
           students: course.students || Math.floor(Math.random() * 50) + 10,
           category: course.category || "General"
         }));
-        
+
         setCourses(coursesWithDetails);
         setUseStaticData(false);
       } else {
         // Si no hay datos, usamos los estáticos
         console.log("No se recibieron datos de la API, usando datos estáticos");
-        setCourses(staticCourses);
         setUseStaticData(true);
       }
       setLoading(false);
     } catch (err) {
       console.error("Error al cargar los cursos:", err);
       console.log("Usando datos estáticos debido al error");
-      setCourses(staticCourses);
       setUseStaticData(true);
       setLoading(false);
     }
@@ -154,7 +93,7 @@ const Courses = () => {
 
   const getFilteredAndSortedCourses = () => {
     if (!courses.length) return [];
-    
+
     const filtered = courses.filter((course) => {
       const matchesSearch =
         course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -262,15 +201,6 @@ const Courses = () => {
           </div>
 
           <div className={styles["filter-container"]}>
-            <select
-              className={styles["filter-select"]}
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-            >
-              {categories.map((category, index) => (
-                <option key={index} value={category}>{category}</option>
-              ))}
-            </select>
 
             <select
               className={styles["filter-select"]}
@@ -344,14 +274,14 @@ const Courses = () => {
                 <FaUserGraduate /> Instructor: {selectedCourse.instructor}
               </p>
               <p className={styles["modal-description"]}>{selectedCourse.description}</p>
-              
+
               {selectedCourse.objetivos && (
                 <div className={styles["modal-objectives"]}>
                   <h3>Objetivos del curso:</h3>
                   <p>{selectedCourse.objetivos}</p>
                 </div>
               )}
-              
+
               <div className={styles["modal-meta"]}>
                 <span><FaClock /> Duración: {selectedCourse.duration}</span>
                 <span><FaUsers /> {selectedCourse.students} estudiantes inscritos</span>
@@ -362,7 +292,8 @@ const Courses = () => {
               </div>
               <div className={styles["modal-price-section"]}>
                 <p className={styles["modal-price"]}>${selectedCourse.price}</p>
-                <button className={styles["buy-button"]} onClick={handlePurchase}>Comprar ahora</button>
+                {/* Botón de PayPal */}
+                <PayPalButton price={selectedCourse.price} />
               </div>
             </div>
           </div>

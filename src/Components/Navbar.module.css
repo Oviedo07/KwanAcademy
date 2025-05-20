@@ -31,6 +31,26 @@
   cursor: url(../assets/images/hand.png);
 }
 
+.dropdownMenu {
+  max-width: 90vw;              /* Para que no se salga de la pantalla */
+  width: fit-content;           /* Se adapta al contenido pero con límite */
+  min-width: 200px;             /* Ancho mínimo para consistencia */
+  padding: 1rem;
+  background-color: #fff7ef;    /* o el color actual */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 100;
+  word-break: break-word;       /* Rompe palabras largas como correos */
+  white-space: normal;          /* Permite que se hagan saltos de línea */
+}
+
+.userEmail {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1rem;
+  overflow-wrap: anywhere;   /* Rompe el correo largo donde sea necesario */
+}
+
 
 .NavLink {
   display: flex;
