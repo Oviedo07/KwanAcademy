@@ -30,7 +30,7 @@ const Navbar = () => {
   }, []);
 
   // Cerrar sesión
-  const handleLogout = () => {
+  const handleLogout = async () => {
     Swal.fire({
       title: "¿Estás seguro?",
       text: "Serás desconectado de tu cuenta.",
@@ -40,11 +40,19 @@ const Navbar = () => {
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Sí, cerrar sesión",
       cancelButtonText: "Cancelar",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        logout();
-        navigate("/");
-        Swal.fire("Sesión cerrada", "Has cerrado sesión exitosamente.", "success");
+        // Aseguramos que el logout se completa antes de navegar
+        await logout();
+        // Cerrar cualquier menú abierto
+        setIsProfileOpen(false);
+        setMenuOpen(false);
+        
+        // Retrasamos ligeramente la navegación para dar tiempo a que se procese el logout
+        setTimeout(() => {
+          navigate("/");
+          Swal.fire("Sesión cerrada", "Has cerrado sesión exitosamente.", "success");
+        }, 100);
       }
     });
   };
@@ -58,22 +66,40 @@ const Navbar = () => {
     if (user && user.rol === "instructor") {
       navigate("/PanelInstructor");
     } else {
-      navigate("/WhoWeAre");
+      navigate("/WhoAreWe");
     }
+  };
+
+  // Esta función se llama cuando se hace clic en los enlaces de navegación
+  const handleNavigation = (path) => {
+    // Aseguramos que se cierran los menús al navegar
+    setIsDropdownOpen(false);
+    setIsProfileOpen(false);
+    navigate(path);
   };
 
   return (
     <div className={styles.navbar}>
       <div className={styles.logoContainer}>
-        <img src={logo} alt="Kwan Academy Logo" className={styles.logo} onClick={() => navigate("/")} />
-        <h2 className={styles.title} onClick={() => navigate("/")}>Kwan Academy</h2>
+        <img 
+          src={logo} 
+          alt="Kwan Academy Logo" 
+          className={styles.logo} 
+          onClick={() => handleNavigation("/")} 
+        />
+        <h2 
+          className={styles.title} 
+          onClick={() => handleNavigation("/")}
+        >
+          Kwan Academy
+        </h2>
       </div>
 
       {/* Mostrar enlaces normales en PC y ocultar en móvil */}
       <div className={`${styles.NavLink} ${isMobile ? styles.hideOnMobile : ""}`}>
-        <a href="/">Inicio</a>
-        <a href="/Courses">Cursos</a>
-        <a href="/FreeResources">Recursos gratuitos</a>
+        <a onClick={() => handleNavigation("/")}>Inicio</a>
+        <a onClick={() => handleNavigation("/Courses")}>Cursos</a>
+        <a onClick={() => handleNavigation("/FreeResources")}>Recursos gratuitos</a>
       </div>
 
       {/* Mostrar dropdown solo en móvil */}
@@ -84,9 +110,9 @@ const Navbar = () => {
           </button>
           {isDropdownOpen && (
             <div className={styles.dropdownMenuLink}>
-              <a href="/">Inicio</a>
-              <a href="/Courses">Cursos</a>
-              <a href="/FreeResources">Recursos gratuitos</a>
+              <a onClick={() => handleNavigation("/")}>Inicio</a>
+              <a onClick={() => handleNavigation("/Courses")}>Cursos</a>
+              <a onClick={() => handleNavigation("/FreeResources")}>Recursos gratuitos</a>
             </div>
           )}
         </div>
@@ -102,12 +128,17 @@ const Navbar = () => {
           </button>
         </div>
         <ul>
-          <li onClick={() => navigate("/")}>Inicio</li>
-          <li onClick={() => navigate("/WhoWeAre")}>¿Quiénes somos?</li>
-          <li onClick={() => navigate("/MissionVission")}>Misión y visión</li>
-          <li onClick={() => navigate("/FAQ")}>FAQ</li>
+          <li onClick={() => { setMenuOpen(false); handleNavigation("/"); }}>Inicio</li>
+          <li onClick={() => { setMenuOpen(false); handleNavigation("/WhoWeAre"); }}>¿Quiénes somos?</li>
+          <li onClick={() => { setMenuOpen(false); handleNavigation("/MissionVission"); }}>Misión y visión</li>
+          <li onClick={() => { setMenuOpen(false); handleNavigation("/FAQ"); }}>FAQ</li>
         </ul>
-        <li onClick={() => navigate("/AdminViews/HomeAdmin")} className={styles.adminLink}>Acceso administrador</li>
+        <li 
+          onClick={() => { setMenuOpen(false); handleNavigation("/AdminViews/HomeAdmin"); }} 
+          className={styles.adminLink}
+        >
+          Acceso administrador
+        </li>
       </div>
 
       {/* Overlay para cerrar el menú al hacer clic fuera */}
@@ -137,11 +168,11 @@ const Navbar = () => {
           </div>
         ) : (
           <>
-            <button className={styles.loginButton} onClick={() => navigate("/Signin")}>
+            <button className={styles.loginButton} onClick={() => handleNavigation("/Signin")}>
               <MdLogin className={styles.loginIcon} />
               Ingresa
             </button>
-            <button className={styles.registerButton} onClick={() => navigate("/Register")}>
+            <button className={styles.registerButton} onClick={() => handleNavigation("/Register")}>
               Registro
             </button>
           </>

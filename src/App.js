@@ -13,6 +13,7 @@ import HomeAdmin from "./Screens/AdminViews/HomeAdmin";
 import LoginAdmin  from "./Screens/AdminViews/LoginAdmin";
 import { AuthProvider } from "./context/AuthContext";
 import { AdminAuthProvider } from './context/AdminAuthContext';
+import { UserAuthProvider } from "./context/UserAuthContext";
 import ProtectedRouteAdmin from "./Screens/AdminViews/components/ProtectedRouteAdmin"; // ajusta la ruta si está en otra carpeta
 import MissionVission from "./Screens/MissionVission";
 import WhoWeAre from "./Screens/WhoWeAre";
@@ -23,29 +24,31 @@ function App() {
   return (
     <AuthProvider>
       <AdminAuthProvider>
-      <Router>
-        <div className="App">
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/SignIn" element={<SignIn />} />
-            <Route path="/Courses" element={<Courses />} />
-            <Route path="/Register" element={<Register />} />
-            <Route path="/Data" element={<Data />} />
-            <Route path="/AdminViews/HomeAdmin" element={<HomeAdmin/>} />
-            <Route path="/AdminViews/LoginAdmin" element={<LoginAdmin/>} />
-            <Route path="/AdminViews/AdminDashboard" element={<ProtectedRouteAdmin><AdminDashboard />
-            </ProtectedRouteAdmin>} />
-            <Route path="/FormCourse" element={<FormCourse/>} />
-            <Route path="/PanelInstructor" element={<PanelInstructor/>} />
-            <Route path="/MissionVission" element={<MissionVission />} />
-            <Route path="/WhoWeAre" element={<WhoWeAre />} />
-            <Route path="/FreeResources" element={<FreeResources />} />
-            <Route path="/FAQ" element={<FAQ />} />
-          </Routes>
-          <Footer />
-        </div>
-      </Router>
+        <UserAuthProvider>
+          <Router>
+            <div className="App">
+              <Navbar />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/SignIn" element={<SignIn />} />
+                <Route path="/Courses" element={<Courses />} />
+                <Route path="/Register" element={<Register />} />
+                <Route path="/Data" element={<Data />} />
+                <Route path="/AdminViews/HomeAdmin" element={<HomeAdmin/>} />
+                <Route path="/AdminViews/LoginAdmin" element={<LoginAdmin/>} />
+                <Route path="/AdminViews/AdminDashboard" element={<ProtectedRouteAdmin><AdminDashboard />
+                </ProtectedRouteAdmin>} />
+                <Route path="/FormCourse" element={<FormCourse/>} />
+                <Route path="/PanelInstructor" element={<PanelInstructor/>} />
+                <Route path="/MissionVission" element={<MissionVission />} />
+                <Route path="/WhoWeAre" element={<WhoWeAre />} />
+                <Route path="/FreeResources" element={<FreeResources />} />
+                <Route path="/FAQ" element={<FAQ />} />
+              </Routes>
+              <Footer />
+            </div>
+          </Router>
+        </UserAuthProvider>
       </AdminAuthProvider>
     </AuthProvider>
   );

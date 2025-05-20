@@ -1,11 +1,13 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
-const AuthContext = createContext();
+// Crear el contexto de autenticación para usuarios
+const UserAuthContext = createContext();
 
-export const useAuth = () => useContext(AuthContext);
-export { AuthContext };
+// Hook personalizado para acceder al contexto
+export const useUserAuth = () => useContext(UserAuthContext);
 
-export const AuthProvider = ({ children }) => {
+// Proveedor del contexto de autenticación
+export const UserAuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -14,7 +16,7 @@ export const AuthProvider = ({ children }) => {
     const checkSession = async () => {
       try {
         // Solo verificamos la sesión con el servidor, ignorando localStorage inicialmente
-        const res = await fetch("http://localhost:5000/api/sessionInstructor", {
+        const res = await fetch("http://localhost:5000/api/sessionUser", {
           credentials: "include",
         });
   
@@ -45,31 +47,28 @@ export const AuthProvider = ({ children }) => {
     checkSession();
   }, []);
   
-  // Función para iniciar sesión
+  // Función para iniciar sesión con los datos correctos
   const login = async (userData) => {
     try {
-      console.log("AuthContext - Datos recibidos del backend:", userData);
+      console.log("UserAuthContext - Datos recibidos del backend:", userData);
 
+      // IMPORTANTE: Comprueba qué campos recibe realmente
       const availableFields = Object.keys(userData);
       console.log("Campos disponibles en el objeto userData:", availableFields);
       
+      // Mapeo de los campos de la base de datos a los del frontend
       const userToStore = {
         id: userData.id,
-        tipo_documento: userData.tipo_documento,
-        numero_identificacion: userData.numero_identificacion,
-        primer_nombre: userData.primer_nombre,
-        segundo_nombre: userData.segundo_nombre,
-        primer_apellido: userData.primer_apellido,
-        segundo_apellido: userData.segundo_apellido,
-        ocupacion: userData.ocupacion,
+        nombre: userData.nombre,
+        apellido: userData.apellido,
         email: userData.email,
         genero: userData.genero,
-        descripcion_perfil: userData.descripcion_perfil,
-        numero_telefonico: userData.numero_telefonico,
-        rol: userData.rol || "instructor"
+        estado: userData.estado,
+        fecha_creacion: userData.fecha_creacion,
+        rol: userData.rol || "usuario"
       };
       
-      console.log("AuthContext - Datos transformados para almacenar:", userToStore);
+      console.log("UserAuthContext - Datos transformados para almacenar:", userToStore);
       
       setUser(userToStore);
       setIsAuthenticated(true);
@@ -81,10 +80,10 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Función para actualizar el perfil
+  // Función para actualizar el perfil de usuario en el contexto
   const updateUserContext = (updatedUserData) => {
     try {
-      console.log("AuthContext - Actualizando datos del usuario:", updatedUserData);
+      console.log("UserAuthContext - Actualizando datos del usuario:", updatedUserData);
       setUser(updatedUserData);
       localStorage.setItem('user', JSON.stringify(updatedUserData));
       return true;
@@ -122,7 +121,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ 
+    <UserAuthContext.Provider value={{ 
       user, 
       isAuthenticated, 
       loading, 
@@ -131,8 +130,8 @@ export const AuthProvider = ({ children }) => {
       updateUserContext
     }}>
       {children}
-    </AuthContext.Provider>
+    </UserAuthContext.Provider>
   );
 };
 
-export default AuthContext;
+export default UserAuthContext;
