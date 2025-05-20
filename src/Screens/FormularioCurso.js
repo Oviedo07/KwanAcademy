@@ -204,8 +204,8 @@ const FormularioCurso = () => {
       nombreInstructor: v => v.trim() ? '' : 'Campo obligatorio',
       apellidoInstructor: v => v.trim() ? '' : 'Campo obligatorio',
       nombreCurso: v => v.trim() ? '' : 'Agrega un título',
-      descripcionCurso: v => v.trim().length >= 20 ? '' : 'Mínimo 20 caracteres',
       objetivosCurso: v => v.trim().length >= 10 ? '' : 'Mínimo 10 caracteres',
+      descripcionCurso: v => v.trim().length >= 10 ? '' : 'Mínimo 10 caracteres',
       precioCurso: v => v && !isNaN(v) && v > 0 ? '' : 'Precio inválido',
       fotoCurso: v => v.trim().startsWith('http') ? '' : 'URL no válida'
     };
@@ -414,8 +414,8 @@ const FormularioCurso = () => {
           </div>
 
           {renderInput(<Book size={16} />, 'Nombre del Curso', 'nombreCurso')}
-          {renderTextarea(<FileText size={16} />, 'Descripción del Curso', 'descripcionCurso', 4)}
-          {renderTextarea(<Target size={16} />, 'Objetivos del Curso', 'objetivosCurso', 3)}
+          {renderTextarea(<FileText size={16} />, 'Objetivos del Curso', 'objetivosCurso', 3)}
+          {renderTextarea(<Target size={16} />, 'Descripción del Curso', 'descripcionCurso', 4)}
           {renderInput(<DollarSign size={16} />, 'Precio del Curso', 'precioCurso', 'number')}
           {renderInput(<ImagePlus size={16} />, 'Enlace de la Imagen del Curso', 'fotoCurso')}
 

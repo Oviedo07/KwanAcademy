@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useAuth } from "../context/AuthContext";
 import api from "../axios.js"; // Importamos la instancia configurada de axios
+import PayPalButton from "../components/PayPalButton";
+
 
 const sortOptions = ["Popularidad", "Precio: Bajo a Alto", "Precio: Alto a Bajo", "Fecha: Más reciente"];
 
@@ -29,7 +31,7 @@ const Courses = () => {
     try {
       // Intentamos cargar desde la API
       const response = await api.get('/api/getAllcursos');
-      
+
       if (response.data && response.data.length > 0) {
         // Si hay datos, actualizamos el estado
         const coursesWithDetails = response.data.map(course => ({
@@ -39,7 +41,7 @@ const Courses = () => {
           students: course.students || Math.floor(Math.random() * 50) + 10,
           category: course.category || "General"
         }));
-        
+
         setCourses(coursesWithDetails);
         setUseStaticData(false);
       } else {
@@ -91,7 +93,7 @@ const Courses = () => {
 
   const getFilteredAndSortedCourses = () => {
     if (!courses.length) return [];
-    
+
     const filtered = courses.filter((course) => {
       const matchesSearch =
         course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -272,14 +274,14 @@ const Courses = () => {
                 <FaUserGraduate /> Instructor: {selectedCourse.instructor}
               </p>
               <p className={styles["modal-description"]}>{selectedCourse.description}</p>
-              
+
               {selectedCourse.objetivos && (
                 <div className={styles["modal-objectives"]}>
                   <h3>Objetivos del curso:</h3>
                   <p>{selectedCourse.objetivos}</p>
                 </div>
               )}
-              
+
               <div className={styles["modal-meta"]}>
                 <span><FaClock /> Duración: {selectedCourse.duration}</span>
                 <span><FaUsers /> {selectedCourse.students} estudiantes inscritos</span>
@@ -290,7 +292,8 @@ const Courses = () => {
               </div>
               <div className={styles["modal-price-section"]}>
                 <p className={styles["modal-price"]}>${selectedCourse.price}</p>
-                <button className={styles["buy-button"]} onClick={handlePurchase}>Comprar ahora</button>
+                {/* Botón de PayPal */}
+                <PayPalButton price={selectedCourse.price} />
               </div>
             </div>
           </div>

@@ -1,7 +1,9 @@
 import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { AdminAuthProvider } from './context/AdminAuthContext';
+import { PayPalScriptProvider } from "@paypal/react-paypal-js"; // 🆕 PayPal provider
 
+// Importación de pantallas y componentes
 import Home from "./screens/Home";
 import Courses from "./screens/Courses";
 import Register from "./screens/Register";
@@ -23,7 +25,6 @@ import Error404 from "./screens/Error404";
 function AppWrapper() {
   const location = useLocation();
 
-  // Detectar si la ruta no coincide con ninguna y es un "error 404"
   const currentPath = location.pathname;
   const hideLayout = ![
     "/", "/SignIn", "/Courses", "/Register", "/Data",
@@ -66,9 +67,11 @@ function App() {
   return (
     <AuthProvider>
       <AdminAuthProvider>
-        <Router>
-          <AppWrapper />
-        </Router>
+        <PayPalScriptProvider options={{ "client-id": "AZf85qCRU8WgeVrHc1nTkbNyLRG3sSCoRhOCgqk6bdt2JEp4un6szFguqN8Bx9ew6iBeGgcgRm78k1EZ" }}> {/* 🆕 PayPal wrapper */}
+          <Router>
+            <AppWrapper />
+          </Router>
+        </PayPalScriptProvider>
       </AdminAuthProvider>
     </AuthProvider>
   );
