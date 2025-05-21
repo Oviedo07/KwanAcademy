@@ -19,6 +19,14 @@ body {
   padding: 0;
 }
 
+/* Fondo uniforme para toda la vista */
+.container {
+  background-color: var(--background); /* o el color que quieras */
+  min-height: 100vh;                   /* ocupa toda la pantalla */
+  padding: 2rem 0;                     /* opcional: separación arriba/abajo */
+}
+
+
 .panelContainer {
   max-width: 1200px;
   margin: 2rem auto;
