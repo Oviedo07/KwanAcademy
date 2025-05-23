@@ -120,7 +120,7 @@
 
 .section-header p {
   font-size: 1.2rem;
-  color: var(--gray-medium);
+  color: var(--gray-dark);
   max-width: 700px;
   margin: 0 auto;
 }
@@ -163,7 +163,7 @@
 }
 
 .feature-card p {
-  color: var(--gray-medium);
+  color: var(--gray-dark);
   line-height: 1.6;
 }
 
@@ -229,7 +229,7 @@
 }
 
 .value-card p {
-  color: var(--gray-medium);
+  color: var(--gray-dark);
   font-size: 0.95rem;
 }
 
@@ -303,7 +303,7 @@
 }
 
 .benefit-content p {
-  color: var(--gray-medium);
+  color: var(--gray-dark);
 }
 
 /* Servicios Section */
@@ -347,7 +347,7 @@
 }
 
 .servicio-card p {
-  color: var(--gray-medium);
+  color: var(--gray-dark);
   margin-bottom: 1.5rem;
 }
 
@@ -361,6 +361,7 @@
   
   .hero-content p {
     font-size: 1.2rem;
+    
   }
   
   .quienes-somos-container,

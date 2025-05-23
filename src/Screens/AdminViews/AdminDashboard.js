@@ -10,6 +10,8 @@ import { useAdminAuth } from "../../context/AdminAuthContext";
 import { Navigate, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 
+
+
 const AdminDashboard = () => {
     // Hooks
     const { isAdminAuthenticated, logoutAdmin } = useAdminAuth();
@@ -25,7 +27,7 @@ const AdminDashboard = () => {
                 navigate("/AdminViews/LoginAdmin");
                 return;
             }
-            
+
             // Verificar que adminData es un JSON válido
             const admin = JSON.parse(adminData);
             console.log("🔎 Sesión verificada en AdminDashboard:", admin);
@@ -35,18 +37,18 @@ const AdminDashboard = () => {
             navigate("/AdminViews/LoginAdmin"); // Redirigir al login
         }
     }, [navigate]);
-    
+
     // Si no hay autenticación, redirigir al login
     const adminData = localStorage.getItem("admin");
     if (!adminData) {
-      return <Navigate to="/AdminViews/LoginAdmin" replace />;
+        return <Navigate to="/AdminViews/LoginAdmin" replace />;
     }
 
     // Función para manejar los clics en los elementos del menú
     const handleMenuClick = (component) => {
         setActiveComponent(component);
     };
-    
+
     // Cierre de sesión
     const handleLogout = () => {
         // Mostrar mensaje de éxito primero
@@ -57,7 +59,7 @@ const AdminDashboard = () => {
             timer: 2000,
             showConfirmButton: false
         });
-        
+
         // Esperar a que se muestre el mensaje antes de redirigir
         setTimeout(() => {
             logoutAdmin(); // Usar función del contexto para limpiar todo
@@ -107,54 +109,61 @@ const AdminDashboard = () => {
             <div className={`sidebar-container ${expanded ? 'expanded' : 'collapsed'}`}>
                 <div className="sidebar-header">
                     <div className="app-logo">
-                        <div className="logo-text">Panel Administración</div>
+                        <img
+                            src="https://i.imgur.com/xa8TdxM.png"
+                            alt="Logo Kwan Academy"
+                            className="logo-img"
+                        />
+                        <span className="logo-text">KWAN ACADEMY</span>
                     </div>
                 </div>
 
+
+
                 <div className="sidebar-menu">
-                    <div 
+                    <div
                         className={`menu-item ${activeComponent === 'home' ? 'active' : ''}`}
                         onClick={() => handleMenuClick('home')}
                     >
                         <Home size={20} />
                         {expanded && <span>Inicio</span>}
                     </div>
-                    <div 
+                    <div
                         className={`menu-item ${activeComponent === 'admins' ? 'active' : ''}`}
                         onClick={() => handleMenuClick('admins')}
                     >
                         <ShieldUser size={20} />
                         {expanded && <span>Administradores</span>}
                     </div>
-                    <div 
+                    <div
                         className={`menu-item ${activeComponent === 'users' ? 'active' : ''}`}
                         onClick={() => handleMenuClick('users')}
                     >
                         <UsersRound size={20} />
                         {expanded && <span>Usuarios</span>}
                     </div>
-                    <div 
+                    <div
                         className={`menu-item ${activeComponent === 'instructors' ? 'active' : ''}`}
                         onClick={() => handleMenuClick('instructors')}
                     >
                         <School size={20} />
                         {expanded && <span>Instructores</span>}
                     </div>
-                    <div 
+                    <div
                         className={`menu-item ${activeComponent === 'courses' ? 'active' : ''}`}
                         onClick={() => handleMenuClick('courses')}
                     >
                         <ShoppingCart size={20} />
                         {expanded && <span>Cursos</span>}
                     </div>
-                    <div 
+                    <div
                         className={`menu-item ${activeComponent === 'payments' ? 'active' : ''}`}
                         onClick={() => handleMenuClick('payments')}
                     >
                         <Wallet size={20} />
                         {expanded && <span>Pagos</span>}
                     </div>
-                    <div 
+                    <div
                         className={`menu-item ${activeComponent === 'support' ? 'active' : ''}`}
                         onClick={() => handleMenuClick('support')}
                     >
@@ -167,7 +176,7 @@ const AdminDashboard = () => {
                     </div>
                 </div>
             </div>
-            
+
             {/* Contenido */}
             <div className="content-container">
                 {renderActiveComponent()}

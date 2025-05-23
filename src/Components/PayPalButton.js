@@ -18,13 +18,13 @@ const PayPalButton = ({ price, courseName }) => {
             window.paypal.Buttons({
                 style: {
                     layout: "vertical",
-                    color: "gold",
+                    color: "silver",
                     shape: "pill",
                     label: "paypal",
                     height: 45,
                     tagline: false,
                     // AUMENTA EL ANCHO AQUÍ ⬇⬇⬇
-                    width: 450 // Prueba con 340px o más para alargar
+                    width: 500 // Prueba con 340px o más para alargar
                 },
                 createOrder: (data, actions) => {
                     return actions.order.create({

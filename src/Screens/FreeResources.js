@@ -170,7 +170,7 @@ const FreeResources = () => {
                   ⏱ {resource.duration} &nbsp; 👁 {resource.views}
                 </p>
                 <div className={styles.cardButtons}>
-                  <button className={styles.viewButton}>Ver técnica →</button>
+                  {/* <button className={styles.viewButton}>Ver técnica →</button> */}
                   <button
                     className={styles.detailsButton}
                     onClick={() => openModal(resource)}

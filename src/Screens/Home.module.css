@@ -20,7 +20,6 @@
 }
 
 .homeContainer {
-  font-family: 'Montserrat', 'Roboto', sans-serif;
   color: var(--text-color);
   line-height: 1.6;
   overflow-x: hidden;
@@ -34,6 +33,7 @@ h1, h2, h3, h4, h5, h6 {
 
 p {
   margin-bottom: 1rem;
+  
 }
 
 /* Sección Hero */
@@ -94,8 +94,13 @@ p {
   max-width: 800px;
   margin: 0 auto 2rem;
   font-size: 1.2rem;
-  color: var(--light-text);
+  color: var(--background-color);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.heroText p{
+  color: #f1f1f1;
+  font-size: 1.2rem;
 }
 
 .ctaButton {
@@ -112,7 +117,7 @@ p {
 }
 
 .ctaButton:hover {
-  color: var(--primary-dark);
+  color: var(--primary-color);
   transform: translateY(-2px);
 
 }
@@ -176,7 +181,8 @@ p {
   justify-content: center;
   min-width: 200px;
   padding: 0 30px;
-
+  width: 70%;
+  height: 70%;
 }
 
 .patrocinadorLogo {
@@ -243,6 +249,8 @@ p {
 .cardIcon img {
   max-height: 100%;
   transition: transform 0.3s ease;
+  width: 45%;
+  height: 100%;
 }
 
 .serviceCard h3 {

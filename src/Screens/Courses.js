@@ -280,7 +280,7 @@ const Courses = () => {
                   <h3>Objetivos del curso:</h3>
                   <p>{selectedCourse.objetivos}</p>
                 </div>
-              )}
+              )}  
 
               <div className={styles["modal-meta"]}>
                 <span><FaClock /> Duración: {selectedCourse.duration}</span>
@@ -291,7 +291,7 @@ const Courses = () => {
                 )}
               </div>
               <div className={styles["modal-price-section"]}>
-                <p className={styles["modal-price"]}>${selectedCourse.price}</p>
+                <p className={styles["modal-price"]}> {selectedCourse.price}</p>
                 {/* Botón de PayPal */}
                 <PayPalButton price={selectedCourse.price} />
               </div>

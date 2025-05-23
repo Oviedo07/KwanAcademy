@@ -48,18 +48,18 @@ function AppWrapper() {
         <Route path="/FAQ" element={<FAQ />} />
         <Route path="/PanelInstructor" element={<PanelInstructor />} />
         <Route path="/PanelUser" element={<PanelUser />} />
+        <Route path="/AdminViews/HomeAdmin" element={<HomeAdmin />} />
+      <Route path="/AdminViews/LoginAdmin" element={<LoginAdmin />} />
+      
       </Route>
 
       {/* Rutas SIN layout */}
-      <Route path="/AdminViews/HomeAdmin" element={<HomeAdmin />} />
-      <Route path="/AdminViews/LoginAdmin" element={<LoginAdmin />} />
       <Route
         path="/AdminViews/AdminDashboard"
         element={
           <ProtectedRouteAdmin>
             <AdminDashboard />
-          </ProtectedRouteAdmin>
-        }
+          </ProtectedRouteAdmin>}
       />
       <Route path="*" element={<Error404 />} />
     </Routes>

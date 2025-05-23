@@ -359,5 +359,5 @@ div[id^="paypal-button"] {
 }
 
 .paypalButtonContainer {
-  width: 450px; /* A juego con el ancho de los botones PayPal */
+  width: 500px; /* A juego con el ancho de los botones PayPal */
 }

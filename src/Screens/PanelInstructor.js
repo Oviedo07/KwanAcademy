@@ -27,8 +27,7 @@ const PanelInstructor = () => {
   // Datos simulados (cursos y ventas) ─ en producción llegarán desde el backend
   // ────────────────────────────────────────────────────────────
   const [cursos, setCursos] = useState([
-    { id: 1, titulo: 'Matemáticas Avanzadas', estudiantes: 45, calificacion: 4.8 },
-    { id: 2, titulo: 'Álgebra Lineal', estudiantes: 32, calificacion: 4.5 },
+    { id: 1, titulo: 'Tus cursos aquí.', estudiantes: 0, calificacion: 0.0 }
   ]);
 
   const [ventas] = useState([
