@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Función para actualizar el perfil
-  const updateUserContext = (updatedUserData) => {
+  const updateInstructorContext = (updatedUserData) => {
     try {
       console.log("AuthContext - Actualizando datos del usuario:", updatedUserData);
       setUser(updatedUserData);
@@ -128,7 +128,7 @@ export const AuthProvider = ({ children }) => {
       loading, 
       login, 
       logout,
-      updateUserContext
+      updateInstructorContext
     }}>
       {children}
     </AuthContext.Provider>

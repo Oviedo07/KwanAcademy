@@ -66,7 +66,7 @@ const Navbar = () => {
     if (user && user.rol === "instructor") {
       navigate("/PanelInstructor");
     } else {
-      navigate("/WhoAreWe");
+      navigate("/PanelUser");
     }
   };
 

@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 import { AuthProvider } from "./context/AuthContext";
@@ -15,24 +16,28 @@ import Register from "./screens/Register";
 import Data from "./screens/Data";
 import SignIn from "./screens/SignIn";
 
-import HomeAdmin from "./screens/AdminViews/HomeAdmin";
-import LoginAdmin from "./screens/AdminViews/LoginAdmin";
-import AdminDashboard from "./screens/AdminViews/AdminDashboard";
-import ProtectedRouteAdmin from "./screens/AdminViews/components/ProtectedRouteAdmin";
+import HomeAdmin from "./Screens/AdminViews/HomeAdmin";
+import LoginAdmin from "./Screens/AdminViews/LoginAdmin";
+import AdminDashboard from "./Screens/AdminViews/AdminDashboard";
+import ProtectedRouteAdmin from "./Screens/AdminViews/components/ProtectedRouteAdmin";
 
-import FormCourse from "./screens/FormCourse";
-import MissionVission from "./screens/MissionVission";
-import WhoWeAre from "./screens/WhoWeAre";
-import FreeResources from "./screens/FreeResources";
-import FAQ from "./screens/FAQ";
+import FormCourse from "./Screens/FormCourse";
+import MissionVission from "./Screens/MissionVission";
+import WhoWeAre from "./Screens/WhoWeAre";
+import FreeResources from "./Screens/FreeResources";
+import FAQ from "./Screens/FAQ";
 
 import PanelInstructor from "./screens/PanelInstructor";
 import PanelUser from "./screens/PanelUser";
 import Error404 from "./screens/Error404";
 
 // ─── Rutas ───────────────────────────────────────────────────────
+// ─── Rutas ───────────────────────────────────────────────────────
 function AppWrapper() {
   return (
+    <Routes>
+      {/* Rutas CON layout */}
+      <Route element={<Layout />}>
     <Routes>
       {/* Rutas CON layout */}
       <Route element={<Layout />}>
@@ -66,6 +71,7 @@ function AppWrapper() {
   );
 }
 
+// ─── App con Providers ───────────────────────────────────────────
 // ─── App con Providers ───────────────────────────────────────────
 export default function App() {
   return (
