@@ -20,7 +20,7 @@
   width: 55px;
   height: 55px;
   margin-right: 4px;
-  cursor: url(../assets/images/hand.png);
+  cursor: pointer;
 }
 
 .title {
@@ -28,7 +28,7 @@
   font-weight: bold;
   color: black;
   margin-top: 9px;
-  cursor: url(../assets/images/hand.png);
+  cursor: pointer;
 }
 
 .dropdownMenu {

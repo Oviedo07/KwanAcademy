@@ -1,139 +1,151 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Edit, Check, X, Plus, Book, DollarSign, User } from 'lucide-react';
-import styles from './PanelInstructor.module.css';
-// import { AuthContext } from '../context/UserAuthContext'; // Ajusta según tu estructura
+import React, { useState, useEffect } from 'react';
+import { Edit, Check, X, Book, User, ShoppingCart } from 'lucide-react';
+import styles from './PanelUser.module.css';
+import { useAuth } from '../context/UserAuthContext';
 import Swal from 'sweetalert2';
 import { useNavigate } from "react-router-dom";
 
-
-// AJAJAJAJAJJAJAJA
-
-
-const PanelUser = () => {
-  const { user } = useContext();
+const PanelUsuario = () => {
+  const { user, updateUserContext } = useAuth();
   const navigate = useNavigate();
-  const [instructorInfo, setInstructorInfo] = useState({});
+  const [userInfo, setUserInfo] = useState({});
   const [tempInfo, setTempInfo] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [activeTab, setActiveTab] = useState('perfil');
 
-  // Cursos publicados (simulados)
-  const [cursos, setCursos] = useState([
-    { id: 1, titulo: 'Matemáticas Avanzadas', estudiantes: 45, calificacion: 4.8 },
-    { id: 2, titulo: 'Álgebra Lineal', estudiantes: 32, calificacion: 4.5 },
+  // Cursos comprados (simulados)
+  const [cursosComprados, setCursosComprados] = useState([
+    { id: 1, titulo: 'Matemáticas Básicas', instructor: 'Juan Pérez', progreso: 75, fechaCompra: '10/04/2025' },
+    { id: 2, titulo: 'Historia Universal', instructor: 'María García', progreso: 30, fechaCompra: '15/04/2025' },
   ]);
 
-  // Ventas simuladas
-  const [ventas, setVentas] = useState([
-    { id: 1, curso: 'Matemáticas Avanzadas', fecha: '15/04/2025', monto: 29.99 },
-    { id: 2, curso: 'Matemáticas Avanzadas', fecha: '20/04/2025', monto: 29.99 },
-    { id: 3, curso: 'Álgebra Lineal', fecha: '22/04/2025', monto: 24.99 },
+  // Historial de compras (simulado)
+  const [historialCompras, setHistorialCompras] = useState([
+    { id: 1, curso: 'Matemáticas Básicas', fecha: '10/04/2025', monto: 24.99 },
+    { id: 2, curso: 'Historia Universal', fecha: '15/04/2025', monto: 19.99 },
+    { id: 3, curso: 'Inglés Intermedio', fecha: '20/04/2025', monto: 29.99 },
   ]);
+
+  // Función para formatear fecha de la base de datos a formato de input date
+  const formatDateForInput = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0];
+  };
+
+  // Función para formatear fecha para mostrar
+  const formatDateForDisplay = (dateString) => {
+    if (!dateString) return 'No especificada';
+    const date = new Date(dateString);
+    return date.toLocaleDateString();
+  };
 
   useEffect(() => {
     if (user) {
       const datosIniciales = {
-        nombre: `${user.primer_nombre} ${user.segundo_nombre || ''}`.trim(),
-        apellido: `${user.primer_apellido} ${user.segundo_apellido || ''}`.trim(),
-        tipoDocumento: user.tipo_documento || '',
-        numeroIdentificacion: user.numero_identificacion || '',
+        nombre: user.nombre || '',
+        apellido: user.apellido || '',
+        email: user.email || '',
+        fechaNacimiento: formatDateForInput(user.fecha_nacimiento),
         genero: user.genero || '',
-        telefono: user.numero_telefonico || '',
-        ocupacion: user.ocupacion || '',
-        descripcionPerfil: user.descripcion_perfil || '',
       };
-      setInstructorInfo(datosIniciales);
+      setUserInfo(datosIniciales);
       setTempInfo(datosIniciales);
     }
   }, [user]);
 
-
-  // Cargar cursos del instructor
+  // Cargar cursos comprados del usuario
   useEffect(() => {
     if (user?.id) {
-      fetch(`http://localhost:5000/api/getCursosByInstructor/${user.id}`, {
+      fetch(`http://localhost:5000/api/getCursosComprados/${user.id}`, {
         credentials: 'include'
       })
         .then(res => res.json())
         .then(data => {
-          console.log("Cursos obtenidos:", data);
-          setCursos(data.cursos || []);
+          console.log("Cursos comprados obtenidos:", data);
+          setCursosComprados(data.cursos || []);
         })
-        .catch(err => console.error('Error al obtener cursos:', err));
+        .catch(err => console.error('Error al obtener cursos comprados:', err));
     }
-  }, [user]);  
+  }, [user]);
 
-const handleEditToggle = async () => {
-  if (isEditing) {
-    try {
-      // Verificar que tempInfo (no user) existe y contiene los datos actualizados
-      const nombreCompleto = tempInfo?.nombre || '';
-      const apellidoCompleto = tempInfo?.apellido || '';
-      
-      // Dividir el nombre y apellido
-      const nombreParts = nombreCompleto.split(' ');
-      const apellidoParts = apellidoCompleto.split(' ');
-      
-      // Crear el objeto de datos con los nombres de campo correctos
-      const userData = {
-        tipo_documento: tempInfo?.tipoDocumento || '',  // Corregido para que coincida con el backend
-        numero_identificacion: tempInfo?.numeroIdentificacion || '', // Corregido para que coincida
-        primer_nombre: nombreParts[0] || '',
-        segundo_nombre: nombreParts[1] || '',
-        primer_apellido: apellidoParts[0] || '',
-        segundo_apellido: apellidoParts[1] || '',
-        email: user?.email || '', // Asegurarnos de incluir el email
-        ocupacion: tempInfo?.ocupacion || '',
-        descripcion_perfil: tempInfo?.descripcionPerfil || '',
-        numero_telefonico: tempInfo?.telefono || '', // Corregido para que coincida con el formulario
-      };
-      
-      console.log('Datos a enviar:', userData);
-      
-      const response = await fetch(`http://localhost:5000/api/updateInstructor/${user.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
-      });
-      
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Error al actualizar');
-      }
-      
-      const data = await response.json();
-      console.log('Respuesta del servidor:', data);
-      
-      Swal.fire({
-        icon: 'success',
-        title: 'Datos actualizados',
-        text: 'Tu perfil fue actualizado correctamente.',
-        confirmButtonColor: '#3085d6',
-      });
-      
-      setInstructorInfo({ ...tempInfo });
-      setIsEditing(false);
-    } catch (error) {
-      console.error('Error al actualizar instructor:', error);
-      
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: `Ocurrió un error: ${error.message}`,
-        confirmButtonColor: '#d33',
-      });
+  // Cargar historial de compras
+  useEffect(() => {
+    if (user?.id) {
+      fetch(`http://localhost:5000/api/getHistorialCompras/${user.id}`, {
+        credentials: 'include'
+      })
+        .then(res => res.json())
+        .then(data => {
+          console.log("Historial de compras obtenido:", data);
+          setHistorialCompras(data.compras || []);
+        })
+        .catch(err => console.error('Error al obtener historial:', err));
     }
-  } else {
-    setTempInfo({ ...instructorInfo });
-    setIsEditing(true);
-  }
-};
+  }, [user]);
+
+  const handleEditToggle = async () => {
+    if (isEditing) {
+      try {
+        // Preparar los datos para enviar al servidor
+        const userData = {
+          nombre: tempInfo?.nombre || '',
+          apellido: tempInfo?.apellido || '',
+          email: tempInfo?.email || '',
+          fecha_nacimiento: tempInfo?.fechaNacimiento || null, // Enviar como string YYYY-MM-DD o null
+          genero: tempInfo?.genero || '',
+        };
+
+        console.log("Datos a enviar:", userData);
+        
+        const response = await fetch(`http://localhost:5000/api/updateUserProfile/${user.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify(userData),
+        });
+        
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Error al actualizar');
+        }
+        
+        const data = await response.json();
+        console.log('Respuesta del servidor:', data);
+        
+        Swal.fire({
+          icon: 'success',
+          title: 'Datos actualizados',
+          text: 'Tu perfil fue actualizado correctamente.',
+          confirmButtonColor: '#3085d6',
+        });
+        
+        // Actualizar el contexto con los nuevos datos
+        const updatedUser = { ...user, ...userData };
+        updateUserContext(updatedUser);
+        setUserInfo({ ...tempInfo });
+        setIsEditing(false);
+      } catch (error) {
+        console.error('Error al actualizar usuario:', error);
+        
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: `Ocurrió un error: ${error.message}`,
+          confirmButtonColor: '#d33',
+        });
+      }
+    } else {
+      setTempInfo({ ...userInfo });
+      setIsEditing(true);
+    }
+  };
 
   const handleCancelEdit = () => {
     setIsEditing(false);
-    setTempInfo({ ...instructorInfo });
+    setTempInfo({ ...userInfo });
   };
 
   const handleInputChange = (e) => {
@@ -144,11 +156,8 @@ const handleEditToggle = async () => {
     }));
   };
 
-  const handlePublicarCurso = () => {
-    navigate("/FormCourse");
-  };
-  const handleEditarCurso = () => {
-    navigate("/FormCourse#footer");
+  const handleVerCurso = (cursoId) => {
+    navigate(`/curso/${cursoId}`);
   };
 
   const renderPerfilSection = () => (
@@ -186,7 +195,7 @@ const handleEditToggle = async () => {
                 onChange={handleInputChange}
               />
             ) : (
-              <p>{instructorInfo.nombre}</p>
+              <p>{userInfo.nombre}</p>
             )}
           </div>
 
@@ -200,41 +209,37 @@ const handleEditToggle = async () => {
                 onChange={handleInputChange}
               />
             ) : (
-              <p>{instructorInfo.apellido}</p>
+              <p>{userInfo.apellido}</p>
             )}
           </div>
         </div>
 
         <div className={styles.formRow}>
           <div className={styles.formGroup}>
-            <label>Tipo de Documento</label>
-            {isEditing ? (
-              <select
-                name="tipoDocumento"
-                value={tempInfo.tipoDocumento}
-                onChange={handleInputChange}
-              >
-                <option value="CC">Cedula Ciudadania</option>
-                <option value="CE">Cedula Extranjeria</option>
-                <option value="PPT">Permiso Proteccion Temporal</option>
-                <option value="PS">Pasaporte</option>
-              </select>
-            ) : (
-              <p>{instructorInfo.tipoDocumento}</p>
-            )}
-          </div>
-
-          <div className={styles.formGroup}>
-            <label>Número de Documento</label>
+            <label>Email</label>
             {isEditing ? (
               <input
                 type="text"
-                name="numeroDocumento"
-                value={tempInfo.numeroIdentificacion}
+                name="email"
+                value={tempInfo.email}
                 onChange={handleInputChange}
               />
             ) : (
-              <p>{instructorInfo.numeroIdentificacion}</p>
+              <p>{userInfo.email}</p>
+            )}  
+          </div>
+
+          <div className={styles.formGroup}>
+            <label>Fecha de Nacimiento</label>
+            {isEditing ? (
+              <input
+                type="date"
+                name="fechaNacimiento"
+                value={tempInfo.fechaNacimiento}
+                onChange={handleInputChange}
+              />
+            ) : (
+              <p>{formatDateForDisplay(userInfo.fechaNacimiento)}</p>
             )}
           </div>
         </div>
@@ -248,75 +253,28 @@ const handleEditToggle = async () => {
                 value={tempInfo.genero}
                 onChange={handleInputChange}
               >
+                <option value="">Seleccionar</option>
                 <option value="Masculino">Masculino</option>
                 <option value="Femenino">Femenino</option>
                 <option value="Otro">Otro</option>
               </select>
             ) : (
-              <p>{instructorInfo.genero}</p>
+              <p>{userInfo.genero || 'No especificado'}</p>
             )}
           </div>
-
-          <div className={styles.formGroup}>
-            <label>Teléfono</label>
-            {isEditing ? (
-              <input
-                type="text"
-                name="telefono"
-                value={tempInfo.telefono}
-                onChange={handleInputChange}
-              />
-            ) : (
-              <p>{instructorInfo.telefono}</p>
-            )}
-          </div>
-        </div>
-
-        <div className={styles.formRow}>
-          <div className={styles.formGroup}>
-            <label>Ocupación</label>
-            {isEditing ? (
-              <input
-                type="text"
-                name="ocupacion"
-                value={tempInfo.ocupacion}
-                onChange={handleInputChange}
-              />
-            ) : (
-              <p>{instructorInfo.ocupacion}</p>
-            )}
-          </div>
-        </div>
-
-        <div className={styles.formGroup}>
-          <label>Descripción del Perfil</label>
-          {isEditing ? (
-            <textarea
-              name="descripcionPerfil"
-              value={tempInfo.descripcionPerfil}
-              onChange={handleInputChange}
-              rows={4}
-            />
-          ) : (
-            <p>{instructorInfo.descripcionPerfil}</p>
-          )}
         </div>
       </div>
     </div>
   );
 
   const renderCursosSection = () => (
- <div className={styles.cursosContainer}>
+    <div className={styles.cursosContainer}>
       <div className={styles.sectionHeader}>
         <h2>Mis Cursos</h2>
-        <button className={styles.actionButton} onClick={handlePublicarCurso}>
-          <Plus size={20} />
-          <span>Publicar Curso</span>
-        </button>
       </div>
-      {cursos.length > 0 ? (
+      {cursosComprados.length > 0 ? (
         <div className={styles.cursosGrid}>
-          {cursos.map(curso => (
+          {cursosComprados.map(curso => (
             <div key={curso.id} className={styles.cursoCard}>
               {curso.imagen_url ? (
                 <img 
@@ -331,30 +289,52 @@ const handleEditToggle = async () => {
               )}
               <h3>{curso.nombre || curso.titulo}</h3>
               <div className={styles.cursoStats}>
-                <div className={styles.cursoPrecio}>
-                  ${curso.precio || 0}
+                <div className={styles.cursoInstructor}>
+                  <User size={16} />
+                  <span>{curso.instructor}</span>
                 </div>
-                <div className={styles.cursoMeta}>
+                <div className={styles.cursoProgreso}>
+                  <div className={styles.progresoBar}>
+                    <div 
+                      className={styles.progresoFill} 
+                      style={{ width: `${curso.progreso || 0}%` }}
+                    ></div>
+                  </div>
+                  <span>{curso.progreso || 0}%</span>
                 </div>
               </div>
-              <button className={styles.secondaryButton} onClick={handleEditarCurso}>Gestionar Curso</button>
+              <button 
+                className={styles.actionButton} 
+                onClick={() => handleVerCurso(curso.id)}
+              >
+                Continuar Curso
+              </button>
             </div>
           ))}
         </div>
       ) : (
-        <p className={styles.emptyMessage}>No has publicado ningún curso todavía.</p>
+        <div className={styles.emptyState}>
+          <Book size={64} />
+          <p className={styles.emptyMessage}>No has comprado ningún curso todavía.</p>
+          <button 
+            className={styles.actionButton}
+            onClick={() => navigate('/cursos')}
+          >
+            Explorar Cursos
+          </button>
+        </div>
       )}
     </div>
   );
 
-  const renderVentasSection = () => (
-    <div className={styles.ventasContainer}>
+  const renderHistorialSection = () => (
+    <div className={styles.historialContainer}>
       <div className={styles.sectionHeader}>
-        <h2>Mis Ventas</h2>
+        <h2>Historial de Compras</h2>
       </div>
-      {ventas.length > 0 ? (
+      {historialCompras.length > 0 ? (
         <div className={styles.tableContainer}>
-          <table className={styles.ventasTable}>
+          <table className={styles.historialTable}>
             <thead>
               <tr>
                 <th>ID</th>
@@ -364,58 +344,64 @@ const handleEditToggle = async () => {
               </tr>
             </thead>
             <tbody>
-              {ventas.map(venta => (
-                <tr key={venta.id}>
-                  <td>{venta.id}</td>
-                  <td>{venta.curso}</td>
-                  <td>{venta.fecha}</td>
-                  <td>${venta.monto.toFixed(2)}</td>
+              {historialCompras.map(compra => (
+                <tr key={compra.id}>
+                  <td>{compra.id}</td>
+                  <td>{compra.curso}</td>
+                  <td>{compra.fecha}</td>
+                  <td>${compra.monto.toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <div className={styles.ventasSummary}>
-            <span>Total de ventas: {ventas.length}</span>
-            <span>Ingresos totales: ${ventas.reduce((sum, venta) => sum + venta.monto, 0).toFixed(2)}</span>
+          <div className={styles.historialSummary}>
+            <span>Total de compras: {historialCompras.length}</span>
+            <span>Total gastado: ${historialCompras.reduce((sum, compra) => sum + compra.monto, 0).toFixed(2)}</span>
           </div>
         </div>
       ) : (
-        <p className={styles.emptyMessage}>Aún no has realizado ninguna venta.</p>
+        <div className={styles.emptyState}>
+          <ShoppingCart size={64} />
+          <p className={styles.emptyMessage}>No has realizado ninguna compra todavía.</p>
+        </div>
       )}
     </div>
   );
 
   return (
     <div className={styles.panelContainer}>
-      <h1 className={styles.panelTitle}>Panel de Instructor</h1>
+      <h1 className={styles.panelTitle}>Mi Cuenta</h1>
       <div className={styles.tabsContainer}>
         <button 
           className={`${styles.tabButton} ${activeTab === 'perfil' ? styles.activeTab : ''}`}
           onClick={() => setActiveTab('perfil')}
         >
-          Perfil
+          <User size={20} />
+          <span>Perfil</span>
         </button>
         <button 
           className={`${styles.tabButton} ${activeTab === 'cursos' ? styles.activeTab : ''}`}
           onClick={() => setActiveTab('cursos')}
         >
-          Mis Cursos
+          <Book size={20} />
+          <span>Mis Cursos</span>
         </button>
         <button 
-          className={`${styles.tabButton} ${activeTab === 'ventas' ? styles.activeTab : ''}`}
-          onClick={() => setActiveTab('ventas')}
+          className={`${styles.tabButton} ${activeTab === 'historial' ? styles.activeTab : ''}`}
+          onClick={() => setActiveTab('historial')}
         >
-          Mis Ventas
+          <ShoppingCart size={20} />
+          <span>Historial</span>
         </button>
       </div>
 
       <div className={styles.contentContainer}>
         {activeTab === 'perfil' && renderPerfilSection()}
         {activeTab === 'cursos' && renderCursosSection()}
-        {activeTab === 'ventas' && renderVentasSection()}
+        {activeTab === 'historial' && renderHistorialSection()}
       </div>
     </div>
   );
 };
 
-export default PanelUser;
+export default PanelUsuario;

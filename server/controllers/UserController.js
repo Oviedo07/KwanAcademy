@@ -1,53 +1,50 @@
 const getConnection = require("../config/db");
+const { validationResult } = require('express-validator');
 
 // INICIO DE SESIÓN CON SESIÓN
 const signIn = async (req, res) => {
-  const { email, password, role } = req.body;
-
-  console.log(`Intento de login: ${email}, rol: ${role}`);
-
-  const query = "SELECT * FROM Usuario WHERE email = ? AND contrasena = ?";
-
+  const { email, password} = req.body;
   try {
     const db = await getConnection();
-    const [results] = await db.query(query, [email, password]);
 
-    if (results.length === 0) {
-      return res.status(401).json({ error: "Credenciales incorrectas" });
+    const [rows] = await db.query(
+      'SELECT * FROM usuario WHERE email = ? AND contrasena = ?',
+      [email, password]
+    );
+
+    if (rows.length === 0) {
+      return res.status(401).json({ error: "Credenciales inválidas" });
     }
 
-    const usuario = results[0];
-    console.log("✅ Usuario encontrado:", usuario);
+    const usuario = rows[0];
 
-    const userData = {
+    req.session.user = {
       id: usuario.id,
       nombre: usuario.nombre,
       apellido: usuario.apellido,
       email: usuario.email,
-      fecha_nacimiento: usuario.fecha_nacimiento,
       genero: usuario.genero,
-      role: role || 'general'
+      contrasena: usuario.contrasena, 
+      fecha_nacimiento: usuario.fecha_nacimiento,
+      rol: 'usuario'
     };
 
-    req.session.user = userData;
+    console.log("🔎 Usuario en sesión (updateCurso):", req.session.user);
+
     req.session.save(() => {
-      res.json({
-        message: "Autenticación exitosa",
-        user: userData
-      });
+      res.json({ message: "Inicio de sesión exitoso", user: req.session.user });
     });
 
   } catch (error) {
-    console.error("❌ Error en consulta SQL:", error);
+    console.error(error);
     res.status(500).json({ error: "Error en el servidor" });
   }
 };
 
-// VERIFICAR SESIÓN ACTIVA
 const sessionUser = (req, res) => {
   if (req.session && req.session.user) {
     console.log("✅ Sesión activa:", req.session.user);
-    res.json({ message: "Sesión activa", user: req.session.user });
+    res.status(200).json({ session: req.session.user });
   } else {
     console.log("❌ No hay sesión activa");
     res.status(401).json({ error: "No hay sesión activa" });
@@ -115,33 +112,42 @@ const updateStatusUsuarios = async (req, res) => {
 
 // ACTUALIZAR PERFIL
 const updateUserProfile = async (req, res) => {
-  try {
-    const userId = req.params.id;
-    const { nombre, apellido, email, contrasena, fecha_nacimiento, genero } = req.body;
+try {
+    const db = await getConnection();
+    const { id } = req.params;
+    const {
+      nombre,
+      apellido,
+      email,
+      genero,
+      fecha_nacimiento,
+    } = req.body;
 
-    let updateFields = [];
-    let updateValues = [];
-
-    if (nombre) updateFields.push("nombre = ?"), updateValues.push(nombre);
-    if (apellido) updateFields.push("apellido = ?"), updateValues.push(apellido);
-    if (email) updateFields.push("email = ?"), updateValues.push(email);
-    if (contrasena) updateFields.push("contrasena = ?"), updateValues.push(contrasena);
-    if (fecha_nacimiento) updateFields.push("fecha_nacimiento = ?"), updateValues.push(fecha_nacimiento);
-    if (genero) updateFields.push("genero = ?"), updateValues.push(genero);
-
-    if (updateFields.length === 0) {
-      return res.status(400).json({ success: false, error: "No se proporcionaron campos a actualizar" });
+    // Verificamos los campos obligatorios
+    if (!email) {
+      return res.status(400).json({ message: 'El email es obligatorio' });
     }
 
-    updateValues.push(userId);
-    const db = await getConnection();
-    const query = `UPDATE Usuario SET ${updateFields.join(", ")} WHERE id = ?`;
+    const params = [
+      nombre || '',
+      apellido || '',
+      email || '',         // Este campo lo mantienes aunque no parece venir del frontend
+      genero || '',
+      fecha_nacimiento || '',
+      id
+    ];
 
-    await db.query(query, updateValues);
-    res.json({ success: true, message: "Perfil actualizado correctamente" });
-  } catch (err) {
-    console.error("Error al actualizar el perfil:", err);
-    res.status(500).json({ success: false, error: "Error al actualizar el perfil" });
+    const sql = `
+      UPDATE usuario
+      SET nombre = ?, apellido = ?, email = ?, genero = ?, fecha_nacimiento = ?
+      WHERE id = ?`;
+
+    const [result] = await db.execute(sql, params);
+
+    res.json({ message: 'Usuario actualizado correctamente', affectedRows: result.affectedRows });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al actualizar instructor', error: error.message });
   }
 };
 
