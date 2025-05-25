@@ -44,8 +44,6 @@
   border-radius: 2px;
 }
 
-
-
 .subtitle {
   text-align: center;
   font-size: 1.2rem;
@@ -54,20 +52,53 @@
 }
 
 .searchBar {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
+  width: 100%;
+  max-width: 400px; 
+  margin: 0 auto; 
+  border-radius: 8px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--primary-red);
+  font-size: 16px;
+  z-index: 2;
 }
 
 .searchInput {
   width: 100%;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-  background: #fff;
-  color: #333;
+  padding: 16px 16px 16px 48px;
+  border: 2px solid var(--border-gray);
+  border-radius: var(--border-radius);
+  font-size: 16px;
+  background: var(--white);
+  color: var(--dark-gray);
+  transition: var(--transition);
+  font-family: inherit;
+  box-shadow: 0 2px 8px var(--shadow-light);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--primary-red);
+  box-shadow: 0 4px 16px rgba(231, 0, 20, 0.15);
+  transform: translateY(-1px);
+}
+
+.searchInput::placeholder {
+  color: var(--dark-gray);
+  opacity: 0.8;
+}
+
+.searchInput:focus{
+  outline: 2px solid var(--primary-red);
+  outline-offset: 2px;
 }
 
 .section {
@@ -133,37 +164,6 @@
   text-decoration: underline;
 }
 
-.searchBar {
-  position: relative;
-  width: 100%;
-  max-width: 600px;
-  margin: 2rem auto;
-}
-
-.searchInput {
-  width: 100%;
-  padding: 10px 15px 12px 45px;
-  border: 2px solid #e0e0e0;
-  font-size: 1rem;
-  outline: none;
-  transition: all 0.3s ease;
-  border-radius: 25px;
-
-}
-
-.searchInput:focus {
-  border-color: #E70014;
-  box-shadow: 0 2px 12px rgba(76, 175, 80, 0.2);
-}
-
-.searchIcon {
-  position: absolute;
-  left: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #E70014  ;
-  font-size: 1.2rem;
-}
 
 .faqAnswerContainer {
   max-height: 0;
@@ -186,3 +186,4 @@
   font-size: 14px;
   text-align: left;
 }
+

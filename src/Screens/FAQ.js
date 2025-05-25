@@ -102,7 +102,7 @@ const FAQ = () => {
           ¿Aún tienes preguntas? Contáctanos:
           <a href="mailto:kwanacademy@support.com"> kwanacademy@support.com</a>
         </p>
-      </div>
+      </div>  
     </div>
   );
 };
