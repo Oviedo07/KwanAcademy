@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Edit, Check, X, Book, User, ShoppingCart } from 'lucide-react';
 import styles from './PanelUser.module.css';
-import { useAuth } from '../context/UserAuthContext';
+import { useUserAuth } from '../context/UserAuthContext';
 import Swal from 'sweetalert2';
 import { useNavigate } from "react-router-dom";
 
 const PanelUsuario = () => {
-  const { user, updateUserContext } = useAuth();
+  const { user, updateUserContext } = useUserAuth();
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({});
   const [tempInfo, setTempInfo] = useState({});

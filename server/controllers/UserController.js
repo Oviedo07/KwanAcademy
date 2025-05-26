@@ -51,6 +51,19 @@ const sessionUser = (req, res) => {
   }
 };
 
+const logoutUser = (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("❌ Error al cerrar sesión:", err);
+      return res.status(500).json({ error: "Error al cerrar sesión" });
+    }
+    res.clearCookie("connect.sid"); // Nombre de la cookie de sesión (por defecto en Express)
+    console.log("✅ Sesión eliminada");
+    res.status(200).json({ message: "Sesión cerrada correctamente" });
+  });
+};
+
+
 // REGISTRAR USUARIO
 const registerUser = async (req, res) => {
   try {
@@ -151,12 +164,38 @@ try {
   }
 };
 
+// ---------------------------------------------------------------
+
+
+// LIMPIA LOCALSTORAGE
+const cleanStorage = (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).send('Error al cerrar sesión');
+    }
+    res.clearCookie('connect.sid'); // Cambia el nombre si tu cookie tiene otro
+    res.send('Sesión cerrada');
+  });
+};
+
+
+
+
+
+
+
+
+
+//-------------------------------------------
+
 module.exports = {
   signIn,
   registerUser,
   sessionUser,
+  logoutUser,
   getUsuariosActivos,
   getUsuariosInactivos,
   updateStatusUsuarios,
+  cleanStorage,
   updateUserProfile
 };
