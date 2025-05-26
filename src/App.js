@@ -14,7 +14,7 @@ import Home from "./screens/Home";
 import Courses from "./screens/Courses";
 import Register from "./screens/Register";
 import Data from "./screens/Data";
-import SignIn from "./screens/SignIn";
+import SignIn from "./Screens/SignIn";
 
 import HomeAdmin from "./Screens/AdminViews/HomeAdmin";
 import LoginAdmin from "./Screens/AdminViews/LoginAdmin";
