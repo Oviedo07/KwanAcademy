@@ -92,7 +92,7 @@ const PayPalButton = ({ price, courseName }) => {
             }
           >
             {({ url }) => (
-              <a href={url} download={`Factura_${receiptData.id}.pdf`}>
+              <a href={url} download={`Factura_Kwan_Academy_${receiptData.id}.pdf`}>
                 <button className={styles.printButton}>
                   Descargar factura
                 </button>
