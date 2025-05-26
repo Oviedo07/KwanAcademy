@@ -405,15 +405,6 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text-primary);
 }
 
-h4 {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
-  background: linear-gradient(135deg, var(--primary-red) 0%, var(--primary-red-dark) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: var(--spacing-xl);
-}
 
 p {
   font-size: var(--font-size-base);
