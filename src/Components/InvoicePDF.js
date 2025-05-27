@@ -22,70 +22,73 @@ const styles = StyleSheet.create({
     color: '#1a1a1a', // Color de texto principal - Negro profundo
     fontFamily: 'Helvetica',
   },
-  
+
   // Header principal con el branding de la academia
   headerContainer: {
     backgroundColor: '#FEF3E2', // FONDO DEL HEADER - Negro profundo
     padding: 30,
     marginBottom: 0,
   },
-  
+
   headerContent: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  
+
   // Sección del logo y nombre de la academia
   brandSection: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  
+
   logo: {
     width: 70, // Ajusta el tamaño del logo según necesites
     height: 70,
     marginRight: 15,
   },
-  
+
   brandText: {
     flexDirection: 'column',
   },
-  
+
   academyName: {
-    fontSize: 24,
+    fontSize: 18,
     color: '#000000', // COLOR PRINCIPAL - Rojo corporativo
-    fontWeight: 900,
+    fontWeight: 800,
     letterSpacing: 1,
+    marginLeft: -12
   },
-  
+
   subtitle: {
     fontSize: 10,
     color: '#333333', // COLOR SECUNDARIO - Gris medio
     marginTop: 2,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
+    marginLeft: -12
   },
-  
+
   // Información de la factura en el header
   invoiceInfo: {
     alignItems: 'flex-end',
   },
-  
+
   invoiceTitle: {
     fontSize: 16,
     color: '#000000', // Blanco para contraste en header negro
     fontWeight: 'bold',
     textTransform: 'uppercase',
     letterSpacing: 1,
+    marginTop: -1
   },
-  
+
   invoiceNumber: {
-    fontSize: 14,
+    fontSize: 10,
     color: '#333333', // COLOR SECUNDARIO - Gris medio
-    marginTop: 5,
+    marginTop: 3,
   },
-  
+
   // Sección de información principal
   mainContent: {
     backgroundColor: '#FDF8F2', // FONDO DEL CONTENIDO - Blanco
@@ -93,27 +96,27 @@ const styles = StyleSheet.create({
     padding: 30,
     flexGrow: 1,
   },
-  
+
   // Barra decorativa
   decorativeBar: {
     height: 4,
     backgroundColor: '#dc2626', // COLOR PRINCIPAL - Rojo corporativo
     marginBottom: 25,
   },
-  
+
   // Secciones de información
   infoGrid: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 25,
   },
-  
+
   infoColumn: {
     width: '48%',
   },
-  
+
   sectionTitle: {
-    fontSize: 14,
+    fontSize: 10,
     color: '#1a1a1a', // COLOR TEXTO PRINCIPAL - Negro profundo
     fontWeight: 'bold',
     marginBottom: 15,
@@ -122,13 +125,13 @@ const styles = StyleSheet.create({
     borderBottom: '1px solid #e5e7eb', // COLOR BORDE - Gris claro
     paddingBottom: 5,
   },
-  
+
   infoRow: {
     flexDirection: 'row',
     marginBottom: 8,
     alignItems: 'flex-start',
   },
-  
+
   label: {
     fontSize: 10,
     color: '#6b7280', // COLOR ETIQUETAS - Gris oscuro
@@ -136,14 +139,37 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: 0.3,
   },
-  
+
   value: {
     fontSize: 11,
     color: '#1a1a1a', // COLOR VALORES - Negro profundo
     fontWeight: 'bold',
     flex: 1,
+    marginLeft: -30
   },
-  
+
+  infoRows: {
+    flexDirection: 'row',
+    marginBottom: 8,
+    alignItems: 'flex-start',
+  },
+
+  labels: {
+    fontSize: 10,
+    color: '#6b7280', // COLOR ETIQUETAS - Gris oscuro
+    width: 100,
+    textTransform: 'uppercase',
+    letterSpacing: 0.3,
+  },
+
+  values: {
+    fontSize: 11,
+    color: '#1a1a1a', // COLOR VALORES - Negro profundo
+    fontWeight: 'bold',
+    flex: 1,
+    marginLeft: -45
+  },
+  /*
   // Sección del curso (destacada)
   courseSection: {
     backgroundColor: '#FDF8F2', // FONDO SECCIÓN CURSO - Gris muy claro
@@ -167,8 +193,8 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
     marginBottom: 5,
     fontWeight:800  
-  },
-  
+  },*/
+
   // Sección de precio (destacada)
   priceSection: {
     backgroundColor: '#FDF8F2', // FONDO SECCIÓN PRECIO - Negro profundo
@@ -178,7 +204,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  
+
   priceLabel: {
     fontSize: 14,
     color: '#000000', // COLOR SECUNDARIO - Gris medio
@@ -186,34 +212,34 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
     fontWeight: 800
   },
-  
+
   priceValue: {
     fontSize: 24,
     color: '#dc2626', // COLOR PRINCIPAL - Rojo corporativo
     fontWeight: 'bold',
   },
-  
+
   // Footer
   footer: {
     backgroundColor: '#f8e1bf', // FONDO FOOTER - Gris oscuro
     padding: 20,
     marginTop: 0,
   },
-  
+
   footerText: {
     fontSize: 9,
     color: '#333333', // COLOR SECUNDARIO - Gris medio
     textAlign: 'center',
     lineHeight: 1.4,
   },
-  
+
   // Elementos decorativos
   divider: {
     height: 1,
     backgroundColor: '#e5e7eb', // COLOR DIVISOR - Gris claro
     marginVertical: 15,
   },
-  
+
   accent: {
     color: '#dc2626', // COLOR PRINCIPAL - Rojo corporativo
     fontWeight: 'bold',
@@ -222,7 +248,8 @@ const styles = StyleSheet.create({
 
 const InvoicePDF = ({ buyer, course, price, date, id, logoUrl }) => (
   <Document>
-    <Page size="A4" style={styles.page}>
+    <Page size={{ width: 397.64, height: 661.89 }} style={styles.page}>
+
       {/* Header con branding */}
       <View style={styles.headerContainer}>
         <View style={styles.headerContent}>
@@ -230,13 +257,13 @@ const InvoicePDF = ({ buyer, course, price, date, id, logoUrl }) => (
           <View style={styles.brandSection}>
             {/* Logo - Descomenta y ajusta la ruta cuando tengas el logo */}
             <Image style={styles.logo} src="https://i.imgur.com/xa8TdxM.png" />
-            
+
             <View style={styles.brandText}>
               <Text style={styles.academyName}>KWAN ACADEMY</Text>
               <Text style={styles.subtitle}>Centro de Formación</Text>
             </View>
           </View>
-          
+
           {/* Información de factura */}
           <View style={styles.invoiceInfo}>
             <Text style={styles.invoiceTitle}>Factura</Text>
@@ -244,25 +271,25 @@ const InvoicePDF = ({ buyer, course, price, date, id, logoUrl }) => (
           </View>
         </View>
       </View>
-      
+
       {/* Contenido principal */}
       <View style={styles.mainContent}>
         <View style={styles.decorativeBar} />
-        
+
         {/* Grid de información */}
         <View style={styles.infoGrid}>
           <View style={styles.infoColumn}>
             <Text style={styles.sectionTitle}>Información del Cliente</Text>
             <View style={styles.infoRow}>
               <Text style={styles.label}>Cliente:</Text>
-              <Text style={styles.value}>{buyer}</Text>
+              <Text style={styles.values}>{buyer}</Text>
             </View>
-            <View style={styles.infoRow}>
-              <Text style={styles.label}>Fecha:</Text>
-              <Text style={styles.value}>{date}</Text>
+            <View style={styles.infoRows}>
+              <Text style={styles.labels}>Fecha:</Text>
+              <Text style={styles.values}>{date}</Text>
             </View>
           </View>
-          
+
           <View style={styles.infoColumn}>
             <Text style={styles.sectionTitle}>Detalles de Compra</Text>
             <View style={styles.infoRow}>
@@ -275,27 +302,27 @@ const InvoicePDF = ({ buyer, course, price, date, id, logoUrl }) => (
             </View>
           </View>
         </View>
-        
+
         <View style={styles.divider} />
-        
-        {/* Sección del curso */}
+
+        {/* Sección del curso 
         <View style={styles.courseSection}>
           <Text style={styles.courseLabel}>Producto Adquirido</Text>
           <Text style={styles.courseTitle}>{course}</Text>
-        </View>
-        
+        </View>*/}
+
         {/* Sección de precio */}
         <View style={styles.priceSection}>
           <Text style={styles.priceLabel}>Total Pagado</Text>
           <Text style={styles.priceValue}>{price}</Text>
         </View>
       </View>
-      
+
       {/* Footer */}
       <View style={styles.footer}>
         <Text style={styles.footerText}>
-          Gracias por confiar en KWAN ACADEMY. Esta factura es un comprobante oficial de tu adquisición.{'\n'}
-          Para soporte técnico o consultas, contacta con nuestro equipo de atención al cliente.
+          Gracias por confiar en KWAN ACADEMY. {'\n'}Esta factura es un comprobante oficial de tu adquisición.{'\n'}
+          Para soporte técnico o consultas, {'\n'}contacta con nuestro equipo de atención al cliente.
         </Text>
       </View>
     </Page>

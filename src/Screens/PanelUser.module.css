@@ -18,7 +18,7 @@
 }
 
 html {
-  background-color: var(--background);
+  background-color: #FDF8F2;
 }
 
 body {
@@ -502,3 +502,4 @@ body {
     padding: 2rem 1rem;
   }
 }
+

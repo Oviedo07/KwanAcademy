@@ -3,6 +3,10 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Navbar.module.css";
 import logoside from "../assets/images/logoka.png";
 import logo from "../assets/images/logoka.png";
+// Importar las imágenes de perfil por rol
+import userProfileImage from "../assets/images/samurai_user.png"; // Para usuarios regulares
+import instructorProfileImage from "../assets/images/samurai_instructor.png"; // Para instructores
+import adminProfileImage from "../assets/images/samurai_admin.png"; // Para administradores
 import { useAuth } from "../context/AuthContext";
 import { useUserAuth } from "../context/UserAuthContext"
 import Swal from "sweetalert2";
@@ -10,7 +14,7 @@ import { MdLogin } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdClose } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
-// JAJAJAJAJAJAJ
+
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false); // Controla el sidebar
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -20,6 +24,83 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAuth();
   const { logout } = useUserAuth();
+
+  // Función para obtener la imagen de perfil según el rol
+  const getProfileImage = () => {
+    console.log('Full user object:', user);
+    console.log('User from localStorage:', localStorage.getItem('user'));
+    console.log('Available user properties:', user ? Object.keys(user) : 'No user');
+    
+    // Intentar obtener el rol de múltiples fuentes
+    let userRole = null;
+    
+    // 1. Desde el contexto de usuario
+    if (user) {
+      // Buscar tanto 'rol' como 'role' por compatibilidad
+      userRole = user.rol || user.role;
+      if (userRole) {
+        console.log('Role from user context:', userRole);
+      }
+    }
+    
+    // 2. Desde localStorage como fallback
+    if (!userRole) {
+      try {
+        const userFromStorage = JSON.parse(localStorage.getItem('user') || '{}');
+        if (userFromStorage) {
+          // Buscar tanto 'rol' como 'role' por compatibilidad
+          userRole = userFromStorage.rol || userFromStorage.role;
+          if (userRole) {
+            console.log('Role from localStorage:', userRole);
+          }
+        }
+      } catch (e) {
+        console.log('Error parsing user from localStorage:', e);
+      }
+    }
+    
+    // 3. Desde user_app_user como otro fallback
+    if (!userRole) {
+      try {
+        const appUser = JSON.parse(localStorage.getItem('user_app_user') || '{}');
+        if (appUser) {
+          // Buscar tanto 'rol' como 'role' por compatibilidad
+          userRole = appUser.rol || appUser.role;
+          if (userRole) {
+            console.log('Role from user_app_user:', userRole);
+          }
+        }
+      } catch (e) {
+        console.log('Error parsing user_app_user from localStorage:', e);
+      }
+    }
+
+    if (!userRole) {
+      console.log('No role found anywhere, using default image');
+      return userProfileImage;
+    }
+
+    console.log('Final user role:', userRole, 'Type:', typeof userRole);
+    const roleString = userRole.toString().toLowerCase().trim();
+    console.log('Processed role:', roleString);
+
+    switch (roleString) {
+      case 'instructor':
+        console.log('Using instructor image');
+        return instructorProfileImage;
+      case 'admin':
+      case 'administrador':
+        console.log('Using admin image');
+        return adminProfileImage;
+      case 'user':
+      case 'usuario':
+        console.log('Using user image');
+        return userProfileImage;
+      default:
+        console.log('Default case, using user image. Role was:', roleString);
+        return userProfileImage;
+    }
+  };
 
   // Detectar cambios de tamaño de pantalla
   useEffect(() => {
@@ -59,7 +140,6 @@ const handleLogout = async () => {
         setMenuOpen(false);
         navigate("/");
 
-
         // Mostrar confirmación de logout y esperar a que el usuario cierre el alert
         await Swal.fire("Sesión cerrada", "Has cerrado sesión exitosamente.", "success");
 
@@ -78,13 +158,19 @@ const handleLogout = async () => {
     // Cerrar el menú desplegable
     setIsProfileOpen(false);
     
+    // Obtener el rol del usuario (buscar tanto 'rol' como 'role')
+    const userRole = user?.rol || user?.role;
+    
     // Verificar el rol del usuario y redireccionar
-    if (user && user.rol === "instructor") {
+    if (userRole === "instructor") {
       navigate("/PanelInstructor");
+    } else if (userRole === "admin" || userRole === "administrador") {
+      navigate("/AdminViews/HomeAdmin"); // Redirigir admins a su panel
     } else {
       navigate("/PanelUser");
     }
   }
+
   // Esta función se llama cuando se hace clic en los enlaces de navegación
   const handleNavigation = (path) => {
     // Aseguramos que se cierran los menús al navegar
@@ -163,15 +249,24 @@ const handleLogout = async () => {
         {isAuthenticated ? (
           <div className={styles.profileContainer}>
             <img
-              src="https://i.imgur.com/xeytnGi.jpeg"
+              src={getProfileImage()}
               className={styles.profileImage}
               onClick={() => setIsProfileOpen(!isProfileOpen)}
-              alt="Perfil"
+              alt={`Perfil ${user?.rol || 'usuario'}`}
             />
             {isProfileOpen && (
               <div className={styles.dropdownMenu}>
-                <p className={styles.userName}>{user?.name || user?.primer_nombre || "Usuario"}</p>
+                <p className={styles.userName}>
+                  {user?.name || 
+                   user?.primer_nombre || 
+                   user?.nombre || 
+                   user?.first_name || 
+                   user?.firstName || 
+                   user?.username || 
+                   "Usuario"}
+                </p>
                 <p className={styles.userEmail}>{user?.email || "Correo no disponible"}</p>
+                <p className={styles.userRole}>{(user?.rol || user?.role || "Usuario").charAt(0).toUpperCase() + (user?.rol || user?.role || "Usuario").slice(1).toLowerCase()}</p>
                 <button className={styles.ProfileButton} onClick={navigateToUserAccount}>
                   Tu cuenta
                 </button>
