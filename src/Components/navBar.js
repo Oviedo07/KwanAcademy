@@ -148,7 +148,7 @@ const Navbar = () => {
         {isAuthenticated ? (
           <div className={styles.profileContainer}>
             <img
-              src="https://imgur.com/vnUR4HS.jpg"
+              src="https://i.imgur.com/xeytnGi.jpeg"
               className={styles.profileImage}
               onClick={() => setIsProfileOpen(!isProfileOpen)}
               alt="Perfil"
