@@ -4,13 +4,13 @@ import styles from "./Navbar.module.css";
 import logoside from "../assets/images/logoka.png";
 import logo from "../assets/images/logoka.png";
 import { useAuth } from "../context/AuthContext";
-
+import { useUserAuth } from "../context/UserAuthContext"
 import Swal from "sweetalert2";
 import { MdLogin } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdClose } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
-
+// JAJAJAJAJAJAJ
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false); // Controla el sidebar
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -18,7 +18,8 @@ const Navbar = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   const navigate = useNavigate();
-  const { isAuthenticated, user, logout } = useAuth();
+  const { isAuthenticated, user } = useAuth();
+  const { logout } = useUserAuth();
 
   // Detectar cambios de tamaño de pantalla
   useEffect(() => {
@@ -29,33 +30,48 @@ const Navbar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Cerrar sesión
-  const handleLogout = async () => {
-    Swal.fire({
-      title: "¿Estás seguro?",
-      text: "Serás desconectado de tu cuenta.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Sí, cerrar sesión",
-      cancelButtonText: "Cancelar",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        // Aseguramos que el logout se completa antes de navegar
-        await logout();
-        // Cerrar cualquier menú abierto
+const handleLogout = async () => {
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "Serás desconectado de tu cuenta.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Sí, cerrar sesión",
+    cancelButtonText: "Cancelar",
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      try {
+        // Llamada al backend para destruir la sesión
+        await fetch("http://localhost:5000/api/logoutUser", {
+          method: "GET",
+          credentials: "include",
+        });
+
+        // Limpiar localStorage
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        localStorage.removeItem("user_app_user");
+
+        // Cerrar menús
         setIsProfileOpen(false);
         setMenuOpen(false);
-        
-        // Retrasamos ligeramente la navegación para dar tiempo a que se procese el logout
-        setTimeout(() => {
-          navigate("/");
-          Swal.fire("Sesión cerrada", "Has cerrado sesión exitosamente.", "success");
-        }, 100);
+        navigate("/");
+
+
+        // Mostrar confirmación de logout y esperar a que el usuario cierre el alert
+        await Swal.fire("Sesión cerrada", "Has cerrado sesión exitosamente.", "success");
+
+        // Recargar la página
+        window.location.reload();
+      } catch (error) {
+        Swal.fire("Error", "Hubo un problema al cerrar sesión.", "error");
+        console.error("Error en logout:", error);
       }
-    });
-  };
+    }
+  });
+};
 
   // Función para redireccionar según el rol del usuario
   const navigateToUserAccount = () => {
@@ -68,8 +84,7 @@ const Navbar = () => {
     } else {
       navigate("/PanelUser");
     }
-  };
-
+  }
   // Esta función se llama cuando se hace clic en los enlaces de navegación
   const handleNavigation = (path) => {
     // Aseguramos que se cierran los menús al navegar
