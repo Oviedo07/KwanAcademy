@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { useAuth } from "../context/AuthContext";
 import api from "../axios.js"; // Importamos la instancia configurada de axios
-import PayPalButton from "../Components/PayPalButton";
+import PayPalButton from "../components/PayPalButton";
 
 
 const sortOptions = ["Popularidad", "Precio: Bajo a Alto", "Precio: Alto a Bajo", "Fecha: Más reciente"];
