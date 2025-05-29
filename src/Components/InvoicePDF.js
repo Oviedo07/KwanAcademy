@@ -1,4 +1,4 @@
-// InvoicePDF.js - Versión actualizada
+// InvoicePDF.js - Versión corregida
 import React from 'react';
 import {
   Document,
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 
   // Header principal con el branding de la academia
   headerContainer: {
-    backgroundColor: '#FEF3E2', // FONDO DEL HEADER - Negro profundo
+    backgroundColor: '#FEF3E2', // FONDO DEL HEADER
     padding: 30,
     marginBottom: 0,
   },
@@ -54,10 +54,10 @@ const styles = StyleSheet.create({
 
   academyName: {
     fontSize: 18,
-    color: '#000000', // COLOR PRINCIPAL - Rojo corporativo
+    color: '#000000', // COLOR PRINCIPAL
     fontWeight: 800,
     letterSpacing: 1,
-    marginLeft: -12
+    marginLeft: -12,
   },
 
   subtitle: {
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
-    marginLeft: -12
+    marginLeft: -12,
   },
 
   // Información de la factura en el header
@@ -76,11 +76,11 @@ const styles = StyleSheet.create({
 
   invoiceTitle: {
     fontSize: 16,
-    color: '#000000', // Blanco para contraste en header negro
+    color: '#000000',
     fontWeight: 'bold',
     textTransform: 'uppercase',
     letterSpacing: 1,
-    marginTop: -1
+    marginTop: -1,
   },
 
   invoiceNumber: {
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
 
   // Sección de información principal
   mainContent: {
-    backgroundColor: '#FDF8F2', // FONDO DEL CONTENIDO - Blanco
+    backgroundColor: '#FDF8F2', // FONDO DEL CONTENIDO
     margin: 0,
     padding: 30,
     flexGrow: 1,
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     color: '#1a1a1a', // COLOR VALORES - Negro profundo
     fontWeight: 'bold',
     flex: 1,
-    marginLeft: -30
+    marginLeft: -30,
   },
 
   infoRows: {
@@ -167,9 +167,9 @@ const styles = StyleSheet.create({
     color: '#1a1a1a', // COLOR VALORES - Negro profundo
     fontWeight: 'bold',
     flex: 1,
-    marginLeft: -45
+    marginLeft: -45,
   },
-  /*
+
   // Sección del curso (destacada)
   courseSection: {
     backgroundColor: '#FDF8F2', // FONDO SECCIÓN CURSO - Gris muy claro
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: 0.5,
     marginBottom: 5,
-    fontWeight:800  
+    fontWeight: 800,
   },
   
   // Estilos para información del instructor
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
   
   // Sección de precio (destacada)
   priceSection: {
-    backgroundColor: '#FDF8F2', // FONDO SECCIÓN PRECIO - Negro profundo
+    backgroundColor: '#FDF8F2', // FONDO SECCIÓN PRECIO
     padding: 20,
     marginTop: 20,
     flexDirection: 'row',
@@ -226,10 +226,10 @@ const styles = StyleSheet.create({
 
   priceLabel: {
     fontSize: 14,
-    color: '#000000', // COLOR SECUNDARIO - Gris medio
+    color: '#000000',
     textTransform: 'uppercase',
     letterSpacing: 0.5,
-    fontWeight: 800
+    fontWeight: 800,
   },
 
   priceValue: {
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
 
   // Footer
   footer: {
-    backgroundColor: '#f8e1bf', // FONDO FOOTER - Gris oscuro
+    backgroundColor: '#f8e1bf', // FONDO FOOTER
     padding: 20,
     marginTop: 0,
   },
@@ -324,7 +324,7 @@ const InvoicePDF = ({ buyer, course, instructor, price, date, id, logoUrl }) => 
 
         <View style={styles.divider} />
 
-        {/* Sección del curso 
+        {/* Sección del curso */}
         <View style={styles.courseSection}>
           <Text style={styles.courseLabel}>Producto Adquirido</Text>
           <Text style={styles.courseTitle}>{course}</Text>
