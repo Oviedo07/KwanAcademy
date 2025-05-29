@@ -4,7 +4,7 @@ const session = require("express-session");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const path = require("path");
-
+const CompraRoutes = require('./routes/ComprasRoutes');
 const UserRoutes = require("./routes/UserRoutes");
 const AdminRoutes = require("./routes/AdminRoutes");
 const InstructorRoutes = require("./routes/InstructorRoutes");
@@ -37,6 +37,7 @@ app.use(UserRoutes);
 app.use(AdminRoutes);
 app.use(InstructorRoutes);
 app.use(CursosRoutes);
+app.use(CompraRoutes);
 
 async function startServer() {
   try {

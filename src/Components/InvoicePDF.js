@@ -1,4 +1,4 @@
-// InvoicePDF.js
+// InvoicePDF.js - Versión actualizada
 import React from 'react';
 import {
   Document,
@@ -169,6 +169,25 @@ const styles = StyleSheet.create({
     fontWeight:800  
   },
   
+  // Estilos para información del instructor
+  instructorInfo: {
+    marginTop: 10,
+  },
+  
+  instructorLabel: {
+    fontSize: 10,
+    color: '#6b7280',
+    textTransform: 'uppercase',
+    letterSpacing: 0.3,
+    marginBottom: 3,
+  },
+  
+  instructorName: {
+    fontSize: 12,
+    color: '#1a1a1a',
+    fontWeight: 'bold',
+  },
+  
   // Sección de precio (destacada)
   priceSection: {
     backgroundColor: '#FDF8F2', // FONDO SECCIÓN PRECIO - Negro profundo
@@ -220,7 +239,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const InvoicePDF = ({ buyer, course, price, date, id, logoUrl }) => (
+const InvoicePDF = ({ buyer, course, instructor, price, date, id, logoUrl }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       {/* Header con branding */}
@@ -282,6 +301,14 @@ const InvoicePDF = ({ buyer, course, price, date, id, logoUrl }) => (
         <View style={styles.courseSection}>
           <Text style={styles.courseLabel}>Producto Adquirido</Text>
           <Text style={styles.courseTitle}>{course}</Text>
+          
+          {/* Información del instructor */}
+          {instructor && (
+            <View style={styles.instructorInfo}>
+              <Text style={styles.instructorLabel}>Instructor:</Text>
+              <Text style={styles.instructorName}>{instructor}</Text>
+            </View>
+          )}
         </View>
         
         {/* Sección de precio */}

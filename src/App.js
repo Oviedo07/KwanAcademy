@@ -11,10 +11,10 @@ import Layout from "./Components/Layout";
 
 
 // ─── Pantallas y componentes ────────────────────────────────────
-import Home from "./screens/Home";
-import Courses from "./screens/Courses";
-import Register from "./screens/Register";
-import Data from "./screens/Data";
+import Home from "./Screens/Home";
+import Courses from "./Screens/Courses";
+import Register from "./Screens/Register";
+import Data from "./Screens/Data";
 import SignIn from "./Screens/SignIn";
 
 import HomeAdmin from "./Screens/AdminViews/HomeAdmin";

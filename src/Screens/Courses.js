@@ -293,7 +293,12 @@ const Courses = () => {
               <div className={styles["modal-price-section"]}>
                 <p className={styles["modal-price"]}> {selectedCourse.price}</p>
                 {/* Botón de PayPal */}
-                <PayPalButton price={selectedCourse.price} />
+              <PayPalButton 
+                price={selectedCourse.price} 
+                courseId={selectedCourse.id}
+                courseName={selectedCourse.name}
+                courseInstructor={selectedCourse.instructor}
+              />  
               </div>
             </div>
           </div>
