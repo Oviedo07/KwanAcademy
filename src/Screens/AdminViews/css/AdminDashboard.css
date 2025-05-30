@@ -162,12 +162,14 @@ img{
   font-size: 30px;
   font-weight: var(--font-weight-bold);
   color: var(--bg-dark);
-  text-align: center;
+  text-align: left;
   letter-spacing: 0.1em;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   line-height: 1.2;
   transition: all var(--transition-normal);
   margin-top: 0px;
+  font-family: 'Segoe UI', sans-serif;
+  cursor: default
 }
 
 
@@ -598,4 +600,215 @@ p {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary-red);
+}
+
+/* ========================================
+   SECCIÓN DE PERFIL DEL ADMINISTRADOR
+======================================== */
+.admin-profile-section {
+  position: absolute;
+  bottom: var(--spacing-lg);
+  left: 0;
+  right: 0;
+  padding: 0 var(--spacing-lg);
+  border-top: 1px solid var(--gray-300);
+  padding-top: var(--spacing-lg);
+  background: linear-gradient(135deg, rgba(254, 243, 226, 0.8) 0%, rgba(250, 250, 250, 0.6) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.admin-profile-container {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-lg);
+  cursor: default;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+
+}
+
+.admin-profile-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(231, 0, 20, 0.1), transparent);
+  transition: left var(--transition-normal);
+}
+
+.admin-profile-container:hover {
+  border-color: var(--primary-red-light);
+
+}
+
+
+
+.admin-avatar {
+  flex-shrink: 0;
+  position: relative;
+}
+
+.admin-avatar::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.admin-profile-container:hover .admin-avatar::after {
+  opacity: 1;
+}
+
+.profile-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--gray-200);
+  transition: all var(--transition-normal);
+  position: relative;
+  z-index: 1;
+}
+
+
+.admin-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.admin-name {
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--spacing-xs);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color var(--transition-fast);
+}
+
+.admin-profile-container:hover .admin-name {
+  color: var(--primary-red);
+}
+
+.admin-role {
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: color var(--transition-fast);
+}
+
+.admin-profile-container:hover .admin-role {
+  color: var(--text-secondary);
+}
+
+/* ========================================
+   AJUSTES AL SIDEBAR PARA EL PERFIL
+======================================== */
+.sidebar-container {
+  padding-bottom: 140px; /* Espacio para la sección de perfil */
+}
+
+.sidebar-menu {
+  padding-bottom: var(--spacing-lg);
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* ========================================
+   RESPONSIVE PARA SIDEBAR COLAPSADO
+======================================== */
+.sidebar-container.collapsed .admin-profile-section {
+  padding: 0 var(--spacing-sm);
+}
+
+.sidebar-container.collapsed .admin-profile-container {
+  justify-content: center;
+  padding: var(--spacing-md) var(--spacing-sm);
+  gap: 0;
+}
+
+.sidebar-container.collapsed .profile-img {
+  width: 40px;
+  height: 40px;
+}
+
+.sidebar-container.collapsed .admin-info {
+  display: none;
+}
+
+/* Tooltip para perfil en sidebar colapsado */
+.sidebar-container.collapsed .admin-profile-container {
+  position: relative;
+}
+
+.sidebar-container.collapsed .admin-profile-container::after {
+  content: attr(data-admin-name) '\A' 'Administrador';
+  position: absolute;
+  left: calc(100% + var(--spacing-md));
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--bg-dark);
+  color: var(--text-white);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-xs);
+  white-space: pre-line;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-fast);
+  z-index: 1001;
+  box-shadow: var(--shadow-md);
+  min-width: 120px;
+}
+
+.sidebar-container.collapsed .admin-profile-container:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ========================================
+   RESPONSIVE ADICIONAL
+======================================== */
+@media (max-width: 768px) {
+  .admin-profile-section {
+    bottom: var(--spacing-md);
+    padding: 0 var(--spacing-md);
+    padding-top: var(--spacing-md);
+  }
+  
+  .admin-profile-container {
+    padding: var(--spacing-sm);
+    gap: var(--spacing-sm);
+  }
+  
+  .profile-img {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .admin-name {
+    font-size: var(--font-size-xs);
+  }
+  
+  .admin-role {
+    font-size: 10px;
+  }
 }

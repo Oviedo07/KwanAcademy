@@ -10,11 +10,9 @@ import { useAdminAuth } from "../../context/AdminAuthContext";
 import { Navigate, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 
-
-
 const AdminDashboard = () => {
     // Hooks
-    const { isAdminAuthenticated, logoutAdmin } = useAdminAuth();
+    const { admin, isAdminAuthenticated, logoutAdmin } = useAdminAuth();
     const { expanded } = useSidebar();
     const [activeComponent, setActiveComponent] = useState('home');
     const navigate = useNavigate();
@@ -29,14 +27,16 @@ const AdminDashboard = () => {
             }
 
             // Verificar que adminData es un JSON válido
-            const admin = JSON.parse(adminData);
-            console.log("🔎 Sesión verificada en AdminDashboard:", admin);
+            const adminParsed = JSON.parse(adminData);
+            console.log("🔎 Sesión verificada en AdminDashboard:", adminParsed);
+            console.log("🔎 Datos del admin desde el contexto:", admin);
+            console.log("🔎 Nombre del admin:", admin?.nombre, admin?.name, admin?.username);
         } catch (error) {
             console.error("❌ Error al verificar sesión:", error);
             localStorage.removeItem("admin"); // Eliminar dato corrupto
             navigate("/AdminViews/LoginAdmin"); // Redirigir al login
         }
-    }, [navigate]);
+    }, [navigate, admin]);
 
     // Si no hay autenticación, redirigir al login
     const adminData = localStorage.getItem("admin");
@@ -66,6 +66,7 @@ const AdminDashboard = () => {
             navigate("/AdminViews/LoginAdmin"); // Usar navigate para redirección
         }, 2100);
     };
+
     // Renderizado de componentes
     const renderActiveComponent = () => {
         switch (activeComponent) {
@@ -117,8 +118,6 @@ const AdminDashboard = () => {
                         <span className="logo-text">KWAN ACADEMY</span>
                     </div>
                 </div>
-
-
 
                 <div className="sidebar-menu">
                     <div
@@ -173,6 +172,35 @@ const AdminDashboard = () => {
                     <div className="menu-item" onClick={handleLogout}>
                         <LogOut size={20} />
                         {expanded && <span>Cerrar Sesión</span>}
+                    </div>
+                </div>
+
+                {/* Sección de perfil del administrador */}
+                <div className="admin-profile-section">
+                    <div 
+                        className="admin-profile-container"
+                        data-admin-name={admin?.nombre || 'Administrador'}
+                    >
+                        <div className="admin-avatar">
+                            <img
+                                src={`${process.env.PUBLIC_URL}/samurai_admin.png`}
+                                alt="Foto de perfil"
+                                className="profile-img"
+                                onError={(e) => {
+                                    e.target.src = 'https://via.placeholder.com/50x50/cccccc/666666?text=Admin';
+                                }}
+                            />
+                        </div>
+                        {expanded && (
+                            <div className="admin-info">
+                                <div className="admin-name">
+                                    {admin?.nombre || admin?.name || admin?.username || admin?.email || 'Administrador'}
+                                </div>
+                                <div className="admin-role">
+                                    Administrador
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

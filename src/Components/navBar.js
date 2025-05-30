@@ -3,10 +3,9 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Navbar.module.css";
 import logoside from "../assets/images/logoka.png";
 import logo from "../assets/images/logoka.png";
-// Importar las imágenes de perfil por rol
+// Importar las imágenes de perfil por rol (solo usuario e instructor)
 import userProfileImage from "../assets/images/samurai_user.png"; // Para usuarios regulares
 import instructorProfileImage from "../assets/images/samurai_instructor.png"; // Para instructores
-import adminProfileImage from "../assets/images/samurai_admin.png"; // Para administradores
 import { useAuth } from "../context/AuthContext";
 import { useUserAuth } from "../context/UserAuthContext"
 import Swal from "sweetalert2";
@@ -25,7 +24,7 @@ const Navbar = () => {
   const { isAuthenticated, user } = useAuth();
   const { logout } = useUserAuth();
 
-  // Función para obtener la imagen de perfil según el rol
+  // Función para obtener la imagen de perfil según el rol (solo usuario e instructor)
   const getProfileImage = () => {
     console.log('Full user object:', user);
     console.log('User from localStorage:', localStorage.getItem('user'));
@@ -76,7 +75,7 @@ const Navbar = () => {
     }
 
     if (!userRole) {
-      console.log('No role found anywhere, using default image');
+      console.log('No role found anywhere, using default user image');
       return userProfileImage;
     }
 
@@ -84,14 +83,11 @@ const Navbar = () => {
     const roleString = userRole.toString().toLowerCase().trim();
     console.log('Processed role:', roleString);
 
+    // Solo manejar instructor y usuario
     switch (roleString) {
       case 'instructor':
         console.log('Using instructor image');
         return instructorProfileImage;
-      case 'admin':
-      case 'administrador':
-        console.log('Using admin image');
-        return adminProfileImage;
       case 'user':
       case 'usuario':
         console.log('Using user image');
@@ -153,7 +149,7 @@ const handleLogout = async () => {
   });
 };
 
-  // Función para redireccionar según el rol del usuario
+  // Función para redireccionar según el rol del usuario (solo usuario e instructor)
   const navigateToUserAccount = () => {
     // Cerrar el menú desplegable
     setIsProfileOpen(false);
@@ -161,12 +157,11 @@ const handleLogout = async () => {
     // Obtener el rol del usuario (buscar tanto 'rol' como 'role')
     const userRole = user?.rol || user?.role;
     
-    // Verificar el rol del usuario y redireccionar
+    // Verificar el rol del usuario y redireccionar (solo instructor y usuario)
     if (userRole === "instructor") {
       navigate("/PanelInstructor");
-    } else if (userRole === "admin" || userRole === "administrador") {
-      navigate("/AdminViews/HomeAdmin"); // Redirigir admins a su panel
     } else {
+      // Para cualquier otro rol (incluyendo usuario), ir al panel de usuario
       navigate("/PanelUser");
     }
   }
@@ -266,7 +261,9 @@ const handleLogout = async () => {
                    "Usuario"}
                 </p>
                 <p className={styles.userEmail}>{user?.email || "Correo no disponible"}</p>
-                <p className={styles.userRole}>{(user?.rol || user?.role || "Usuario").charAt(0).toUpperCase() + (user?.rol || user?.role || "Usuario").slice(1).toLowerCase()}</p>
+                <p className={styles.userRole}>
+                  {user?.rol === 'instructor' ? 'Instructor' : 'Usuario'}
+                </p>
                 <button className={styles.ProfileButton} onClick={navigateToUserAccount}>
                   Tu cuenta
                 </button>
