@@ -25,5 +25,10 @@ yarn-debug.log*
 yarn-error.log*
 .qodo
 
-# Ignorar archivos de entorno
+# database archives
 .env
+
+# later
+src/Screens/despues.js
+src/screens/despues.module.css
+public/despues.png
