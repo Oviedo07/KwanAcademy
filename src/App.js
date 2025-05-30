@@ -31,7 +31,7 @@ import FAQ from "./screens/FAQ";
 import PanelInstructor from "./screens/PanelInstructor";
 import PanelUser from "./screens/PanelUser";
 import Error404 from "./screens/Error404";
-import Despues from "./screens/despues"
+import Sandbox from "./screens/despues"
 
 // ─── Rutas ───────────────────────────────────────────────────────
 function AppWrapper() {
@@ -65,7 +65,7 @@ function AppWrapper() {
         }
       />
       <Route path="*" element={<Error404 />} />
-      <Route path="/despues" element={<Despues />} />
+      <Route path="/despues" element={<Sandbox />} />
     </Routes>
   );
 }
