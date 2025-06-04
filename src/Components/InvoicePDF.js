@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
   },
 
   priceLabel: {
-    fontSize: 14,
+    fontSize: 10,
     color: '#000000',
     textTransform: 'uppercase',
     letterSpacing: 0.5,
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
   },
 
   priceValue: {
-    fontSize: 24,
+    fontSize: 20,
     color: '#dc2626', // COLOR PRINCIPAL - Rojo corporativo
     fontWeight: 'bold',
   },
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
   footer: {
     backgroundColor: '#f8e1bf', // FONDO FOOTER
     padding: 20,
-    marginTop: 0,
+    marginTop: -15,
   },
 
   footerText: {
@@ -348,8 +348,8 @@ const InvoicePDF = ({ buyer, course, instructor, price, date, id, logoUrl }) => 
       {/* Footer */}
       <View style={styles.footer}>
         <Text style={styles.footerText}>
-          Gracias por confiar en KWAN ACADEMY. {'\n'}Esta factura es un comprobante oficial de tu adquisición.{'\n'}
-          Para soporte técnico o consultas, {'\n'}contacta con nuestro equipo de atención al cliente.
+        Esta factura es un comprobante oficial de tu adquisición.{'\n'}
+          Para soporte técnico o consultas, contacta con nuestro equipo{'\n'} de atención al cliente. kwanacademy@support.com
         </Text>
       </View>
     </Page>
