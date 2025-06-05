@@ -6,6 +6,8 @@ import "./css/AdminDashboard.css";
 import useSidebar from "./utils/FunctionsCenterAdmin";
 import AdminManagement from './components/AdminManagement';
 import UserManagement from './components/UserManagement';
+import InstructorManagement from './components/InstructorManagement'
+import CursoManagement from './components/CursoManagement';
 import { useAdminAuth } from "../../context/AdminAuthContext";
 import { Navigate, useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
@@ -80,20 +82,9 @@ const AdminDashboard = () => {
             case 'users':
                 return <UserManagement />;
             case 'instructors':
-                return <div className="card p-4 shadow-lg" style={{ width: "100%" }}>
-                    <h4 className="text-center mb-3">GESTIÓN DE INSTRUCTORES</h4>
-                    <p>Componente en desarrollo...</p>
-                </div>;
+                return < InstructorManagement />
             case 'courses':
-                return <div className="card p-4 shadow-lg" style={{ width: "100%" }}>
-                    <h4 className="text-center mb-3">GESTIÓN DE CURSOS</h4>
-                    <p>Componente en desarrollo...</p>
-                </div>;
-            case 'payments':
-                return <div className="card p-4 shadow-lg" style={{ width: "100%" }}>
-                    <h4 className="text-center mb-3">GESTIÓN DE PAGOS</h4>
-                    <p>Componente en desarrollo...</p>
-                </div>;
+                return < CursoManagement />
             case 'support':
                 return <div className="card p-4 shadow-lg" style={{ width: "100%" }}>
                     <h4 className="text-center mb-3">SOPORTE TÉCNICO</h4>
@@ -154,13 +145,6 @@ const AdminDashboard = () => {
                     >
                         <ShoppingCart size={20} />
                         {expanded && <span>Cursos</span>}
-                    </div>
-                    <div
-                        className={`menu-item ${activeComponent === 'payments' ? 'active' : ''}`}
-                        onClick={() => handleMenuClick('payments')}
-                    >
-                        <Wallet size={20} />
-                        {expanded && <span>Pagos</span>}
                     </div>
                     <div
                         className={`menu-item ${activeComponent === 'support' ? 'active' : ''}`}

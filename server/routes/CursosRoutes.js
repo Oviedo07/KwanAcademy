@@ -7,7 +7,8 @@ const { getAllCursos,
         updateCurso,
         getCursos,
         getCursosByInstructor,
-        deleteCurso
+        deleteCurso,
+        coursesSold
     } = require("../controllers/CursosController")
 
 // Ruta para obtener todos los cursos
@@ -23,4 +24,5 @@ router.get("/api/getCursos", getCursos);
 router.get("/api/getCurso/:id", getCursoById);
 router.get("/api/getCursosByInstructor/:id", getCursosByInstructor);
 router.delete("/api/deleteCurso/:id", deleteCurso);
+router.get("/api/coursesSold", coursesSold);
 module.exports = router;

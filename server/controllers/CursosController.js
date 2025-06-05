@@ -30,43 +30,6 @@ const getAllCursos = async (req, res) => {
   }
 };
 
-// // Obtener un curso específico por ID
-// const getCursoById = async (req, res) => {
-//   try {
-//     const db = await getConnection();
-//     const { id } = req.params;
-
-//     const [results] = await db.query(`
-//       SELECT c.id, c.nombre, c.descripcion, c.objetivos, c.precio, c.imagen_url, 
-//              c.fecha_creacion, i.primer_nombre AS instructor_nombre, i.primer_apellido AS instructor_apellido
-//       FROM curso c
-//       JOIN instructor i ON c.id_instructor = i.id
-//       WHERE c.id = ?
-//     `, [id]);
-    
-
-//     if (results.length === 0) {
-//       return res.status(404).json({ message: 'Curso no encontrado' });
-//     }
-
-//     const curso = results[0];
-//     const formattedCurso = {
-//       id: curso.id,
-//       name: curso.nombre,
-//       price: curso.precio,
-//       description: curso.descripcion,
-//       instructor: `${curso.instructor_nombre} ${curso.instructor_apellido}`,
-//       objetivos: curso.objetivos,
-//       image: curso.imagen_url,
-//       fecha_creacion: curso.fecha_creacion
-//     };
-
-//     res.status(200).json(formattedCurso);
-//   } catch (error) {
-//     console.error('Error en servidor:', error);
-//     res.status(500).json({ message: 'Error interno del servidor' });
-//   }
-// };
 
 // Obtener cursos por categoría
 const getCursosByCategory = async (req, res) => {
@@ -242,6 +205,34 @@ const deleteCurso = async (req, res) => {
   }
 };
 
+
+// --------------------------- CURSOS PARA ADMINISTRADOR ---------------------------
+const coursesSold = async (req, res) => {
+  try {
+    const db = await getConnection();
+
+    const [result] = await db.query(`
+      SELECT 
+        curso.nombre AS nombre_curso,
+        instructor.primer_nombre AS nombre_instructor,
+        instructor.primer_apellido AS apellido_instructor,
+        COUNT(compra.id_curso) AS total_ventas
+      FROM curso
+      INNER JOIN instructor ON curso.id_instructor = instructor.id
+      INNER JOIN compra ON curso.id = compra.id_curso
+      GROUP BY curso.id
+      ORDER BY total_ventas DESC
+      LIMIT 10;
+    `);
+
+    res.json(result);
+  } catch (error) {
+    console.error('Error al obtener los cursos más vendidos:', error);
+    res.status(500).json({ error: 'Error al obtener los cursos más vendidos' });
+  }
+};
+
+
 module.exports = {
   getAllCursos,
   getCursoById,
@@ -250,6 +241,7 @@ module.exports = {
   updateCurso,
   getCursos,
   getCursosByInstructor,
-  deleteCurso
+  deleteCurso,
+  coursesSold
 };
 

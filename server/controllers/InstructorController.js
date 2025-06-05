@@ -142,9 +142,36 @@ const updateInstructor = async (req, res) => {
   }
 };
 
+
+//----------------------------- INSTRUCTOR POR PARTE DE ADMIN -------------------------
+
+const getSummaryInstructor = async (req, res) => {
+  try {
+    const db = await getConnection();
+    const [rows] = await db.query(`
+      SELECT 
+        i.primer_nombre,
+        i.primer_apellido,
+        COUNT(DISTINCT c.id) AS cantidad_cursos,
+        COUNT(co.numero_factura) AS total_ventas
+      FROM instructor i
+      LEFT JOIN curso c ON c.id_instructor = i.id
+      LEFT JOIN compra co ON co.id_curso = c.id
+      GROUP BY i.id
+    `);
+    
+    res.json(rows);
+  } catch (err) {
+    console.error("Error al obtener resumen de instructores:", err);
+    res.status(500).json({ error: "Error en el servidor" });
+  }
+};
+
+
 module.exports = {
   signInInstructor,
   registerInstructor,
   sessionInstructor,
-  updateInstructor
+  updateInstructor,
+  getSummaryInstructor
 };
