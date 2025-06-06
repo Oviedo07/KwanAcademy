@@ -167,7 +167,7 @@ const AdminDashboard = () => {
                     >
                         <div className="admin-avatar">
                             <img
-                                src={`${process.env.PUBLIC_URL}/samurai_admin.png`}
+                                src={`${process.env.PUBLIC_URL}/samurai_admin.jpg`}
                                 alt="Foto de perfil"
                                 className="profile-img"
                                 onError={(e) => {

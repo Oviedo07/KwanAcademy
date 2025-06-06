@@ -4,8 +4,8 @@ import styles from "./Navbar.module.css";
 import logoside from "../assets/images/logoka.png";
 import logo from "../assets/images/logoka.png";
 // Importar las imágenes de perfil por rol (solo usuario e instructor)
-import userProfileImage from "../assets/images/samurai_user.png"; // Para usuarios regulares
-import instructorProfileImage from "../assets/images/samurai_instructor.png"; // Para instructores
+import userProfileImage from "../assets/images/samurai_user.jpg"; // Para usuarios regulares
+import instructorProfileImage from "../assets/images/samurai_instructor.jpg"; // Para instructores
 import { useAuth } from "../context/AuthContext";
 import { useUserAuth } from "../context/UserAuthContext"
 import Swal from "sweetalert2";
