@@ -24,17 +24,14 @@ const PanelInstructor = () => {
   const [activeTab, setActiveTab] = useState('perfil');
 
   // ────────────────────────────────────────────────────────────
-  // Datos simulados (cursos y ventas) ─ en producción llegarán desde el backend
+  // Estados para cursos y ventas
   // ────────────────────────────────────────────────────────────
   const [cursos, setCursos] = useState([
     { id: 1, titulo: 'Tus cursos aquí.', estudiantes: 0, calificacion: 0.0 }
   ]);
 
-  const [ventas] = useState([
-    { id: 1, curso: 'TaeKwonDo - Avanzado', fecha: '15/05/2025', monto: 71.99 },
-    { id: 2, curso: 'Karate - Intermedio', fecha: '22/04/2025', monto: 39.99 },
-    { id: 3, curso: 'TaeKwonDo - Básico', fecha: '20/04/2025', monto: 52.99 },
-  ]);
+  const [ventas, setVentas] = useState([]);
+  const [loadingVentas, setLoadingVentas] = useState(false);
 
   // ────────────────────────────────────────────────────────────
   // Cargar info inicial del usuario
@@ -57,7 +54,7 @@ const PanelInstructor = () => {
   }, [user]);
 
   // ────────────────────────────────────────────────────────────
-  // Cargar cursos reales del backend (cuando tengas endpoint)
+  // Cargar cursos reales del backend
   // ────────────────────────────────────────────────────────────
   useEffect(() => {
     if (user?.id) {
@@ -75,6 +72,57 @@ const PanelInstructor = () => {
         .catch((err) => console.error('Error al obtener cursos:', err));
     }
   }, [user]);
+
+  // ────────────────────────────────────────────────────────────
+  // Cargar ventas reales del backend
+  // ────────────────────────────────────────────────────────────
+  useEffect(() => {
+    const fetchVentas = async () => {
+      if (user?.id) {
+        setLoadingVentas(true);
+        try {
+          const response = await fetch('http://localhost:5000/api/getSalesInstructor', {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error('Error al obtener las ventas');
+          }
+
+          const data = await response.json();
+          setVentas(data);
+        } catch (error) {
+          console.error('Error al obtener ventas:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudieron cargar las ventas',
+            confirmButtonColor: '#d33',
+          });
+        } finally {
+          setLoadingVentas(false);
+        }
+      }
+    };
+
+    fetchVentas();
+  }, [user]);
+
+  // ────────────────────────────────────────────────────────────
+  // Función para formatear fecha
+  // ────────────────────────────────────────────────────────────
+  const formatearFecha = (fecha) => {
+    const date = new Date(fecha);
+    return date.toLocaleDateString('es-ES', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  };
 
   // ────────────────────────────────────────────────────────────
   // Guardar / alternar edición
@@ -362,24 +410,29 @@ const PanelInstructor = () => {
       <div className={styles.sectionHeader}>
         <h2>Mis Ventas</h2>
       </div>
-      {ventas.length > 0 ? (
+      
+      {loadingVentas ? (
+        <div className={styles.loadingMessage}>
+          <p>Cargando ventas...</p>
+        </div>
+      ) : ventas.length > 0 ? (
         <div className={styles.tableContainer}>
           <table className={styles.ventasTable}>
             <thead>
               <tr>
-                <th>ID</th>
+                <th>Factura</th>
                 <th>Curso</th>
                 <th>Fecha</th>
-                <th>Monto</th>
+                <th>Precio</th>
               </tr>
             </thead>
             <tbody>
-              {ventas.map((venta) => (
-                <tr key={venta.id}>
-                  <td>{venta.id}</td>
-                  <td>{venta.curso}</td>
-                  <td>{venta.fecha}</td>
-                  <td>${venta.monto.toFixed(2)}</td>
+              {ventas.map((venta, index) => (
+                <tr key={index}>
+                  <td>{venta.numero_factura}</td>
+                  <td>{venta.nombre_curso}</td>
+                  <td>{formatearFecha(venta.fecha_creacion)}</td>
+                  <td>${parseFloat(venta.precio).toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>
@@ -389,7 +442,7 @@ const PanelInstructor = () => {
             <span>
               Ingresos totales: $
               {ventas
-                .reduce((sum, venta) => sum + venta.monto, 0)
+                .reduce((sum, venta) => sum + parseFloat(venta.precio), 0)
                 .toFixed(2)}
             </span>
           </div>
@@ -403,7 +456,7 @@ const PanelInstructor = () => {
   );
 
   // ────────────────────────────────────────────────────────────
-  // Render
+  // Render principal
   // ────────────────────────────────────────────────────────────
   return (
     <div className={styles.container}>

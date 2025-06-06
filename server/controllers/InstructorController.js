@@ -143,6 +143,43 @@ const updateInstructor = async (req, res) => {
 };
 
 
+//---------- 
+const getSalesInstructor = async (req, res) => {
+  try {
+    console.log('req.session:', req.session); // Debug
+    console.log('req.session.user:', req.session?.user); // Debug
+
+    const db = await getConnection();
+
+    // Verificar que existe la sesión y el usuario
+    if (!req.session || !req.session.user || !req.session.user.id) {
+      return res.status(401).json({ error: "Usuario no autenticado" });
+    }
+
+    const instructorId = req.session.user.id;
+    console.log('🔎 ID del instructor:', instructorId);
+
+    const [rows] = await db.query(`
+      SELECT 
+        c.nombre AS nombre_curso,
+        co.fecha_creacion,
+        co.numero_factura,
+        co.precio
+      FROM compra co
+      INNER JOIN curso c ON co.id_curso = c.id
+      WHERE c.id_instructor = ?
+      ORDER BY co.fecha_creacion DESC
+    `, [instructorId]);
+
+    console.log('📊 Ventas encontradas:', rows.length);
+    res.json(rows);
+  } catch (err) {
+    console.error("Error al obtener ventas del instructor:", err);
+    res.status(500).json({ error: "Error en el servidor" });
+  }
+};
+
+
 //----------------------------- INSTRUCTOR POR PARTE DE ADMIN -------------------------
 
 const getSummaryInstructor = async (req, res) => {
@@ -173,5 +210,6 @@ module.exports = {
   registerInstructor,
   sessionInstructor,
   updateInstructor,
-  getSummaryInstructor
+  getSummaryInstructor,
+  getSalesInstructor
 };

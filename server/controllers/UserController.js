@@ -167,6 +167,44 @@ try {
 // ---------------------------------------------------------------
 
 
+
+const getBuyUser = async (req, res) => {
+  try {
+    console.log('req.session:', req.session); // Debug
+    console.log('req.session.user:', req.session?.user); // Debug
+
+    const db = await getConnection();
+
+    // Verificar que existe la sesión y el usuario
+    if (!req.session || !req.session.user || !req.session.user.id) {
+      return res.status(401).json({ error: "Usuario no autenticado" });
+    }
+
+    const userId = req.session.user.id;
+    console.log('🔎 ID del usuario:', userId);
+
+    const [rows] = await db.query(`
+      SELECT 
+        c.nombre AS nombre_curso,
+        co.numero_factura,
+        co.fecha_creacion,
+        c.precio
+      FROM compra co
+      INNER JOIN curso c ON co.id_curso = c.id
+      WHERE co.id_usuario = ?
+      ORDER BY co.fecha_creacion DESC
+    `, [userId]);
+
+    console.log('📦 Compras encontradas:', rows.length);
+    res.json(rows);
+  } catch (err) {
+    console.error("Error al obtener compras del usuario:", err);
+    res.status(500).json({ error: "Error en el servidor" });
+  }
+};
+
+
+
 // LIMPIA LOCALSTORAGE
 const cleanStorage = (req, res) => {
   req.session.destroy((err) => {
@@ -190,5 +228,6 @@ module.exports = {
   getUsuariosInactivos,
   updateStatusUsuarios,
   cleanStorage,
-  updateUserProfile
+  updateUserProfile,
+  getBuyUser
 };

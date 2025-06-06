@@ -19,12 +19,9 @@ const PanelUsuario = () => {
     { id: 2, titulo: 'Historia Universal', instructor: 'María García', progreso: 30, fechaCompra: '15/04/2025' },
   ]);
 
-  // Historial de compras (simulado)
-  const [historialCompras, setHistorialCompras] = useState([
-    { id: 1, curso: 'Matemáticas Básicas', fecha: '10/04/2025', monto: 24.99 },
-    { id: 2, curso: 'Historia Universal', fecha: '15/04/2025', monto: 19.99 },
-    { id: 3, curso: 'Inglés Intermedio', fecha: '20/04/2025', monto: 29.99 },
-  ]);
+  // Historial de compras - ahora cargado desde la base de datos
+  const [historialCompras, setHistorialCompras] = useState([]);
+  const [loadingHistorial, setLoadingHistorial] = useState(false);
 
   // Función para formatear fecha de la base de datos a formato de input date
   const formatDateForInput = (dateString) => {
@@ -69,19 +66,47 @@ const PanelUsuario = () => {
     }
   }, [user]);
 
-  // Cargar historial de compras
+  // Cargar historial de compras desde getBuyUser
   useEffect(() => {
-    if (user?.id) {
-      fetch(`http://localhost:5000/api/getHistorialCompras/${user.id}`, {
-        credentials: 'include'
-      })
-        .then(res => res.json())
-        .then(data => {
-          console.log("Historial de compras obtenido:", data);
-          setHistorialCompras(data.compras || []);
-        })
-        .catch(err => console.error('Error al obtener historial:', err));
-    }
+    const cargarHistorialCompras = async () => {
+      if (!user?.id) return;
+      
+      setLoadingHistorial(true);
+      try {
+        const response = await fetch('http://localhost:5000/api/getBuyUser', {
+          credentials: 'include'
+        });
+        
+        if (!response.ok) {
+          throw new Error('Error al obtener el historial de compras');
+        }
+        
+        const data = await response.json();
+        console.log("Historial de compras obtenido:", data);
+        
+        // Transformar los datos para que coincidan con el formato esperado en la vista
+        const historialTransformado = data.map((compra, index) => ({
+          id: compra.numero_factura || index + 1,
+          curso: compra.nombre_curso,
+          fecha: formatDateForDisplay(compra.fecha_creacion),
+          monto: parseFloat(compra.precio) || 0
+        }));
+        
+        setHistorialCompras(historialTransformado);
+      } catch (error) {
+        console.error('Error al cargar historial de compras:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo cargar el historial de compras',
+          confirmButtonColor: '#d33',
+        });
+      } finally {
+        setLoadingHistorial(false);
+      }
+    };
+
+    cargarHistorialCompras();
   }, [user]);
 
   const handleEditToggle = async () => {
@@ -332,20 +357,24 @@ const PanelUsuario = () => {
       <div className={styles.sectionHeader}>
         <h2>Historial de Compras</h2>
       </div>
-      {historialCompras.length > 0 ? (
+      {loadingHistorial ? (
+        <div className={styles.loadingState}>
+          <p>Cargando historial de compras...</p>
+        </div>
+      ) : historialCompras.length > 0 ? (
         <div className={styles.tableContainer}>
           <table className={styles.historialTable}>
             <thead>
               <tr>
-                <th>ID</th>
+                <th>Número de Factura</th>
                 <th>Curso</th>
-                <th>Fecha</th>
-                <th>Monto</th>
+                <th>Fecha de Compra</th>
+                <th>Precio</th>
               </tr>
             </thead>
             <tbody>
-              {historialCompras.map(compra => (
-                <tr key={compra.id}>
+              {historialCompras.map((compra, index) => (
+                <tr key={compra.id || index}>
                   <td>{compra.id}</td>
                   <td>{compra.curso}</td>
                   <td>{compra.fecha}</td>
