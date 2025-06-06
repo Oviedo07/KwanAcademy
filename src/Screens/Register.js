@@ -293,25 +293,7 @@ const Register = () => {
           {/* Campos adicionales solo para instructores */}
           {activeTab === "Instructor" && (
             <>
-              <div className={styles.formField}>
-                <label>Segundo Nombre</label>
-                <input
-                  type="text"
-                  name="segundo_nombre"
-                  value={formData.segundo_nombre}
-                  onChange={handleChange}
-                />
-              </div>
-
-              <div className={styles.formField}>
-                <label>Segundo Apellido</label>
-                <input
-                  type="text"
-                  name="segundo_apellido"
-                  value={formData.segundo_apellido}
-                  onChange={handleChange}
-                />
-              </div>
+            
 
               <div className={styles.formField}>
                 <label>Tipo de Documento*</label>
