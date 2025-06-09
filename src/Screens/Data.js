@@ -169,7 +169,7 @@ const Data = () => {
                   className={styles.socialInput}
                   disabled={isLoading}
                 >
-                  <option value="">Seleccionar...</option>
+                  <option value="">Seleccionar</option>
                   {field.options.map((option, i) => (
                     <option key={i} value={option}>{option}</option>
                   ))}
