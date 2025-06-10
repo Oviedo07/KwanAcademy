@@ -1,0 +1,363 @@
+/* PayPalButton.module.css */
+/* Variables de colores corporativos */
+:root {
+  --primary-red: #E70014;
+  --dark: #212121;
+  --dark-gray: #333333;
+  --medium-gray: #666666;
+  --light-gray: #F5F5F5;
+  --white: #FFFFFF;
+  --shadow: rgba(0, 0, 0, 0.1);
+  --button-hover: #c4000f;
+  --button-shadow: rgba(231, 0, 20, 0.2);
+  --button-shadow-hover: rgba(231, 0, 20, 0.3);
+}
+
+/* Estilos del Modal */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modalContent {
+  background-color: var(--white);
+  border-radius: 12px;
+  padding: 2.5rem;
+  max-width: 450px;
+  width: 90%;
+  box-shadow: 0 25px 50px -12px var(--shadow);
+  text-align: center;
+  position: relative;
+  border-top: 5px solid var(--primary-red);
+  animation: fadeInUp 0.4s ease-out;
+}
+
+/* Icono de éxito */
+.successIcon {
+  color: var(--primary-red);
+  width: 70px;
+  height: 70px;
+  margin-bottom: 1.5rem;
+  animation: pulse 1.5s infinite;
+}
+
+/* Título de confirmación */
+.successTitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 1rem;
+  letter-spacing: -0.5px;
+}
+
+/* Texto de confirmación */
+.successText {
+  font-size: 1.125rem;
+  color: var(--medium-gray);
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+/* Texto pequeño para ID de recibo */
+.successTextSmall {
+  font-size: 0.95rem;
+  color: var(--medium-gray);
+  margin-bottom: 2rem;
+  line-height: 1.4;
+}
+
+/* Botón de imprimir */
+.printButton {
+  background-color: var(--primary-red);
+  color: var(--white);
+  border: none;
+  border-radius: 50px;
+  padding: 0.875rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px var(--button-shadow);
+}
+
+.printButton:hover {
+  background-color: #c4000f;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(231, 0, 20, 0.3);
+}
+
+.printButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(231, 0, 20, 0.2);
+}
+
+/* Mejoras para el botón de PayPal */
+div[id^="paypal-button"] {
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto;
+}
+
+/* Estilo consistente para todos los botones de compra */
+.buyButton, 
+.printButton {
+  background-color: var(--primary-red);
+  color: var(--white);
+  border: none;
+  border-radius: 50px;
+  padding: 0.875rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px var(--button-shadow);
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  margin: 0.5rem 0;
+}
+
+.buyButton:hover,
+.printButton:hover {
+  background-color: var(--button-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px var(--button-shadow-hover);
+}
+
+.buyButton:active,
+.printButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px var(--button-shadow);
+}
+
+/* PayPal button container personalizaciones */
+.paypalButtonContainer {
+  margin: 1rem 0;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Estilo para destacar el ID del recibo */
+.receiptId {
+  font-weight: 600;
+  color: var(--dark-gray);
+  background-color: var(--light-gray);
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  display: inline-block;
+  margin-left: 0.35rem;
+}
+
+/* Media queries para responsividad */
+@media screen and (max-width: 600px) {
+  .modalContent {
+    padding: 2rem 1.5rem;
+    max-width: 90%;
+  }
+  
+  .successIcon {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .successTitle {
+    font-size: 1.5rem;
+  }
+  
+  .successText {
+    font-size: 1rem;
+  }
+  
+  .printButton {
+    padding: 0.75rem 1.5rem;
+  }
+  
+  .buyButton {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Estilos para personalizar también la ventana de impresión */
+@media print {
+  .modalOverlay {
+    background: none;
+    position: absolute;
+  }
+  
+  .modalContent {
+    box-shadow: none;
+    border: 1px solid #ddd;
+    padding: 1.5rem;
+  }
+  
+  .printButton, 
+  .buyButton {
+    display: none;
+  }
+  
+  .successIcon {
+    color: black !important;
+    print-color-adjust: exact;
+  }
+  
+  .successTitle, .successText, .successTextSmall {
+    color: black;
+  }
+}
+
+/* Cambios agregados para mejorar precisión visual basada en imagen */
+/* ======================================= */
+
+/* Ajustes más finos en modal para que coincida exactamente */
+.modalContent {
+  background-color: var(--white);
+  border-radius: 16px; /* antes: 12px */
+  padding: 2rem 2.25rem; /* más simétrico */
+  max-width: 440px; /* ajuste fino */
+  border-top: none;
+  border-left: 5px solid var(--primary-red); /* cambia borde superior a lateral */
+  box-shadow: 0 16px 48px -12px rgba(0, 0, 0, 0.15); /* sombra más suave y natural */
+}
+
+/* Icono de éxito visualmente más centrado */
+.successIcon {
+  color: var(--primary-red);
+  width: 60px;
+  height: 60px;
+  margin-bottom: 1.25rem;
+  animation: pulse 1.5s infinite;
+}
+
+/* Tipografía más estilizada y peso ajustado */
+.successTitle {
+  font-size: 1.65rem;
+  font-weight: 600; /* antes: 700 */
+  color: var(--dark);
+  margin-bottom: 0.75rem;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.successText {
+  font-size: 1.05rem;
+  color: var(--medium-gray);
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Menor tamaño para subtítulo */
+.successTextSmall {
+  font-size: 0.875rem; /* antes: 0.95rem */
+  margin-bottom: 1.5rem;
+}
+
+/* Estilo más limpio para ID de recibo */
+.receiptId {
+  background-color: #eee;
+  color: var(--dark-gray);
+  font-weight: 500;
+  border-radius: 6px;
+  padding: 0.3rem 0.7rem;
+  font-family: "Courier New", monospace;
+}
+
+/* Botón más compacto y con border-radius más natural */
+.printButton {
+  padding: 0.75rem 1.75rem;
+  border-radius: 12px; /* antes: 50px */
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Nueva animación más sutil */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.03); /* antes: 1.05 */
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Mejoras en media query para móviles */
+@media screen and (max-width: 600px) {
+  .modalContent {
+    padding: 1.75rem 1.25rem;
+    border-left: 4px solid var(--primary-red);
+  }
+
+  .successIcon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .successTitle {
+    font-size: 1.4rem;
+  }
+
+  .successText {
+    font-size: 0.95rem;
+  }
+
+  .printButton {
+    padding: 0.65rem 1.25rem;
+    font-size: 0.85rem;
+  }
+}
+
+.paypalWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra el precio y los botones */
+  gap: 10px;
+}
+
+.paypalButtonContainer {
+  width: 500px; /* A juego con el ancho de los botones PayPal */
+}

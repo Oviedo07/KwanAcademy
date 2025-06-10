@@ -1,0 +1,414 @@
+/* PanelInstructor.module.css */
+:root {
+  --primary-red: #E70014;
+  --primary-dark: #1A1A1A;
+  --gray-light: #F2F2F2;
+  --gray-medium: #E0E0E0;
+  --gray-dark: #666666;
+  --white: #FFFFFF;
+  --background: #FDF8F2;
+  --shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  --border-radius: 8px;
+  --transition: all 0.3s ease;
+}
+
+/* Añadir fondo global a la página */
+body {
+  background-color: var(--background) ;
+  margin: 0;
+  padding: 0;
+}
+
+/* Fondo uniforme para toda la vista */
+.container {
+  background-color: var(--background); /* o el color que quieras */
+  min-height: 100vh;                   /* ocupa toda la pantalla */
+  padding: 2rem 0;                     /* opcional: separación arriba/abajo */
+}
+
+
+.panelContainer {
+  max-width: 1200px;
+  margin: 2rem auto;
+  background-color: var(--background);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+}
+
+.panelTitle {
+  color: var(--primary);
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  margin-bottom: 1.5rem;
+  font-weight: 800;
+  text-align: center;
+  position: relative;
+}
+
+.panelTitle::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 4px;
+  background-color: var(--primary-red);
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+}
+
+/* Tabs Navigation */
+.tabsContainer {
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid var(--gray-medium);
+  margin-bottom: 2rem;
+}
+
+.tabButton {
+  background: none;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gray-dark);
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+}
+
+.tabButton:hover {
+  color: var(--primary-red);
+}
+
+.activeTab {
+  color: var(--primary-red);
+}
+
+.activeTab::after {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: var(--primary-red);
+}
+
+/* Content Container */
+.contentContainer {
+  min-height: 500px;
+  padding: 1rem 0;
+}
+
+/* Profile Section */
+.perfilContainer {
+  animation: fadeIn 0.4s ease;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.sectionHeader h2 {
+  color: var(--primary);
+  font-size: bold;
+  font-weight: 700;
+}
+
+.perfilForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formRow {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.formGroup {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--primary-red);
+  font-size: 0.9rem;
+}
+
+.formGroup p {
+  padding: 0.75rem;
+  background-color: var(--gray-light);
+  border-radius: var(--border-radius);
+  color: var(--primary);
+  min-height: 2.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.formGroup input,
+.formGroup select,
+.formGroup textarea {
+  padding: 0.75rem;
+  border: 1px solid var(--gray-medium);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  transition: var(--transition);
+  width: 100%;
+}
+
+.formGroup input:focus,
+.formGroup select:focus,
+.formGroup textarea:focus {
+  outline: none;
+  border-color: var(--primary-red);
+  box-shadow: 0 0 0 2px rgba(231, 0, 20, 0.1);
+}
+
+.formGroup textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Buttons */
+.actionButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--primary-red);
+  color: var(--white);
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 0.6rem 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.actionButton:hover {
+  background-color: #c8000f;
+  transform: translateY(-2px);
+}
+
+.cancelButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--gray-dark);
+  color: var(--white);
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 0.6rem 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.cancelButton:hover {
+  background-color: #4d4d4d;
+}
+
+.editButtons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* Cursos Section */
+.cursosContainer {
+  animation: fadeIn 0.4s ease;
+}
+
+.cursosGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.cursoCard {
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid var(--gray-medium);
+}
+
+.cursoCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.cursoImage, .cursoImagePlaceholder {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  background-color: var(--gray-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-dark);
+}
+
+.cursoCard h3 {
+  padding: 1rem 1rem 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.cursoStats {
+  padding: 0 1rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cursoPrecio {
+  font-weight: 700;
+  color: var(--primary-red);
+  font-size: 1.2rem;
+}
+
+.cursoMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--gray-dark);
+}
+
+.secondaryButton {
+  margin: auto 1rem 1rem;
+  padding: 0.6rem 0;
+  background-color: transparent;
+  border: 2px solid var(--primary-red);
+  color: var(--primary-red);
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
+}
+
+.secondaryButton:hover {
+  background-color: var(--primary-red);
+  color: var(--white);
+}
+
+/* Ventas Section */
+.ventasContainer {
+  animation: fadeIn 0.4s ease;
+}
+
+.tableContainer {
+  margin-top: 1rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.ventasTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ventasTable th, .ventasTable td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--gray-medium);
+}
+
+.ventasTable th {
+  background-color: var(--primary-red);
+  color: var(--white);
+  font-weight: 600;
+}
+
+.ventasTable tr:nth-child(even) {
+  background-color: var(--gray-light);
+}
+
+.ventasTable tr:hover {
+  background-color: rgba(231, 0, 20, 0.05);
+}
+
+.ventasSummary {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: var(--primary-dark);
+  color: var(--white);
+  font-weight: 600;
+}
+
+/* Empty state message */
+.emptyMessage {
+  text-align: center;
+  padding: 3rem 0;
+  color: var(--gray-dark);
+  background-color: var(--gray-light);
+  border-radius: var(--border-radius);
+  font-style: italic;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .panelContainer {
+    margin: 1rem;
+    padding: 1rem;
+  }
+  
+  .formRow {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .tabButton {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .sectionHeader {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .ventasTable th, .ventasTable td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .ventasSummary {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* Media query para tablets */
+@media (max-width: 992px) {
+  .cursosGrid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+}

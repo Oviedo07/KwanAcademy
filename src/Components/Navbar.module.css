@@ -1,0 +1,581 @@
+
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1px 10px;
+  background-color: #FEF3E2;
+  position: relative;
+  height: 60px;
+  box-shadow: 5px 0px 5px 0px rgba(0, 0, 0, 0.2);
+  /*border-bottom: 4px solid red;*/ 
+}
+
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+}
+
+.logo{
+  width: 55px;
+  height: 55px;
+  margin-right: 4px;
+  cursor: pointer;
+} /*ts node dev*/
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: black;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.dropdownMenu {
+  max-width: 90vw;              /* Para que no se salga de la pantalla */
+  width: fit-content;           /* Se adapta al contenido pero con límite */
+  min-width: 200px;             /* Ancho mínimo para consistencia */
+  padding: 1rem;
+  background-color: #fff7ef;    /* o el color actual */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 100;
+  word-break: break-word;       /* Rompe palabras largas como correos */
+  white-space: normal;          /* Permite que se hagan saltos de línea */
+}
+
+.userEmail {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1rem;
+  overflow-wrap: anywhere;   /* Rompe el correo largo donde sea necesario */
+}
+
+
+.NavLink {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  font-size: 17px;
+  text-decoration: none;
+  color: #3d3d3d;
+  margin-top: 2px;
+}
+
+.NavLink a {
+  position: relative;
+  text-decoration: none;
+  color: #3d3d3d; 
+  margin: 0 15px;
+  font-size: 1.1rem;
+  transition: color 0.4s ease-in-out;
+}
+
+.NavLink a::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background-color: #E70014;
+    color: #E70014;
+  transition: width 0.4s ease-in-out;
+}
+
+.NavLink a:hover {
+  font-style: normal;
+  color: #E70014 !important;
+  cursor: pointer;
+}
+
+  
+
+.NavLink a:hover::after {
+  width: 100%; /* Ajusta este valor si lo quieres más corto o más largo */
+  cursor: pointer;
+  color: #E70014;
+}
+
+/* Fondo oscuro cuando el menú está abierto */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9;
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -240px;
+  width: 300px;
+  height: 100%;
+  background: #cccccc00;
+
+  transition: right 0.3s ease-in-out;
+  z-index: 10;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.sidebarOpen {
+  right: 0;
+  background-color: #FEF3E2;
+}
+
+/* Estilos para el logo y título en el Sidebar */
+.sidebarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0px;
+  
+}
+
+.sidebarHeader::after {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0px;
+  border-bottom: 1px solid #000000;
+}
+
+.sidebarMenu{
+  width: 45px;
+  height: 45px;
+  display: flex;
+  cursor: pointer;
+  border-radius: 30px;
+  padding: 5px;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin: -2px 0px 0px -70px;
+}
+
+
+
+.sidebarTitle {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: black;
+  margin-right: 60px;
+  margin-top: 2px; /* Ajusta este valor */
+  margin-bottom: 10px;
+}
+
+/* Botón de cierre */
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-left: -45px;
+  margin-top: -9px; /* Ajusta este valor */
+  
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.sidebar li {
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.sidebar li:hover {
+  color: #3d3d3d;
+}
+
+.sidebar li {
+  padding: 10px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.4s ease-in-out;
+}
+
+.adminLink {
+  margin-top: auto;
+  font-size: 1.2rem;
+  cursor: pointer;
+  text-align: center;
+  list-style: none;
+}
+
+
+/* Efecto de subrayado en hover */
+.sidebar li::after {
+  content: "";
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background-color: #E70014;
+  transition: width 0.4s;
+}
+
+.sidebar li:hover {
+  color: #E70014;
+}
+
+.sidebar li:hover::after {
+  width: 60%; /* Ajusta esto al largo de tu texto */
+}
+
+.menuContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Asegura alineación correcta */
+  gap: 20px; /* Espacio entre "Regístrate" y el icono */
+}
+
+.registerLink {
+  font-size: 1rem;
+  font-weight: bold; 
+  color: #000000;
+  text-decoration: none;
+  transition: color 0.4s ease-in-out;
+}
+
+.registerLink:hover {
+  color: #E70014;
+}
+
+.registerButton {
+  background-color: #E5D0AC ;
+  color: rgb(0, 0, 0);
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 6px 15px;
+  border: 2px solid #E5D0AC; 
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out, border-color 0.3s ease-in-out;
+  margin-right: 75px;
+}
+
+.registerButton:focus{
+  outline: none;
+  box-shadow: none !important;
+}
+
+.registerButton:hover {
+  background-color: #b9a584; 
+  border-color: #b9a584 ; 
+} 
+
+.loginButton {
+  background-color: #FEF3E2 ;
+  color: rgb(0, 0, 0);
+  font-size: 1rem;
+  font-weight: bold;
+  border: 2px solid #FEF3E2; 
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out, border-color 0.3s ease-in-out;
+  margin-right: 3px;
+  margin-left: -40px;
+  padding: 6px;
+  width: 115px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+}
+
+.loginIcon{
+  width: 20px;
+  height: 20px;
+}
+
+.loginButton:hover {
+  background-color: #E5D0AC; 
+  border-color: #E5D0AC ; 
+}
+
+.loginButton:focus{
+  outline: none;
+  box-shadow: none !important;
+}
+
+.logosidebar{
+  width: 40px;
+  height: 40px;
+  margin-left: -7px;
+  margin-top: -9px;
+}
+
+
+/* Contenedor del perfil */
+.profileContainer {
+  position: relative;
+  display: inline-block;
+}
+
+/* Imagen de perfil */
+.profileImage {
+  padding: 1.5px;
+  border-radius: 100%;
+  cursor: pointer;
+  margin-right: 75px;
+  margin-top: -2px;
+  margin-left: 139px;
+  width: 55px;
+  height: 55px;
+}
+
+/* Menú emergente */
+.dropdownMenu {
+  position: absolute;
+  margin-top: 12px;
+  margin-left: 73px;
+  background: #FEF3E2;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+  z-index: 100;
+}
+
+
+/* Texto del usuario */
+.userName {
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-align: center;
+  color: #1A1A1A;
+}
+
+.userEmail {
+  font-size: 12px;
+  color: #666666;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.userRole {
+  text-align: center;
+  margin-bottom: 5px;
+  font-size: 12px;
+  color: #666666;
+}
+
+/* Botón de cierre de sesión */
+.logoutButton {
+  background: #E3071A;
+  color: white;
+  padding: 8px;
+  margin: 0px 0px 5px 0px;
+  border: none;
+  width: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.logoutButton:hover {
+  background: #be0413;
+  transition: 0.5s;
+}
+
+.ProfileButton{
+  background: #E5D0AC;
+  color: white;
+  padding: 8px;
+  margin: 0px 0px 5px 0px;
+  border: none;
+  width: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.ProfileButton:hover {
+  background: #b9a584;
+  transition: 0.5s;
+}
+
+
+
+.menuContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px; /* Espacio entre los elementos */
+  position: relative; /* Mantiene alineados los botones */
+}
+
+.registerButton {
+  background-color: #E5D0AC;
+  color: rgb(0, 0, 0);
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 6px 15px;
+  border: 2px solid #E5D0AC; 
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -300px; /* Inicialmente oculto */
+  width: 300px;
+  height: 100%;
+  background: #FEF3E2;
+  transition: right 0.3s ease-in-out;
+  z-index: 10;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebarOpen {
+  right: 0; /* Cuando está activo, aparece en pantalla */
+}
+
+
+
+/* Flecha en móviles */
+.arrowIcon {
+  font-size: 24px;
+  color: #3d3d3d;
+  cursor: pointer;
+  margin-left: 15px;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Menú desplegable en móviles */
+.mobileMenu {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  background: #FEF3E2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.mobileMenu a {
+  padding: 10px;
+  font-size: 17px;
+  text-decoration: none;
+  color: #3d3d3d;
+  width: 100%;
+  text-align: center;
+  transition: background 0.3s ease-in-out;
+}
+
+.mobileMenu a:hover {
+  background: #E5D0AC;
+  color: black;
+}
+
+/* Asegurar que en desktop no se muestre el menú móvil */
+@media (min-width: 769px) {
+  .arrowIcon {
+    display: none;
+  }
+
+  .mobileMenu {
+    display: none;
+  }
+}
+
+/* Estilos para el menú desplegable */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdownButton {
+  background: none;
+  border: none;
+  font-size: 17px;
+  color: #3d3d3d;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: -20px;
+}
+
+.rotateIcon {
+  transform: rotate(180deg);
+  transition: transform 0.3s ease-in-out;
+}
+
+.dropdownMenuLink {
+  position: absolute;
+  margin-top: 30px;
+  margin-left: -102px;
+  background: #FEF3E2;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+  z-index: 100;
+}
+
+.dropdownMenuLink a {
+  padding: 10px;
+  font-size: 15px;
+  text-decoration: none;
+  color: #3d3d3d;
+  transition: 0.5s ease-in-out;
+  text-align: center;
+  margin-bottom: 7px;
+}
+
+.dropdownMenuLink a:hover {
+  background: #E5D0AC;
+  color: black;
+  border-radius: 20px;
+}
+
+
+
+/* Ocultar dropdown en vista de PC */
+.dropdown {
+  display: none;
+}
+
+/* Mostrar dropdown solo en móvil */
+@media screen and (max-width: 768px) {
+  .dropdown {
+    display: block;
+  }
+
+  /* Ocultar enlaces en móvil */
+  .hideOnMobile {
+    display: none;
+  }
+}

@@ -1,0 +1,119 @@
+.sidebar-container {
+    position: relative; /* Cambia de fixed a relative */
+    height: 100%; /* Toma la altura del contenedor padre */
+    overflow: hidden;
+    transition: width 0.3s ease;
+    padding-top: 80px;
+    padding-bottom: 320px;
+    display: flex;
+    flex-direction: column;
+    background-color:#FEF3E2;
+    color: white;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+
+    /* Mantiene el sidebar fijo y cubre toda la altura sin desplazarse */
+    width: 240px; /* Ajusta el ancho según tu diseño */
+    
+    border-radius: 0 0 15px 0; /* Esquina redondeada en la parte inferior derecha */
+    overflow-y: auto; /* Agrega scroll interno si el contenido es más grande */
+  }
+  
+  .sidebar.expanded {
+    width: 240px;
+  }
+  
+  .sidebar.collapsed {
+    width: 70px;
+  }
+  
+  .sidebar-header {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .app-logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo-text {
+    font-size: 18px;
+    color: black;
+    font-weight: bold;
+    margin-top: -50px;
+  }
+  
+  .logo-icon {
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .toggle-button {
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+  }
+  
+  .toggle-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .sidebar-menu {
+    flex-grow: 1;
+    padding: 20px 0;
+    overflow-y: auto;
+  }
+  
+  .menu-item {
+    color: black;
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    border-radius: 0 20px 20px 0;
+    margin-right: 10px;
+  }
+  
+  .menu-item span {
+    margin-left: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #E70014;
+  }
+  
+  .menu-item.active {
+    background-color: #E5D0AC;
+
+    font-weight: 500;
+  }
+  
+  /* Estilo para cuando el sidebar está contraído */
+  .collapsed .sidebar-menu .menu-item {
+    justify-content: center;
+    padding: 12px 0;
+  }
