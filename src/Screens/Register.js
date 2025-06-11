@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styles from "./Register.module.css";
-import Swal from "sweetalert2"; // Importamos SweetAlert2
+import Swal from "sweetalert2";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -32,6 +32,9 @@ const Register = () => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Estado para el enlace del certificado
+  const [certificateLink, setCertificateLink] = useState("");
+
   const roleInfo = {
     General: {
       id: 2,
@@ -53,10 +56,88 @@ const Register = () => {
     }));
   }, []);
 
+  // Función para validar URL
+  const isValidURL = (string) => {
+    try {
+      new URL(string);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  };
+
+  // Función para manejar el cambio en el enlace del certificado
+  const handleCertificateLinkChange = (e) => {
+    const value = e.target.value;
+    setCertificateLink(value);
+
+    // Validar que sea una URL válida
+    if (value && !isValidURL(value)) {
+      setErrors(prev => ({
+        ...prev,
+        enlace_certificado: "Ingresa un enlace válido"
+      }));
+    } else {
+      setErrors(prev => ({
+        ...prev,
+        enlace_certificado: undefined
+      }));
+    }
+  };
+
+  // Función para enviar datos por FormSubmit
+  const sendEmailNotification = async (data, isInstructor = false) => {
+    try {
+      const formData = new FormData();
+
+      // Configurar FormSubmit
+      formData.append('_to', 'oviedoherrerajuanpablo@gmail.com');
+      formData.append('_subject', isInstructor ? 'Nueva Solicitud de Instructor' : 'Nuevo Registro de Usuario');
+      formData.append('_captcha', 'false');
+      formData.append('_template', 'table');
+
+      // Agregar datos del formulario
+      if (isInstructor) {
+        formData.append('Tipo de Usuario', 'Instructor');
+        formData.append('Tipo de Documento', data.tipo_documento);
+        formData.append('Número de Identificación', data.numero_identificacion);
+        formData.append('Primer Nombre', data.primer_nombre || data.nombre);
+        formData.append('Segundo Nombre', data.segundo_nombre || 'No especificado');
+        formData.append('Primer Apellido', data.primer_apellido || data.apellido);
+        formData.append('Segundo Apellido', data.segundo_apellido || 'No especificado');
+        formData.append('Número Telefónico', data.numero_telefonico);
+        formData.append('Ocupación', data.ocupacion);
+        formData.append('Descripción del Perfil', data.descripcion_perfil);
+        formData.append('Enlace del Certificado', certificateLink || 'No proporcionado');
+      } else {
+        formData.append('Tipo de Usuario', 'Usuario Regular');
+      }
+
+      // Datos comunes
+      formData.append('Nombre', data.nombre);
+      formData.append('Apellido', data.apellido);
+      formData.append('Email', data.email);
+      formData.append('Fecha de Nacimiento', data.fecha_nacimiento);
+      formData.append('Género', data.genero);
+      formData.append('Fecha de Registro', new Date().toLocaleString('es-CO'));
+
+      // Enviar a FormSubmit
+      await fetch('https://formsubmit.co/oviedoherrerajuanpablo@gmail.com', {
+        method: 'POST',
+        body: formData
+      });
+
+      console.log('Correo enviado exitosamente via FormSubmit');
+    } catch (error) {
+      console.warn('Error al enviar correo via FormSubmit:', error);
+      // No detener el proceso si falla el correo
+    }
+  };
+
   // Validación del formulario
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!formData.nombre.trim()) newErrors.nombre = "El nombre es requerido";
     if (!formData.apellido.trim()) newErrors.apellido = "El apellido es requerido";
     if (!formData.fecha_nacimiento) newErrors.fecha_nacimiento = "La fecha de nacimiento es requerida";
@@ -65,12 +146,17 @@ const Register = () => {
     } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
       newErrors.email = "El email no es válido";
     }
-    if (!formData.contrasena) {
-      newErrors.contrasena = "La contraseña es requerida";
-    } else if (formData.contrasena.length < 6) {
-      newErrors.contrasena = "La contraseña debe tener al menos 6 caracteres";
+
+    // SOLO para usuarios regulares la contraseña es obligatoria
+    if (activeTab === "General") {
+      if (!formData.contrasena.trim()) {
+        newErrors.contrasena = "La contraseña es requerida";
+      } else if (formData.contrasena.length < 6) {
+        newErrors.contrasena = "La contraseña debe tener al menos 6 caracteres";
+      }
     }
 
+    // Para instructores: validaciones obligatorias
     if (activeTab === "Instructor") {
       if (!formData.tipo_documento.trim()) newErrors.tipo_documento = "El tipo de documento es requerido";
       if (!formData.numero_identificacion.trim()) newErrors.numero_identificacion = "El número de identificación es requerido";
@@ -103,7 +189,7 @@ const Register = () => {
       ...(name === "nombre" ? { primer_nombre: value } : {}),
       ...(name === "apellido" ? { primer_apellido: value } : {}),
     }));
-    
+
     // Limpiar error cuando el usuario empieza a escribir
     if (errors[name]) {
       setErrors(prev => ({
@@ -113,7 +199,22 @@ const Register = () => {
     }
   };
 
-  // Mostrar notificación de éxito
+  // Mostrar modal de éxito con mensaje personalizado
+  const showSuccessModal = () => {
+    Swal.fire({
+      icon: 'success',
+      title: '¡Solicitud de registro realizada con éxito!',
+      text: 'Pronto nos comunicaremos contigo para activar tu cuenta',
+      confirmButtonColor: '#4CAF50',
+      confirmButtonText: 'Entendido',
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+    }).then(() => {
+      navigate("/signin");
+    });
+  };
+
+  // Mostrar notificación de éxito para usuarios generales
   const showSuccessAlert = (message) => {
     Swal.fire({
       icon: 'success',
@@ -140,11 +241,11 @@ const Register = () => {
   // Enviar datos al backend
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
-    
+
     setIsSubmitting(true);
-    
+
     try {
       let endpoint = "";
       let dataToSend = {};
@@ -152,31 +253,43 @@ const Register = () => {
       if (activeTab === "General") {
         endpoint = "http://localhost:5000/api/register";
         dataToSend = formData;
+
+        // Enviar notificación por email via FormSubmit
+        await sendEmailNotification(dataToSend, false);
+
       } else if (activeTab === "Instructor") {
         endpoint = "http://localhost:5000/api/registerInstructor";
         dataToSend = {
           tipo_documento: formData.tipo_documento,
           numero_identificacion: formData.numero_identificacion,
           primer_nombre: formData.nombre,
-          segundo_nombre: formData.segundo_nombre,
+          segundo_nombre: formData.segundo_nombre || "",
           primer_apellido: formData.apellido,
-          segundo_apellido: formData.segundo_apellido,
+          segundo_apellido: formData.segundo_apellido || "",
           genero: formData.genero,
-          fecha_nacimiento: formData.fecha_nacimiento,
           numero_telefonico: formData.numero_telefonico,
           ocupacion: formData.ocupacion,
           descripcion_perfil: formData.descripcion_perfil,
           email: formData.email,
-          contrasena: formData.contrasena,
-          id_rol: formData.id_rol
+          contrasena: null, // Siempre null para instructores
+          id_rol: formData.id_rol,
+          enlace_certificado: certificateLink || null
         };
+
+        // Enviar notificación por email via FormSubmit
+        await sendEmailNotification(dataToSend, true);
       }
 
       const response = await axios.post(endpoint, dataToSend);
-      showSuccessAlert(response.data.message || "¡Registro exitoso!");
+
+      if (activeTab === "Instructor") {
+        showSuccessModal();
+      } else {
+        showSuccessAlert(response.data.message || "¡Registro exitoso!");
+      }
     } catch (error) {
-      const errorMsg = error.response?.data?.error || error.response?.data?.message || 
-                    "Error al registrar. Por favor, inténtalo de nuevo.";
+      const errorMsg = error.response?.data?.error || error.response?.data?.message ||
+        "Error al registrar. Por favor, inténtalo de nuevo.";
       showErrorAlert(errorMsg);
       console.error("Error:", error.response?.data || error.message);
     } finally {
@@ -260,7 +373,7 @@ const Register = () => {
             >
               <option value="masculino">Masculino</option>
               <option value="femenino">Femenino</option>
-              <option value="otro">Otro</option>
+              <option value="otro">Prefiero no decirlo</option>
             </select>
           </div>
 
@@ -276,34 +389,39 @@ const Register = () => {
             {errors.email && <span className={styles.errorText}>{errors.email}</span>}
           </div>
 
-          <div className={styles.formField}>
-            <label>Contraseña*</label>
-            <input
-              type="password"
-              name="contrasena"
-              value={formData.contrasena}
-              onChange={handleChange}
-              className={errors.contrasena ? styles.inputError : ""}
-            />
-            {errors.contrasena && (
-              <span className={styles.errorText}>{errors.contrasena}</span>
-            )}
-          </div>
+          {/* Campo de contraseña SOLO para usuarios regulares */}
+          {activeTab === "General" && (
+            <div className={styles.formField}>
+              <label>Contraseña*</label>
+              <input
+                type="password"
+                name="contrasena"
+                value={formData.contrasena}
+                onChange={handleChange}
+                className={errors.contrasena ? styles.inputError : ""}
+              />
+              {errors.contrasena && (
+                <span className={styles.errorText}>{errors.contrasena}</span>
+              )}
+            </div>
+          )}
 
           {/* Campos adicionales solo para instructores */}
           {activeTab === "Instructor" && (
             <>
-            
-
               <div className={styles.formField}>
                 <label>Tipo de Documento*</label>
-                <input
-                  type="text"
+                <select
                   name="tipo_documento"
                   value={formData.tipo_documento}
                   onChange={handleChange}
                   className={errors.tipo_documento ? styles.inputError : ""}
-                />
+                >
+                  <option value="">Seleccionar tipo de documento</option>
+                  <option value="Cedula de ciudadania">Cédula de ciudadanía</option>
+                  <option value="Tarjeta de identidad">Tarjeta de identidad</option>
+                  <option value="Pasaporte">Pasaporte</option>
+                </select>
                 {errors.tipo_documento && (
                   <span className={styles.errorText}>{errors.tipo_documento}</span>
                 )}
@@ -363,12 +481,30 @@ const Register = () => {
                   <span className={styles.errorText}>{errors.descripcion_perfil}</span>
                 )}
               </div>
+
+              {/* Campo para enlace de certificado (solo para instructores) */}
+              <div className={styles.formField}>
+                <label>Enlace del certificado </label>
+                <input
+                  type="url"
+                  value={certificateLink}
+                  onChange={handleCertificateLinkChange}
+                  placeholder=""
+                  className={errors.enlace_certificado ? styles.inputError : ""}
+                />
+                <small style={{ color: '#666', fontSize: '12px' }}>
+                  Comparte el enlace de tu certificado (ej: Google Drive, Imgur, etc.)
+                </small>
+                {errors.enlace_certificado && (
+                  <span className={styles.errorText}>{errors.enlace_certificado}</span>
+                )}
+              </div>
             </>
           )}
 
           {/* Botón de registro */}
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className={styles.loginButton}
             disabled={isSubmitting}
           >

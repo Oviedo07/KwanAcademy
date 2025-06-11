@@ -16,6 +16,7 @@ import Courses from "./screens/Courses";
 import Register from "./screens/Register";
 import Data from "./screens/Data";
 import SignIn from "./screens/SignIn";
+import sandbox from "./screens/despues";
 
 import HomeAdmin from "./screens/AdminViews/HomeAdmin";
 import LoginAdmin from "./screens/AdminViews/LoginAdmin";
@@ -65,6 +66,7 @@ function AppWrapper() {
         }
       />
       <Route path="*" element={<Error404 />} />
+      <Route path="/cris" element={<sandbox />} />
     </Routes>
   );
 }

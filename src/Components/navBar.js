@@ -13,6 +13,8 @@ import { MdLogin } from "react-icons/md";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoMdClose } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
+import { FaUser } from "react-icons/fa6";
+import { MdOutlineLogout } from "react-icons/md";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false); // Controla el sidebar
@@ -227,7 +229,7 @@ const handleLogout = async () => {
           <li onClick={() => { setMenuOpen(false); handleNavigation("/"); }}>Inicio</li>
           <li onClick={() => { setMenuOpen(false); handleNavigation("/WhoWeAre"); }}>¿Quiénes somos?</li>
           <li onClick={() => { setMenuOpen(false); handleNavigation("/MissionVission"); }}>Misión y visión</li>
-          <li onClick={() => { setMenuOpen(false); handleNavigation("/FAQ"); }}>FAQ</li>
+          <li onClick={() => { setMenuOpen(false); handleNavigation("/FAQ"); }}>Preguntas Frecuentes</li>
         </ul>
         <li 
           onClick={() => { setMenuOpen(false); handleNavigation("/AdminViews/HomeAdmin"); }} 
@@ -265,10 +267,10 @@ const handleLogout = async () => {
                   {user?.rol === 'instructor' ? 'Instructor' : 'Usuario'}
                 </p>
                 <button className={styles.ProfileButton} onClick={navigateToUserAccount}>
-                  Tu cuenta
+                  <FaUser />   Tu cuenta
                 </button>
                 <button className={styles.logoutButton} onClick={handleLogout}>
-                  Cerrar sesión
+                  <MdOutlineLogout />   Cerrar sesión
                 </button>
               </div>
             )}

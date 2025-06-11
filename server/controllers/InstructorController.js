@@ -62,33 +62,37 @@ const registerInstructor = async (req, res) => {
     const {
       tipo_documento, numero_identificacion, primer_nombre, segundo_nombre = null,
       primer_apellido, segundo_apellido = null, genero, numero_telefonico,
-      ocupacion, descripcion_perfil, email, contrasena
+      ocupacion, descripcion_perfil, email, contrasena = null, enlace_certificado = null
     } = req.body;
 
+    // Validación de campos obligatorios
     if (!tipo_documento || !numero_identificacion || !primer_nombre || !primer_apellido ||
-        !genero || !numero_telefonico || !ocupacion || !descripcion_perfil || !email || !contrasena) {
+        !genero || !numero_telefonico || !ocupacion || !descripcion_perfil || !email) {
       return res.status(400).json({ error: "Todos los campos obligatorios deben ser llenados" });
     }
 
     const id_rol = 4;
+    
+    // Query actualizado para incluir enlace_certificado
     const query = `INSERT INTO Instructor (
-      tipo_documento, numero_identificacion, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido,
-      genero, numero_telefonico, ocupacion, descripcion_perfil, email, contrasena, id_rol
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+      tipo_documento, numero_identificacion, primer_nombre, segundo_nombre, 
+      primer_apellido, segundo_apellido, genero, numero_telefonico, 
+      ocupacion, descripcion_perfil, email, contrasena, enlace_certificado, id_rol
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
     const values = [
       tipo_documento, numero_identificacion, primer_nombre, segundo_nombre,
       primer_apellido, segundo_apellido, genero, numero_telefonico,
-      ocupacion, descripcion_perfil, email, contrasena, id_rol
+      ocupacion, descripcion_perfil, email, contrasena, enlace_certificado, id_rol
     ];
 
     await db.query(query, values);
     res.status(201).json({ message: "Instructor registrado con éxito" });
   } catch (err) {
+    console.error("Error al registrar instructor:", err);
     res.status(500).json({ error: "Error en la base de datos", details: err.message });
   }
 };
-
 // -------------------------------------
 const updateInstructor = async (req, res) => {
   try {
