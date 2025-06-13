@@ -508,7 +508,7 @@ const Register = () => {
             className={styles.loginButton}
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Registrando..." : "Registrarse"}
+            {isSubmitting ? "Enviando..." : "Enviar Solicitud"}
           </button>
         </form>
 
