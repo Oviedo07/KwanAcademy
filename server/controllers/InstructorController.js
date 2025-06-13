@@ -26,6 +26,7 @@ const signInInstructor = async (req, res) => {
       primer_apellido: usuario.primer_apellido,
       segundo_apellido: usuario.segundo_apellido,
       email: usuario.email,
+      enlace_certificado: usuario.enlace_certificado,
       genero: usuario.genero,
       numero_telefonico: usuario.numero_telefonico,
       contrasena: usuario.contrasena, 
@@ -106,6 +107,8 @@ const updateInstructor = async (req, res) => {
       primer_apellido,
       segundo_apellido,
       email,
+      contrasena,
+      enlace_certificado,
       ocupacion,
       descripcion_perfil,
       numero_telefonico
@@ -123,7 +126,9 @@ const updateInstructor = async (req, res) => {
       segundo_nombre || '',
       primer_apellido || '',
       segundo_apellido || '',
-      email || '',         // Este campo lo mantienes aunque no parece venir del frontend
+      email || '', 
+      contrasena || '', // Este campo lo mantienes aunque no parece venir del frontend
+      enlace_certificado || '',        // Este campo lo mantienes aunque no parece venir del frontend
       ocupacion || '',
       descripcion_perfil || '',
       numero_telefonico || '',
@@ -133,7 +138,7 @@ const updateInstructor = async (req, res) => {
     const sql = `
       UPDATE instructor
       SET tipo_documento = ?, numero_identificacion = ?, primer_nombre = ?, segundo_nombre = ?,
-          primer_apellido = ?, segundo_apellido = ?, email = ?, ocupacion = ?,
+          primer_apellido = ?, segundo_apellido = ?, email = ?, contrasena = ?, enlace_certificado = ?, ocupacion = ?,
           descripcion_perfil = ?, numero_telefonico = ?
       WHERE id = ?`;
 

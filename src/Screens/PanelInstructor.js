@@ -45,8 +45,11 @@ const PanelInstructor = () => {
         numeroIdentificacion: user.numero_identificacion || '',
         genero: user.genero || '',
         telefono: user.numero_telefonico || '',
+        email: user.email || '',
         ocupacion: user.ocupacion || '',
+        contrasena: user.contrasena || '',
         descripcionPerfil: user.descripcion_perfil || '',
+        enlaceCertificado: user.enlace_certificado || '',
       };
       setInstructorInfo(datosIniciales);
       setTempInfo(datosIniciales);
@@ -141,9 +144,12 @@ const PanelInstructor = () => {
           primer_apellido: apellidoParts[0] || '',
           segundo_apellido: apellidoParts.slice(1).join(' ') || '',
           email: user?.email || '',
+          contrasena: tempInfo.contrasena || '',
           ocupacion: tempInfo.ocupacion || '',
           descripcion_perfil: tempInfo.descripcionPerfil || '',
           numero_telefonico: tempInfo.telefono || '',
+          enlace_certificado: tempInfo.enlaceCertificado || '',
+          genero: tempInfo.genero || '',
         };
 
         const response = await fetch(
@@ -226,6 +232,36 @@ const PanelInstructor = () => {
       </div>
 
       <div className={styles.perfilForm}>
+        <div className={styles.formRow}>
+          <div className={styles.formGroup}>
+            <label>Email</label>
+            {isEditing ? (
+              <input
+                type="text"
+                name="email"
+                value={user.email}
+                onChange={handleInputChange}
+              />
+            ) : (
+              <p>{instructorInfo.email}</p>
+            )}
+          </div>
+
+          <div className={styles.formGroup}>
+            <label>Contraseña</label>
+            {isEditing ? (
+              <input
+                type="text" // Cambiado a "text" para mostrar el valor real
+                name="contrasenaa"
+                value={tempInfo.contrasena}
+                onChange={handleInputChange}
+              />
+            ) : (
+              <p>{"•".repeat(instructorInfo.contrasena?.length || 8)}</p> // Mostrar puntos
+            )}
+          </div>
+        </div>
+        
         <div className={styles.formRow}>
           <div className={styles.formGroup}>
             <label>Nombre</label>
@@ -350,6 +386,20 @@ const PanelInstructor = () => {
             />
           ) : (
             <p>{instructorInfo.descripcionPerfil}</p>
+          )}
+        </div>
+
+        <div className={styles.formGroup}>
+          <label>Enlace Certificado</label>
+          {isEditing ? (
+            <textarea
+              name="enlaceCertificado"
+              value={tempInfo.enlaceCertificado}
+              onChange={handleInputChange}
+              rows={4}
+            />
+          ) : (
+            <p>{instructorInfo.enlaceCertificado}</p>
           )}
         </div>
       </div>

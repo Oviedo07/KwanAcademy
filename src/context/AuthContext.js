@@ -63,6 +63,8 @@ export const AuthProvider = ({ children }) => {
         segundo_apellido: userData.segundo_apellido,
         ocupacion: userData.ocupacion,
         email: userData.email,
+        contrasena: userData.contrasena, 
+        enlace_certificado: userData.enlace_certificado,
         genero: userData.genero,
         descripcion_perfil: userData.descripcion_perfil,
         numero_telefonico: userData.numero_telefonico,
