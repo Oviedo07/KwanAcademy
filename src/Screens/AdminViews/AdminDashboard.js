@@ -6,7 +6,7 @@ import "./css/AdminDashboard.css";
 import useSidebar from "./utils/FunctionsCenterAdmin";
 import AdminManagement from './components/AdminManagement';
 import UserManagement from './components/UserManagement';
-import InstructorManagement from './components/InstructorManagement'
+import InstructorManagement from './components/InstructorManagement';
 import CursoManagement from './components/CursoManagement';
 import { useAdminAuth } from "../../context/AdminAuthContext";
 import { Navigate, useNavigate } from "react-router-dom";

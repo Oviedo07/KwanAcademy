@@ -208,6 +208,75 @@ const getSummaryInstructor = async (req, res) => {
   }
 };
 
+const getPendingInstructors = async (req, res) => {
+  try {
+    const db = await getConnection();
+    const [rows] = await db.query(`
+      SELECT 
+        i.id,
+        i.primer_nombre,
+        i.segundo_nombre,
+        i.primer_apellido,
+        i.segundo_apellido,
+        i.email,
+        i.enlace_certificado,
+        i.fecha_registro
+      FROM instructor i
+      WHERE i.contrasena IS NULL
+      ORDER BY i.fecha_registro DESC
+    `);
+    
+    res.json(rows);
+  } catch (err) {
+    console.error("Error al obtener instructores pendientes:", err);
+    res.status(500).json({ error: "Error en el servidor" });
+  }
+};
+
+const assignPasswordToInstructor = async (req, res) => {
+  try {
+    const { id, tempPassword } = req.body;
+    
+    if (!id || !tempPassword) {
+      return res.status(400).json({ error: "ID del instructor y contraseña temporal son requeridos" });
+    }
+
+    const db = await getConnection();
+    
+    // Verificar que el instructor existe y no tiene contraseña
+    const [instructorCheck] = await db.query(
+      'SELECT id, contrasena FROM instructor WHERE id = ?', 
+      [id]
+    );
+    
+    if (instructorCheck.length === 0) {
+      return res.status(404).json({ error: "Instructor no encontrado" });
+    }
+    
+    if (instructorCheck[0].contrasena !== null) {
+      return res.status(400).json({ error: "Este instructor ya tiene una contraseña asignada" });
+    }
+
+    // Asignar la contraseña temporal (en producción debería estar hasheada)
+    const [result] = await db.query(
+      'UPDATE instructor SET contrasena = ? WHERE id = ?',
+      [tempPassword, id]
+    );
+    
+    if (result.affectedRows === 0) {
+      return res.status(500).json({ error: "No se pudo asignar la contraseña" });
+    }
+
+    res.json({ 
+      success: true, 
+      message: "Contraseña temporal asignada correctamente",
+      instructorId: id
+    });
+  } catch (err) {
+    console.error("Error al asignar contraseña:", err);
+    res.status(500).json({ error: "Error en el servidor" });
+  }
+};
 
 module.exports = {
   signInInstructor,
@@ -215,5 +284,7 @@ module.exports = {
   sessionInstructor,
   updateInstructor,
   getSummaryInstructor,
-  getSalesInstructor
+  getSalesInstructor,
+  getPendingInstructors,
+  assignPasswordToInstructor
 };
