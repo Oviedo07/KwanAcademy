@@ -70,20 +70,20 @@ const PanelUsuario = () => {
   useEffect(() => {
     const cargarHistorialCompras = async () => {
       if (!user?.id) return;
-      
+
       setLoadingHistorial(true);
       try {
         const response = await fetch('http://localhost:5000/api/getBuyUser', {
           credentials: 'include'
         });
-        
+
         if (!response.ok) {
           throw new Error('Error al obtener el historial de compras');
         }
-        
+
         const data = await response.json();
         console.log("Historial de compras obtenido:", data);
-        
+
         // Transformar los datos para que coincidan con el formato esperado en la vista
         const historialTransformado = data.map((compra, index) => ({
           id: compra.numero_factura || index + 1,
@@ -91,7 +91,7 @@ const PanelUsuario = () => {
           fecha: formatDateForDisplay(compra.fecha_creacion),
           monto: parseFloat(compra.precio) || 0
         }));
-        
+
         setHistorialCompras(historialTransformado);
       } catch (error) {
         console.error('Error al cargar historial de compras:', error);
@@ -122,7 +122,7 @@ const PanelUsuario = () => {
         };
 
         console.log("Datos a enviar:", userData);
-        
+
         const response = await fetch(`http://localhost:5000/api/updateUserProfile/${user.id}`, {
           method: 'PUT',
           headers: {
@@ -131,22 +131,22 @@ const PanelUsuario = () => {
           credentials: 'include',
           body: JSON.stringify(userData),
         });
-        
+
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(errorData.message || 'Error al actualizar');
         }
-        
+
         const data = await response.json();
         console.log('Respuesta del servidor:', data);
-        
+
         Swal.fire({
           icon: 'success',
           title: 'Datos actualizados',
           text: 'Tu perfil fue actualizado correctamente.',
           confirmButtonColor: '#3085d6',
         });
-        
+
         // Actualizar el contexto con los nuevos datos
         const updatedUser = { ...user, ...userData };
         updateUserContext(updatedUser);
@@ -154,7 +154,7 @@ const PanelUsuario = () => {
         setIsEditing(false);
       } catch (error) {
         console.error('Error al actualizar usuario:', error);
-        
+
         Swal.fire({
           icon: 'error',
           title: 'Error',
@@ -208,6 +208,24 @@ const PanelUsuario = () => {
         )}
       </div>
 
+      {/* Imagen de perfil centrada */}
+      <div className={styles.profileImageContainer}>
+        <div className={styles.profileImageWrapper}>
+          <img
+            src="/samurai_user.jpg"
+            alt="Foto de perfil"
+            className={styles.profileImage}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "/images/default-avatar.png"; // Imagen de respaldo
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Separador entre foto y campos */}
+      <div className={styles.profileSeparator}></div>
+
       <div className={styles.perfilForm}>
         <div className={styles.formRow}>
           <div className={styles.formGroup}>
@@ -251,7 +269,7 @@ const PanelUsuario = () => {
               />
             ) : (
               <p>{userInfo.email}</p>
-            )}  
+            )}
           </div>
 
           <div className={styles.formGroup}>
@@ -302,9 +320,9 @@ const PanelUsuario = () => {
           {cursosComprados.map(curso => (
             <div key={curso.id} className={styles.cursoCard}>
               {curso.imagen_url ? (
-                <img 
-                  src={curso.imagen_url} 
-                  alt={curso.nombre || curso.titulo} 
+                <img
+                  src={curso.imagen_url}
+                  alt={curso.nombre || curso.titulo}
                   className={styles.cursoImage}
                 />
               ) : (
@@ -320,16 +338,16 @@ const PanelUsuario = () => {
                 </div>
                 <div className={styles.cursoProgreso}>
                   <div className={styles.progresoBar}>
-                    <div 
-                      className={styles.progresoFill} 
+                    <div
+                      className={styles.progresoFill}
                       style={{ width: `${curso.progreso || 0}%` }}
                     ></div>
                   </div>
                   <span>{curso.progreso || 0}%</span>
                 </div>
               </div>
-              <button 
-                className={styles.actionButton} 
+              <button
+                className={styles.actionButton}
                 onClick={() => handleVerCurso(curso.id)}
               >
                 Continuar Curso
@@ -341,7 +359,7 @@ const PanelUsuario = () => {
         <div className={styles.emptyState}>
           <Book size={64} />
           <p className={styles.emptyMessage}>No has comprado ningún curso todavía.</p>
-          <button 
+          <button
             className={styles.actionButton}
             onClick={() => navigate('/cursos')}
           >
@@ -401,21 +419,21 @@ const PanelUsuario = () => {
     <div className={styles.panelContainer}>
       <h1 className={styles.panelTitle}>Mi Cuenta</h1>
       <div className={styles.tabsContainer}>
-        <button 
+        <button
           className={`${styles.tabButton} ${activeTab === 'perfil' ? styles.activeTab : ''}`}
           onClick={() => setActiveTab('perfil')}
         >
           <User size={20} />
           <span>Perfil</span>
         </button>
-        <button 
+        <button
           className={`${styles.tabButton} ${activeTab === 'cursos' ? styles.activeTab : ''}`}
           onClick={() => setActiveTab('cursos')}
         >
           <Book size={20} />
           <span>Mis Cursos</span>
         </button>
-        <button 
+        <button
           className={`${styles.tabButton} ${activeTab === 'historial' ? styles.activeTab : ''}`}
           onClick={() => setActiveTab('historial')}
         >

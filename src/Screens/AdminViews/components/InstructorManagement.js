@@ -126,14 +126,15 @@ const InstructorManagement = () => {
       <main className="col-md-12 align-items-center justify-content-start mt-4">
         <div className="card shadow-lg">
           {/* Navegación por pestañas */}
-          <div className="card-header bg-white">
+          <div className="card-header bg">
             <ul className="nav nav-tabs card-header-tabs">
               <li className="nav-item">
                 <button
                   className={`nav-link ${activeTab === 'summary' ? 'active' : ''}`}
                   onClick={() => setActiveTab('summary')}
+                  
                 >
-                  <Users size={18} className="me-2" />
+                  <Users size={18} className="me-2 " />
                   Resumen Instructores
                 </button>
               </li>
@@ -142,10 +143,10 @@ const InstructorManagement = () => {
                   className={`nav-link ${activeTab === 'pending' ? 'active' : ''} position-relative`}
                   onClick={() => setActiveTab('pending')}
                 >
-                  <Clock size={18} className="me-2" />
-                  Solicitudes Pendientes
+                  <Clock size={18} className="me-2 text-dark" />
+                  Solicitudes Pendientes 
                   {pendingInstructors.length > 0 && (
-                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
                       {pendingInstructors.length}
                     </span>
                   )}
@@ -193,10 +194,10 @@ const InstructorManagement = () => {
                               <td>{inst.primer_nombre}</td>
                               <td>{inst.primer_apellido}</td>
                               <td>
-                                <span className="badge bg-info">{inst.cantidad_cursos}</span>
+                                <span className="badge bg-transparent text-dark">{inst.cantidad_cursos}</span>
                               </td>
                               <td>
-                                <span className="badge bg-success">{inst.total_ventas}</span>
+                                <span className="badge bg-transparent text-dark">{inst.total_ventas}</span>
                               </td>
                             </tr>
                           ))

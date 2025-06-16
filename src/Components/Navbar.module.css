@@ -344,7 +344,10 @@
   margin-left: 139px;
   width: 55px;
   height: 55px;
+  border: red 2px solid;
 }
+
+
 
 /* Menú emergente */
 .dropdownMenu {

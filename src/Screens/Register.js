@@ -85,52 +85,72 @@ const Register = () => {
     }
   };
 
-  // Función para enviar datos por FormSubmit
+  // Función corregida para enviar datos por FormSubmit
   const sendEmailNotification = async (data, isInstructor = false) => {
     try {
+      console.log('Iniciando envío de email via FormSubmit...');
+      
       const formData = new FormData();
 
       // Configurar FormSubmit
-      formData.append('_to', 'oviedoherrerajuanpablo@gmail.com');
+      formData.append('_to', 'kwan.academy.07@gmail.com');
       formData.append('_subject', isInstructor ? 'Nueva Solicitud de Instructor' : 'Nuevo Registro de Usuario');
       formData.append('_captcha', 'false');
       formData.append('_template', 'table');
+      // formData.append('_next', 'https://tu-dominio.com/gracias'); // Opcional: página de agradecimiento
 
       // Agregar datos del formulario
       if (isInstructor) {
         formData.append('Tipo de Usuario', 'Instructor');
-        formData.append('Tipo de Documento', data.tipo_documento);
-        formData.append('Número de Identificación', data.numero_identificacion);
-        formData.append('Primer Nombre', data.primer_nombre || data.nombre);
+        formData.append('Tipo de Documento', data.tipo_documento || 'No especificado');
+        formData.append('Número de Identificación', data.numero_identificacion || 'No especificado');
+        formData.append('Primer Nombre', data.primer_nombre || data.nombre || 'No especificado');
         formData.append('Segundo Nombre', data.segundo_nombre || 'No especificado');
-        formData.append('Primer Apellido', data.primer_apellido || data.apellido);
+        formData.append('Primer Apellido', data.primer_apellido || data.apellido || 'No especificado');
         formData.append('Segundo Apellido', data.segundo_apellido || 'No especificado');
-        formData.append('Número Telefónico', data.numero_telefonico);
-        formData.append('Ocupación', data.ocupacion);
-        formData.append('Descripción del Perfil', data.descripcion_perfil);
+        formData.append('Número Telefónico', data.numero_telefonico || 'No especificado');
+        formData.append('Ocupación', data.ocupacion || 'No especificado');
+        formData.append('Descripción del Perfil', data.descripcion_perfil || 'No especificado');
         formData.append('Enlace del Certificado', certificateLink || 'No proporcionado');
       } else {
         formData.append('Tipo de Usuario', 'Usuario Regular');
       }
 
       // Datos comunes
-      formData.append('Nombre', data.nombre);
-      formData.append('Apellido', data.apellido);
-      formData.append('Email', data.email);
-      formData.append('Fecha de Nacimiento', data.fecha_nacimiento);
-      formData.append('Género', data.genero);
+      formData.append('Nombre', data.nombre || 'No especificado');
+      formData.append('Apellido', data.apellido || 'No especificado');
+      formData.append('Email', data.email || 'No especificado');
+      formData.append('Fecha de Nacimiento', data.fecha_nacimiento || 'No especificado');
+      formData.append('Género', data.genero || 'No especificado');
       formData.append('Fecha de Registro', new Date().toLocaleString('es-CO'));
 
-      // Enviar a FormSubmit
-      await fetch('https://formsubmit.co/oviedoherrerajuanpablo@gmail.com', {
+      console.log('Datos a enviar:', {
+        to: 'kwan.academy.07@gmail.com',
+        subject: isInstructor ? 'Nueva Solicitud de Instructor' : 'Nuevo Registro de Usuario',
+        tipo: isInstructor ? 'Instructor' : 'Usuario Regular'
+      });
+
+      // Enviar a FormSubmit con await
+      const response = await fetch('https://formsubmit.co/kwan.academy.07@gmail.com', {
         method: 'POST',
         body: formData
       });
 
+      console.log('Response status:', response.status);
+      console.log('Response ok:', response.ok);
+
+      // Verificar si la respuesta fue exitosa
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       console.log('Correo enviado exitosamente via FormSubmit');
+      return true;
     } catch (error) {
-      console.warn('Error al enviar correo via FormSubmit:', error);
-      // No detener el proceso si falla el correo
+      console.error('Error detallado al enviar correo via FormSubmit:', error);
+      console.error('Error message:', error.message);
+      // Re-lanzar el error para manejarlo en handleSubmit
+      throw error;
     }
   };
 
@@ -238,7 +258,7 @@ const Register = () => {
     });
   };
 
-  // Enviar datos al backend
+  // Enviar datos al backend - FUNCIÓN CORREGIDA
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -253,10 +273,6 @@ const Register = () => {
       if (activeTab === "General") {
         endpoint = "http://localhost:5000/api/register";
         dataToSend = formData;
-
-        // Enviar notificación por email via FormSubmit
-        await sendEmailNotification(dataToSend, false);
-
       } else if (activeTab === "Instructor") {
         endpoint = "http://localhost:5000/api/registerInstructor";
         dataToSend = {
@@ -275,23 +291,43 @@ const Register = () => {
           id_rol: formData.id_rol,
           enlace_certificado: certificateLink || null
         };
-
-        // Enviar notificación por email via FormSubmit
-        await sendEmailNotification(dataToSend, true);
       }
 
-      const response = await axios.post(endpoint, dataToSend);
+      console.log('Enviando datos al backend:', dataToSend);
 
+      // Primero registrar en tu backend
+      const response = await axios.post(endpoint, dataToSend);
+      console.log('Registro en backend exitoso:', response.data);
+
+      // Solo si el registro fue exitoso, enviar el email
+      try {
+        await sendEmailNotification(dataToSend, activeTab === "Instructor");
+        console.log('Email enviado correctamente');
+      } catch (emailError) {
+        console.warn('Error al enviar email, pero registro exitoso:', emailError);
+        // El registro fue exitoso, solo falló el email
+        // Opcional: mostrar advertencia al usuario
+        Swal.fire({
+          icon: 'warning',
+          title: 'Registro exitoso',
+          text: 'Tu registro fue exitoso, pero hubo un problema al enviar la notificación por email. Nos pondremos en contacto contigo pronto.',
+          confirmButtonColor: '#ff9800',
+          confirmButtonText: 'Entendido'
+        });
+      }
+
+      // Mostrar mensaje de éxito
       if (activeTab === "Instructor") {
         showSuccessModal();
       } else {
         showSuccessAlert(response.data.message || "¡Registro exitoso!");
       }
+
     } catch (error) {
       const errorMsg = error.response?.data?.error || error.response?.data?.message ||
         "Error al registrar. Por favor, inténtalo de nuevo.";
       showErrorAlert(errorMsg);
-      console.error("Error:", error.response?.data || error.message);
+      console.error("Error en registro:", error.response?.data || error.message);
     } finally {
       setIsSubmitting(false);
     }
