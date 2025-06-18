@@ -1,9 +1,21 @@
+/* Variables CSS */
+:root {
+  --primary-red: #E70014;
+  --border-gray: #ddd;
+  --border-radius: 8px;
+  --white: #fff;
+  --dark-gray: #333;
+  --transition: all 0.3s ease;
+  --shadow-light: rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedor principal */
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #FDF8F2; /* Fondo claro */
+  background-color: #FDF8F2;
   color: #333;
   padding: 20px;
 }
@@ -11,12 +23,13 @@
 .faqWrapper {
   width: 80%;
   max-width: 900px;
-  background: #FDF8F2; /* Fondo blanco */
+  background: #FDF8F2;
   padding: 30px;
   border-radius: 10px;
 }
 
-.containerTitle{
+/* Header */
+.containerTitle {
   align-items: center;
   text-align: center;
 }
@@ -51,14 +64,20 @@
   color: #333333;
 }
 
+/* Búsqueda */
+.searchContainer {
+  position: relative;
+  margin-bottom: 32px;
+  display: flex;
+  justify-content: center;
+  /* Centra horizontalmente */
+}
+
 .searchBar {
   position: relative;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  max-width: 400px; 
-  margin: 0 auto; 
-  border-radius: 8px;
+  flex: 1;
+  max-width: 400px;
+  min-width: 280px;
 }
 
 .searchIcon {
@@ -96,9 +115,82 @@
   opacity: 0.8;
 }
 
-.searchInput:focus{
-  outline: 2px solid var(--primary-red);
-  outline-offset: 2px;
+/* Iconos de pistas */
+.hintsContainer {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: opacity 0.3s;
+}
+
+.hintsActive {
+  opacity: 1;
+}
+
+.hintsInactive {
+  opacity: 0.3;
+}
+
+.hintIcon {
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  color: #9CA3AF;
+}
+
+.hintIconActive {
+  color: #FBBF24;
+  animation: pulse 1.5s infinite;
+}
+
+.hintIconGoat {
+  color: #EF4444;
+  animation: pulse 1.5s infinite;
+}
+
+/* Panel de pistas */
+.hintsPanel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #FDF8F2;
+
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 8px;
+  z-index: 10;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.hintLine {
+  display: flex;
+  align-items: center;
+  color: #FBBF24;
+  font-size: 0.875rem;
+  margin-bottom: 8px;
+  animation: slideIn 0.3s ease-out;
+}
+
+.hintLineOrange {
+  color: #FB923C;
+}
+
+.hintLineRed {
+  color: #EF4444;
+}
+
+.hintEmoji {
+  margin-right: 8px;
+}
+
+/* Secciones FAQ */
+.faqsContainer {
+  /* Contenedor para las FAQs */
 }
 
 .section {
@@ -115,12 +207,11 @@
 
 .sectionTitle:hover {
   transition: 0.3s;
-  cursor:default;
+  cursor: default;
   color: var(--primary-red);
 }
 
-
-.sectionTitle:focus{
+.sectionTitle:focus {
   outline: none;
 }
 
@@ -139,6 +230,9 @@
   width: 100%;
   text-align: left;
   transition: color 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .faqButton:hover {
@@ -150,29 +244,13 @@
   box-shadow: none !important;
 }
 
-.faqAnswer {
-  margin-top: 5px;
-  color: #666;
-  font-size: 14px;
-  text-align: left;
+.faqButtonIcon {
+  transition: transform 0.2s;
 }
 
-.footer {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 14px;
-  color: #666;
+.faqButtonIconOpen {
+  transform: rotate(45deg);
 }
-.footer a {
-  color: #E70014;
-  text-decoration: none;
-  font-weight: 600;
-}
-.footer a:hover {
-  text-decoration: underline;
-  
-}
-
 
 .faqAnswerContainer {
   max-height: 0;
@@ -180,12 +258,12 @@
   overflow: hidden;
   transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
   transition-property: all;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 0.3s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.3s;
 }
 
-.faqItem.open .faqAnswerContainer {
-  max-height: 200px; /* Ajusta según el contenido */
+.faqItemOpen .faqAnswerContainer {
+  max-height: 200px;
   opacity: 1;
 }
 
@@ -196,3 +274,144 @@
   text-align: left;
 }
 
+/* Footer */
+.footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #666;
+}
+
+.footerLink {
+  color: #E70014;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footerLink:hover {
+  text-decoration: underline;
+}
+
+/* Easter Egg */
+.easterEggContainer {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 50%, #EF4444 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+}
+
+.easterEggCard {
+  background-color: white;
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+  max-width: 400px;
+  margin: 0 auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.easterEggTrophy {
+  font-size: 4rem;
+  margin-bottom: 16px;
+}
+
+.easterEggTitle {
+  font-size: 1.875rem;
+  font-weight: bold;
+  color: #1F2937;
+  margin-bottom: 16px;
+}
+
+.easterEggMessage {
+  font-size: 1.125rem;
+  color: #6B7280;
+  margin-bottom: 24px;
+}
+
+.easterEggEmojis {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+}
+
+.easterEggSubtext {
+  font-size: 0.875rem;
+  color: #9CA3AF;
+}
+
+.easterEggButton {
+  margin-top: 16px;
+  background-color: #EF4444;
+  color: white;
+  padding: 8px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.easterEggButton:hover {
+  background-color: #DC2626;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes bounce {
+
+  0%,
+  20%,
+  53%,
+  80%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  40%,
+  43% {
+    transform: translate3d(0, -30px, 0);
+  }
+
+  70% {
+    transform: translate3d(0, -15px, 0);
+  }
+
+  90% {
+    transform: translate3d(0, -4px, 0);
+  }
+}

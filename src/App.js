@@ -9,14 +9,13 @@ import { UserAuthProvider } from './context/UserAuthContext';
 // ─── Layout ─────────────────────────────────────────────────────
 import Layout from "./components/Layout";
 
-
 // ─── Pantallas y componentes ────────────────────────────────────
 import Home from "./screens/Home";
 import Courses from "./screens/Courses";
 import Register from "./screens/Register";
 import Data from "./screens/Data";
 import SignIn from "./screens/SignIn";
-// import sandbox from "./screens/despues";
+import Despues from "./screens/despues"; // ✅ Cambié 'sandbox' por 'Despues' y mantengo la ruta correcta
 
 import HomeAdmin from "./screens/AdminViews/HomeAdmin";
 import LoginAdmin from "./screens/AdminViews/LoginAdmin";
@@ -32,7 +31,6 @@ import FAQ from "./screens/FAQ";
 import PanelInstructor from "./screens/PanelInstructor";
 import PanelUser from "./screens/PanelUser";
 import Error404 from "./screens/Error404";
-
 
 // ─── Rutas ───────────────────────────────────────────────────────
 function AppWrapper() {
@@ -54,6 +52,7 @@ function AppWrapper() {
         <Route path="/PanelUser" element={<PanelUser />} />
         <Route path="/AdminViews/HomeAdmin" element={<HomeAdmin />} />
         <Route path="/AdminViews/LoginAdmin" element={<LoginAdmin />} />
+        
       </Route>
 
       {/* Rutas SIN layout */}
@@ -65,8 +64,8 @@ function AppWrapper() {
           </ProtectedRouteAdmin>
         }
       />
+      <Route path="/cris" element={<Despues />} /> {/* ✅ Agregué la ruta correcta DENTRO del Layout */}
       <Route path="*" element={<Error404 />} />
-      <Route path="/cris" element={<sandbox />} />
     </Routes>
   );
 }

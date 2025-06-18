@@ -28,7 +28,3 @@ yarn-error.log*
 # database archives
 .env
 
-# later
-src/Screens/despues.js
-src/screens/despues.module.css
-public/despues.png
