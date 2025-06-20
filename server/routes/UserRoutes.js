@@ -1,6 +1,6 @@
 const express = require("express");
 const multer = require('multer');
-const { signIn, registerUser, sessionUser, logoutUser, getUsuariosActivos, getUsuariosInactivos, updateStatusUsuarios, updateUserProfile, getBuyUser } = require("../controllers/UserController");
+const { signIn, registerUser, sessionUser, logoutUser, getUsuariosActivos, getUsuariosInactivos, updateStatusUsuarios, updateUserProfile, getBuyUser, getPurchasedCourses } = require("../controllers/UserController");
 const path = require('path');
 const router = express.Router();
 
@@ -52,7 +52,7 @@ router.put("/api/updateStatusUsuarios", updateStatusUsuarios);
 router.put("/api/updateUserProfile/:id", updateUserProfile);
 router.get("/api/logoutUser", logoutUser);
 router.get("/api/getBuyUser", getBuyUser);
-
+router.get("/api/getPurchasedCourses", getPurchasedCourses );
 
 
 module.exports = router;

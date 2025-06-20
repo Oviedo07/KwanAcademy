@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Edit, Check, X, Book, User, ShoppingCart } from 'lucide-react';
+import { Edit, Check, X, Book, User, ShoppingCart, ExternalLink, Globe } from 'lucide-react';
 import styles from './PanelUser.module.css';
 import { useUserAuth } from '../context/UserAuthContext';
 import Swal from 'sweetalert2';
@@ -13,11 +13,13 @@ const PanelUsuario = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [activeTab, setActiveTab] = useState('perfil');
 
-  // Cursos comprados (simulados)
-  const [cursosComprados, setCursosComprados] = useState([
-    { id: 1, titulo: 'Matemáticas Básicas', instructor: 'Juan Pérez', progreso: 75, fechaCompra: '10/04/2025' },
-    { id: 2, titulo: 'Historia Universal', instructor: 'María García', progreso: 30, fechaCompra: '15/04/2025' },
-  ]);
+  // Estados para cursos comprados
+  const [cursosComprados, setCursosComprados] = useState([]);
+  const [loadingCursos, setLoadingCursos] = useState(false);
+
+  // Estados para modal de acceso al curso
+  const [modalAccesoOpen, setModalAccesoOpen] = useState(false);
+  const [cursoSeleccionado, setCursoSeleccionado] = useState(null);
 
   // Historial de compras - ahora cargado desde la base de datos
   const [historialCompras, setHistorialCompras] = useState([]);
@@ -53,17 +55,36 @@ const PanelUsuario = () => {
 
   // Cargar cursos comprados del usuario
   useEffect(() => {
-    if (user?.id) {
-      fetch(`http://localhost:5000/api/getCursosComprados/${user.id}`, {
-        credentials: 'include'
-      })
-        .then(res => res.json())
-        .then(data => {
-          console.log("Cursos comprados obtenidos:", data);
-          setCursosComprados(data.cursos || []);
-        })
-        .catch(err => console.error('Error al obtener cursos comprados:', err));
-    }
+    const cargarCursosComprados = async () => {
+      if (!user?.id) return;
+      
+      setLoadingCursos(true);
+      try {
+        const response = await fetch('http://localhost:5000/api/getPurchasedCourses', {
+          credentials: 'include'
+        });
+        
+        if (!response.ok) {
+          throw new Error('Error al obtener cursos comprados');
+        }
+        
+        const data = await response.json();
+        console.log("Cursos comprados obtenidos:", data);
+        setCursosComprados(data.cursos || []);
+      } catch (err) {
+        console.error('Error al obtener cursos comprados:', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudieron cargar los cursos comprados',
+          confirmButtonColor: '#d33',
+        });
+      } finally {
+        setLoadingCursos(false);
+      }
+    };
+
+    cargarCursosComprados();
   }, [user]);
 
   // Cargar historial de compras desde getBuyUser
@@ -76,14 +97,11 @@ const PanelUsuario = () => {
         const response = await fetch('http://localhost:5000/api/getBuyUser', {
           credentials: 'include'
         });
-
         if (!response.ok) {
           throw new Error('Error al obtener el historial de compras');
         }
-
         const data = await response.json();
         console.log("Historial de compras obtenido:", data);
-
         // Transformar los datos para que coincidan con el formato esperado en la vista
         const historialTransformado = data.map((compra, index) => ({
           id: compra.numero_factura || index + 1,
@@ -91,7 +109,6 @@ const PanelUsuario = () => {
           fecha: formatDateForDisplay(compra.fecha_creacion),
           monto: parseFloat(compra.precio) || 0
         }));
-
         setHistorialCompras(historialTransformado);
       } catch (error) {
         console.error('Error al cargar historial de compras:', error);
@@ -122,7 +139,6 @@ const PanelUsuario = () => {
         };
 
         console.log("Datos a enviar:", userData);
-
         const response = await fetch(`http://localhost:5000/api/updateUserProfile/${user.id}`, {
           method: 'PUT',
           headers: {
@@ -131,22 +147,18 @@ const PanelUsuario = () => {
           credentials: 'include',
           body: JSON.stringify(userData),
         });
-
         if (!response.ok) {
           const errorData = await response.json();
           throw new Error(errorData.message || 'Error al actualizar');
         }
-
         const data = await response.json();
         console.log('Respuesta del servidor:', data);
-
         Swal.fire({
           icon: 'success',
           title: 'Datos actualizados',
           text: 'Tu perfil fue actualizado correctamente.',
           confirmButtonColor: '#3085d6',
         });
-
         // Actualizar el contexto con los nuevos datos
         const updatedUser = { ...user, ...userData };
         updateUserContext(updatedUser);
@@ -154,7 +166,6 @@ const PanelUsuario = () => {
         setIsEditing(false);
       } catch (error) {
         console.error('Error al actualizar usuario:', error);
-
         Swal.fire({
           icon: 'error',
           title: 'Error',
@@ -181,8 +192,27 @@ const PanelUsuario = () => {
     }));
   };
 
-  const handleVerCurso = (cursoId) => {
-    navigate(`/curso/${cursoId}`);
+
+  // Función para abrir el modal de acceso al curso
+  const handleAccederCurso = (curso) => {
+    setCursoSeleccionado(curso);
+    setModalAccesoOpen(true);
+  };
+
+  // Función para ir al curso desde el modal
+  const handleIrAlCurso = () => {
+    if (!cursoSeleccionado) return;
+
+    // Si tiene enlace del curso, redirigir ahí
+    if (cursoSeleccionado.enlace_curso && cursoSeleccionado.enlace_curso.trim() !== '') {
+      window.open(cursoSeleccionado.enlace_curso, '_blank');
+    } else {
+      // Si no tiene enlace, redirigir a Udemy con búsqueda del nombre del curso
+      const searchQuery = encodeURIComponent(cursoSeleccionado.nombre || cursoSeleccionado.titulo);
+      const udemyUrl = `https://www.udemy.com/courses/search/?q=${searchQuery}`;
+      window.open(udemyUrl, '_blank');
+    }
+    setModalAccesoOpen(false);
   };
 
   const renderPerfilSection = () => (
@@ -207,24 +237,6 @@ const PanelUsuario = () => {
           </button>
         )}
       </div>
-
-      {/* Imagen de perfil centrada */}
-      <div className={styles.profileImageContainer}>
-        <div className={styles.profileImageWrapper}>
-          <img
-            src="/samurai_user.jpg"
-            alt="Foto de perfil"
-            className={styles.profileImage}
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = "/images/default-avatar.png"; // Imagen de respaldo
-            }}
-          />
-        </div>
-      </div>
-
-      {/* Separador entre foto y campos */}
-      <div className={styles.profileSeparator}></div>
 
       <div className={styles.perfilForm}>
         <div className={styles.formRow}>
@@ -269,7 +281,7 @@ const PanelUsuario = () => {
               />
             ) : (
               <p>{userInfo.email}</p>
-            )}
+            )}  
           </div>
 
           <div className={styles.formGroup}>
@@ -315,7 +327,11 @@ const PanelUsuario = () => {
       <div className={styles.sectionHeader}>
         <h2>Mis Cursos</h2>
       </div>
-      {cursosComprados.length > 0 ? (
+      {loadingCursos ? (
+        <div className={styles.loadingState}>
+          <p>Cargando cursos...</p>
+        </div>
+      ) : cursosComprados.length > 0 ? (
         <div className={styles.cursosGrid}>
           {cursosComprados.map(curso => (
             <div key={curso.id} className={styles.cursoCard}>
@@ -346,12 +362,15 @@ const PanelUsuario = () => {
                   <span>{curso.progreso || 0}%</span>
                 </div>
               </div>
-              <button
-                className={styles.actionButton}
-                onClick={() => handleVerCurso(curso.id)}
-              >
-                Continuar Curso
-              </button>
+              <div className={styles.cursoActions}>
+                <button
+                  className={styles.actionButton}
+                  onClick={() => handleAccederCurso(curso)}
+                >
+                  <ExternalLink size={16} />
+                  Ir al Curso
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -447,6 +466,83 @@ const PanelUsuario = () => {
         {activeTab === 'cursos' && renderCursosSection()}
         {activeTab === 'historial' && renderHistorialSection()}
       </div>
+
+      {/* Modal de acceso al curso */}
+      {modalAccesoOpen && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <div className={styles.modalHeader}>
+              <h2>Acceder al Curso</h2>
+              <button
+                onClick={() => setModalAccesoOpen(false)}
+                className={styles.closeButton}
+              >
+                <X size={24} />
+              </button>
+            </div>
+
+            {cursoSeleccionado && (
+              <div className={styles.modalBody}>
+                {cursoSeleccionado.imagen_url ? (
+                  <img
+                    src={cursoSeleccionado.imagen_url}
+                    alt={cursoSeleccionado.nombre || cursoSeleccionado.titulo}
+                    className={styles.modalCursoImage}
+                  />
+                ) : (
+                  <div className={styles.modalImagePlaceholder}>
+                    <Book size={48} />
+                  </div>
+                )}
+                
+                <h3>{cursoSeleccionado.nombre || cursoSeleccionado.titulo}</h3>
+                
+                <p className={styles.modalInstructor}>
+                  <strong>Instructor:</strong> {cursoSeleccionado.instructor}
+                </p>
+                
+                {cursoSeleccionado.descripcion && (
+                  <p className={styles.modalDescripcion}>
+                    {cursoSeleccionado.descripcion}
+                  </p>
+                )}
+
+                <div className={styles.modalInfo}>
+                  <p>
+                    {cursoSeleccionado.enlace_curso && cursoSeleccionado.enlace_curso.trim() !== '' ? (
+                      <>
+                        <ExternalLink size={16} className={styles.inlineIcon} />
+                        Serás redirigido al enlace del curso
+                      </>
+                    ) : (
+                      <>
+                        <Globe size={16} className={styles.inlineIcon} />
+                        Serás redirigido a Udemy para buscar este curso
+                      </>
+                    )}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            <div className={styles.modalActions}>
+              <button
+                onClick={() => setModalAccesoOpen(false)}
+                className={styles.cancelButton}
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleIrAlCurso}
+                className={styles.actionButton}
+              >
+                <ExternalLink size={16} />
+                Ir al Curso
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

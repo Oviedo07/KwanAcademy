@@ -219,6 +219,73 @@ const cleanStorage = (req, res) => {
 
 //-------------------------------------------
 
+const getPurchasedCourses = async (req, res) => {
+  try {
+    console.log('req.session:', req.session); // Debug
+    console.log('req.session.user:', req.session?.user); // Debug
+
+    const db = await getConnection();
+
+    // Verificar que existe la sesión y el usuario
+    if (!req.session || !req.session.user || !req.session.user.id) {
+      return res.status(401).json({ error: "Usuario no autenticado" });
+    }
+
+    const userId = req.session.user.id;
+    console.log('🔎 ID del usuario:', userId);
+
+    // Query para obtener los cursos comprados con información del instructor
+    const [rows] = await db.query(`
+      SELECT
+        c.id,
+        c.nombre AS nombre_curso,
+        c.descripcion,
+        c.objetivos,
+        c.imagen_url,
+        c.enlace_curso,
+        c.precio,
+        co.numero_factura,
+        co.fecha_creacion AS fecha_compra,
+        CONCAT(i.primer_nombre, ' ', i.primer_apellido) AS instructor
+      FROM compra co
+      INNER JOIN curso c ON co.id_curso = c.id
+      INNER JOIN instructor i ON c.id_instructor = i.id
+      WHERE co.id_usuario = ?
+      ORDER BY co.fecha_creacion DESC
+    `, [userId]);
+
+    console.log('📚 Cursos comprados encontrados:', rows.length);
+
+    // Transformar los datos para que coincidan con el formato esperado en el frontend
+    const cursosTransformados = rows.map(curso => ({
+      id: curso.id,
+      nombre: curso.nombre_curso,
+      titulo: curso.nombre_curso, // Para compatibilidad con el frontend existente
+      descripcion: curso.descripcion,
+      objetivos: curso.objetivos,
+      imagen_url: curso.imagen_url,
+      enlace_curso: curso.enlace_curso,
+      precio: curso.precio,
+      instructor: curso.instructor,
+      numero_factura: curso.numero_factura,
+      fechaCompra: curso.fecha_compra,
+      progreso: 0 // Puedes implementar un sistema de progreso más adelante
+    }));
+
+    res.json({
+      success: true,
+      cursos: cursosTransformados,
+      total: cursosTransformados.length
+    });
+
+  } catch (err) {
+    console.error("Error al obtener cursos comprados del usuario:", err);
+    res.status(500).json({ error: "Error en el servidor" });
+  }
+};
+
+
+
 module.exports = {
   signIn,
   registerUser,
@@ -229,5 +296,6 @@ module.exports = {
   updateStatusUsuarios,
   cleanStorage,
   updateUserProfile,
-  getBuyUser
+  getBuyUser,
+  getPurchasedCourses
 };
