@@ -23,7 +23,7 @@ const PayPalButton = ({ price, courseId, courseName, courseInstructor }) => {
   const navigate = useNavigate();
 
   // Link del PDF de Drive en formato para abrir en otra pestaña
-  const pdfDriveUrl = "https://drive.google.com/file/d/1m3nYfsA6YOrEgtNZeJ22bDI4UozNE94I/preview";
+  // const pdfDriveUrl = "https://drive.google.com/file/d/1m3nYfsA6YOrEgtNZeJ22bDI4UozNE94I/preview";
 
   useEffect(() => {
     if (window.paypal && !initialized.current) {
@@ -109,7 +109,7 @@ const PayPalButton = ({ price, courseId, courseName, courseInstructor }) => {
   // Cierra el modal y abre el PDF de Drive en otra pestaña
   const handleCloseModal = () => {
     setShowModal(false);
-    window.open(pdfDriveUrl, "_blank");
+    window.location.href = '/PanelUser';
   };
 
   return (
