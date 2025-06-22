@@ -6,12 +6,12 @@ const getAllCursos = async (req, res) => {
     const db = await getConnection();
 
     const [results] = await db.query(`
-      SELECT c.id, c.nombre, c.descripcion, c.objetivos, c.precio, c.imagen_url, 
-             c.fecha_creacion, i.primer_nombre AS instructor_nombre, i.primer_apellido AS instructor_apellido
+      SELECT c.id, c.nombre, c.descripcion, c.objetivos, c.precio, c.imagen_url, c.enlace_curso,
+      c.fecha_creacion, i.primer_nombre AS instructor_nombre, i.primer_apellido AS instructor_apellido
       FROM curso c
       JOIN instructor i ON c.id_instructor = i.id
     `);
-    
+
     const formattedResults = results.map(curso => ({
       id: curso.id,
       name: curso.nombre,
@@ -20,6 +20,7 @@ const getAllCursos = async (req, res) => {
       instructor: `${curso.instructor_nombre} ${curso.instructor_apellido}`,
       objetivos: curso.objetivos,
       image: curso.imagen_url,
+      enlace_curso: curso.enlace_curso, // AGREGADO
       fecha_creacion: curso.fecha_creacion
     }));
 
@@ -31,20 +32,18 @@ const getAllCursos = async (req, res) => {
 };
 
 
-// Obtener cursos por categoría
 const getCursosByCategory = async (req, res) => {
   try {
     const db = await getConnection();
     const { categoria } = req.params;
 
     const [results] = await db.query(`
-      SELECT c.id, c.nombre, c.descripcion, c.objetivos, c.precio, c.imagen_url, 
-             c.fecha_creacion, i.primer_nombre AS instructor_nombre, i.primer_apellido AS instructor_apellido, c.categoria
+      SELECT c.id, c.nombre, c.descripcion, c.objetivos, c.precio, c.imagen_url, c.enlace_curso,
+      c.fecha_creacion, i.primer_nombre AS instructor_nombre, i.primer_apellido AS instructor_apellido, c.categoria
       FROM curso c
       JOIN instructor i ON c.id_instructor = i.id
       WHERE c.categoria = ?
     `, [categoria]);
-    
 
     const formattedResults = results.map(curso => ({
       id: curso.id,
@@ -54,6 +53,7 @@ const getCursosByCategory = async (req, res) => {
       instructor: `${curso.instructor_nombre} ${curso.instructor_apellido}`,
       objetivos: curso.objetivos,
       image: curso.imagen_url,
+      enlace_curso: curso.enlace_curso, // AGREGADO
       category: curso.categoria,
       fecha_creacion: curso.fecha_creacion
     }));
@@ -68,20 +68,20 @@ const getCursosByCategory = async (req, res) => {
 const registerCurso = async (req, res) => {
   try {
     const db = await getConnection();
-    const { id_instructor, nombre, descripcion, objetivos, precio, imagen } = req.body;
+    const { id_instructor, nombre, descripcion, objetivos, precio, imagen, enlace_curso } = req.body;
 
-    if (!id_instructor || !nombre || !descripcion || !objetivos || !precio || !imagen) {
+    if (!id_instructor || !nombre || !descripcion || !objetivos || !precio || !imagen || !enlace_curso) {
       return res.status(400).json({ error: 'Todos los campos son obligatorios' });
     }
 
     const fecha = new Date();
     const sql = `
-      INSERT INTO curso (id_instructor, nombre, descripcion, objetivos, precio, imagen_url, fecha_creacion, fecha_actualizacion)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO curso (id_instructor, nombre, descripcion, objetivos, precio, imagen_url, enlace_curso, fecha_creacion, fecha_actualizacion)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const [result] = await db.query(sql, [
-      id_instructor, nombre, descripcion, objetivos, precio, imagen, fecha, fecha
+      id_instructor, nombre, descripcion, objetivos, precio, imagen, enlace_curso, fecha, fecha
     ]);
 
     res.status(201).json({
@@ -95,7 +95,7 @@ const registerCurso = async (req, res) => {
 
 const updateCurso = async (req, res) => {
   const cursoId = req.params.id;
-  const { nombre, descripcion, objetivos, precio } = req.body;
+  const { nombre, descripcion, objetivos, precio, enlace_curso } = req.body;
 
   if (!req.session.user || req.session.user.rol !== 'instructor') {
     return res.status(403).json({ error: "Acceso denegado. No hay sesión activa o rol incorrecto." });
@@ -107,8 +107,8 @@ const updateCurso = async (req, res) => {
     const db = await getConnection();
 
     const [result] = await db.query(
-      'UPDATE curso SET nombre = ?, descripcion = ?, objetivos = ?, precio = ?, fecha_actualizacion = NOW() WHERE id = ? AND id_instructor = ?',
-      [nombre, descripcion, objetivos, precio, cursoId, req.session.user.id]
+      'UPDATE curso SET nombre = ?, descripcion = ?, objetivos = ?, precio = ?, enlace_curso = ?, fecha_actualizacion = NOW() WHERE id = ? AND id_instructor = ?',
+      [nombre, descripcion, objetivos, precio, enlace_curso, cursoId, req.session.user.id]
     );
 
     if (result.affectedRows === 0) {

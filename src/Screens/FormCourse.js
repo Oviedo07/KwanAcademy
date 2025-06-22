@@ -21,6 +21,7 @@ const FormularioCurso = () => {
   }, [location]);
 
 
+  
   // Constantes para el modal
   const { user } = useAuth();
   const [mostrarModal, setMostrarModal] = useState(false);
@@ -106,6 +107,11 @@ const FormularioCurso = () => {
           <label for="precioCurso" style="display: block; font-weight: 500; margin-bottom: 6px; color: #343a40; text-align: left;">Precio</label>
           <input id="precioCurso" class="swal2-input" placeholder="Precio" value="${curso.precio}" type="number" style="margin: 0; border-radius: 8px; border: 1px solid #ced4da; padding: 10px 15px; width: 100%;">
         </div>
+
+        <div>
+          <label for="enlaceCurso" style="display: block; font-weight: 500; margin-bottom: 6px; color: #343a40; text-align: left;">Enlace Curso</label>
+          <textarea id="enlaceCurso" class="swal2-textarea" placeholder="Descripción" style="margin: 0; border-radius: 8px; border: 1px solid #ced4da; padding: 10px 15px; width: 100%; min-height: 100px;">${curso.enlace_curso}</textarea>
+        </div>
       </div>
       `,
       showCancelButton: true,
@@ -122,17 +128,18 @@ const FormularioCurso = () => {
         const descripcion = document.getElementById('descripcionCurso').value;
         const objetivos = document.getElementById('objetivosCurso').value;
         const precio = document.getElementById('precioCurso').value;
+        const enlaceCurso = document.getElementById('enlaceCurso').value;
   
-        if (!nombre || !descripcion || !objetivos || !precio) {
+        if (!nombre || !descripcion || !objetivos || !precio || !enlaceCurso) {
           Swal.showValidationMessage('Todos los campos son obligatorios');
           return false;
         }
   
-        return { nombre, descripcion, objetivos, precio };
+        return { nombre, descripcion, objetivos, precio,enlaceCurso };
       }
     }).then((result) => {
       if (result.isConfirmed) {
-        const { nombre, descripcion, objetivos, precio } = result.value;
+        const { nombre, descripcion, objetivos, precio, enlace_curso } = result.value;
   
         fetch(`http://localhost:5000/api/updateCurso/${curso.id}`, {
           method: 'PUT',
@@ -142,7 +149,8 @@ const FormularioCurso = () => {
             nombre,
             descripcion,
             objetivos,
-            precio
+            precio,
+            enlace_curso
           })
         })
           .then(res => res.json())
@@ -155,7 +163,7 @@ const FormularioCurso = () => {
             // Actualizar el curso en el estado local
             setCursosInstructor(prevCursos => 
               prevCursos.map(c => 
-                c.id === curso.id ? {...c, nombre, descripcion, objetivos, precio} : c
+                c.id === curso.id ? {...c, nombre, descripcion, objetivos, precio, enlace_curso} : c
               )
             );
           })
@@ -180,6 +188,7 @@ const FormularioCurso = () => {
     descripcionCurso: '', 
     objetivosCurso: '', 
     precioCurso: '', 
+    enlaceCurso: '',
     fotoCurso: '',
   });
   const [previewUrl, setPreviewUrl] = useState(null);
@@ -221,6 +230,7 @@ const FormularioCurso = () => {
       objetivosCurso: v => v.trim().length >= 10 ? '' : 'Mínimo 10 caracteres',
       descripcionCurso: v => v.trim().length >= 10 ? '' : 'Mínimo 10 caracteres',
       precioCurso: v => v && !isNaN(v) && v > 0 ? '' : 'Precio inválido',
+      enlaceCurso: v => v.trim() ? '' : 'Campo obligatorio',
       fotoCurso: v => v.trim().startsWith('http') ? '' : 'URL no válida'
     };
     return validations[field] ? validations[field](value) : '';
@@ -287,6 +297,7 @@ const FormularioCurso = () => {
         descripcion: formData.descripcionCurso,
         objetivos: formData.objetivosCurso,
         precio: formData.precioCurso,
+        enlace_curso: formData.enlaceCurso,
         imagen: formData.fotoCurso
       };
 
@@ -326,6 +337,7 @@ const FormularioCurso = () => {
       descripcionCurso: '', 
       objetivosCurso: '', 
       precioCurso: '', 
+      enlaceCurso: '',
       fotoCurso: '',
     });
     setErrors({});
@@ -431,6 +443,7 @@ const FormularioCurso = () => {
           {renderTextarea(<FileText size={16} />, 'Objetivos del Curso', 'objetivosCurso', 3)}
           {renderTextarea(<Target size={16} />, 'Descripción del Curso', 'descripcionCurso', 4)}
           {renderInput(<DollarSign size={16} />, 'Precio del Curso', 'precioCurso', 'number')}
+          {renderInput(<DollarSign size={16} />, 'Enlace del Curso', 'enlaceCurso', 'text')}
           {renderInput(<ImagePlus size={16} />, 'Enlace de la Imagen del Curso', 'fotoCurso')}
 
           {previewUrl && (

@@ -200,20 +200,30 @@ const PanelUsuario = () => {
   };
 
   // Función para ir al curso desde el modal
-  const handleIrAlCurso = () => {
-    if (!cursoSeleccionado) return;
 
-    // Si tiene enlace del curso, redirigir ahí
-    if (cursoSeleccionado.enlace_curso && cursoSeleccionado.enlace_curso.trim() !== '') {
-      window.open(cursoSeleccionado.enlace_curso, '_blank');
-    } else {
-      // Si no tiene enlace, redirigir a Udemy con búsqueda del nombre del curso
-      const searchQuery = encodeURIComponent(cursoSeleccionado.nombre || cursoSeleccionado.titulo);
-      const udemyUrl = `https://www.udemy.com/courses/search/?q=${searchQuery}`;
-      window.open(udemyUrl, '_blank');
-    }
+// VERSIÓN ALTERNATIVA con SweetAlert2 (si ya lo tienes importado):
+const handleIrAlCursoConSwal = () => {
+  if (!cursoSeleccionado) return;
+
+  if (cursoSeleccionado.enlace_curso && 
+      cursoSeleccionado.enlace_curso.trim() !== '' && 
+      cursoSeleccionado.enlace_curso !== null) {
+    
+    window.open(cursoSeleccionado.enlace_curso, '_blank');
     setModalAccesoOpen(false);
-  };
+    
+  } else {
+    Swal.fire({
+      title: 'Enlace no disponible',
+      text: 'Este curso no tiene un enlace válido configurado.',
+      icon: 'warning',
+      confirmButtonColor: '#E70014',
+      confirmButtonText: 'Entendido'
+    });
+    setModalAccesoOpen(false);
+  }
+};
+
 
   const renderPerfilSection = () => (
     <div className={styles.perfilContainer}>
@@ -517,7 +527,7 @@ const PanelUsuario = () => {
                     ) : (
                       <>
                         <Globe size={16} className={styles.inlineIcon} />
-                        Serás redirigido a Udemy para buscar este curso
+                        Serás redirigido a otras pestaña para acceder a este curso
                       </>
                     )}
                   </p>
@@ -533,7 +543,7 @@ const PanelUsuario = () => {
                 Cancelar
               </button>
               <button
-                onClick={handleIrAlCurso}
+                onClick={handleIrAlCursoConSwal}
                 className={styles.actionButton}
               >
                 <ExternalLink size={16} />
