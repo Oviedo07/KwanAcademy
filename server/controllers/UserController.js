@@ -26,6 +26,7 @@ const signIn = async (req, res) => {
       genero: usuario.genero,
       contrasena: usuario.contrasena, 
       fecha_nacimiento: usuario.fecha_nacimiento,
+      estado: usuario.estado,
       rol: 'usuario'
     };
 
@@ -134,6 +135,7 @@ try {
       email,
       genero,
       fecha_nacimiento,
+      contrasena,
     } = req.body;
 
     // Verificamos los campos obligatorios
@@ -141,20 +143,20 @@ try {
       return res.status(400).json({ message: 'El email es obligatorio' });
     }
 
-    const params = [
-      nombre || '',
-      apellido || '',
-      email || '',         // Este campo lo mantienes aunque no parece venir del frontend
-      genero || '',
-      fecha_nacimiento || '',
-      id
-    ];
+      const sql = `
+        UPDATE usuario
+        SET nombre = ?, apellido = ?, email = ?, genero = ?, fecha_nacimiento = ?, contrasena = ?
+        WHERE id = ?`;
 
-    const sql = `
-      UPDATE usuario
-      SET nombre = ?, apellido = ?, email = ?, genero = ?, fecha_nacimiento = ?
-      WHERE id = ?`;
-
+      const params = [
+        nombre || '',
+        apellido || '',
+        email || '',         
+        genero || '',
+        fecha_nacimiento || '',
+        contrasena || '',  // Añadir este parámetro
+        id
+      ];
     const [result] = await db.execute(sql, params);
 
     res.json({ message: 'Usuario actualizado correctamente', affectedRows: result.affectedRows });

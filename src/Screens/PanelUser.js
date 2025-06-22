@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Edit, Check, X, Book, User, ShoppingCart, ExternalLink, Globe } from 'lucide-react';
+import { Edit, Check, X, Book, User, ShoppingCart, ExternalLink, Globe, Lock, UserX, AlertTriangle } from 'lucide-react';
 import styles from './PanelUser.module.css';
 import { useUserAuth } from '../context/UserAuthContext';
 import Swal from 'sweetalert2';
 import { useNavigate } from "react-router-dom";
 
 const PanelUsuario = () => {
-  const { user, updateUserContext } = useUserAuth();
+  const { user, updateUserContext, logout } = useUserAuth();
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({});
   const [tempInfo, setTempInfo] = useState({});
@@ -47,6 +47,7 @@ const PanelUsuario = () => {
         email: user.email || '',
         fechaNacimiento: formatDateForInput(user.fecha_nacimiento),
         genero: user.genero || '',
+        contrasena: user.contrasena || '',
       };
       setUserInfo(datosIniciales);
       setTempInfo(datosIniciales);
@@ -136,6 +137,7 @@ const PanelUsuario = () => {
           email: tempInfo?.email || '',
           fecha_nacimiento: tempInfo?.fechaNacimiento || null, // Enviar como string YYYY-MM-DD o null
           genero: tempInfo?.genero || '',
+          contrasena: tempInfo?.contrasena || '',
         };
 
         console.log("Datos a enviar:", userData);
@@ -192,6 +194,93 @@ const PanelUsuario = () => {
     }));
   };
 
+  // Función para desactivar cuenta
+  const handleDesactivarCuenta = async () => {
+    const result = await Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Al desactivar tu cuenta no podrás acceder a tus cursos ni realizar nuevas compras. Esta acción puede ser reversible contactando al soporte.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Sí, desactivar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true
+    });
+
+    if (result.isConfirmed) {
+      // Segunda confirmación
+      const confirmResult = await Swal.fire({
+        title: 'Confirmación final',
+        text: 'Escribe "DESACTIVAR" para confirmar que deseas desactivar tu cuenta',
+        input: 'text',
+        inputPlaceholder: 'Escribe DESACTIVAR',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Desactivar cuenta',
+        cancelButtonText: 'Cancelar',
+        inputValidator: (value) => {
+          if (value !== 'DESACTIVAR') {
+            return 'Debes escribir exactamente "DESACTIVAR"'
+          }
+        }
+      });
+
+      if (confirmResult.isConfirmed) {
+        try {
+          // 1. Desactivar la cuenta en la base de datos
+          const response = await fetch('http://localhost:5000/api/updateStatusUsuarios', {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify({
+              id: user.id,
+              estado: 'inactivo'
+            }),
+          });
+
+          if (!response.ok) {
+            throw new Error('Error al desactivar la cuenta');
+          }
+
+          // 2. Cerrar sesión en el servidor
+          await fetch('http://localhost:5000/api/sessionUser', {
+            method: 'DELETE',
+            credentials: 'include',
+          });
+
+          // 3. Limpiar localStorage
+          localStorage.removeItem('user');
+          localStorage.removeItem('user_app_user');
+
+          await Swal.fire({
+            icon: 'success',
+            title: 'Cuenta desactivada',
+            text: 'Tu cuenta ha sido desactivada exitosamente. Serás redirigido al inicio.',
+            confirmButtonColor: '#3085d6',
+            timer: 3000,
+            timerProgressBar: true
+          });
+
+          // 4. Cerrar sesión en el contexto y redirigir
+          logout();
+          window.location.href = '/';
+          
+        } catch (error) {
+          console.error('Error al desactivar cuenta:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se pudo desactivar la cuenta. Inténtalo de nuevo.',
+            confirmButtonColor: '#d33',
+          });
+        }
+      }
+    }
+  };
 
   // Función para abrir el modal de acceso al curso
   const handleAccederCurso = (curso) => {
@@ -223,7 +312,6 @@ const handleIrAlCursoConSwal = () => {
     setModalAccesoOpen(false);
   }
 };
-
 
   const renderPerfilSection = () => (
     <div className={styles.perfilContainer}>
@@ -295,6 +383,23 @@ const handleIrAlCursoConSwal = () => {
           </div>
 
           <div className={styles.formGroup}>
+            <label>Contraseña</label>
+            {isEditing ? (
+              <input
+                type="password"
+                name="contrasena"
+                value={tempInfo.contrasena}
+                onChange={handleInputChange}
+                placeholder="Ingresa tu contraseña"
+              />
+            ) : (
+              <p>••••••••</p>
+            )}
+          </div>
+        </div>
+
+        <div className={styles.formRow}>
+          <div className={styles.formGroup}>
             <label>Fecha de Nacimiento</label>
             {isEditing ? (
               <input
@@ -307,9 +412,7 @@ const handleIrAlCursoConSwal = () => {
               <p>{formatDateForDisplay(userInfo.fechaNacimiento)}</p>
             )}
           </div>
-        </div>
 
-        <div className={styles.formRow}>
           <div className={styles.formGroup}>
             <label>Género</label>
             {isEditing ? (
@@ -326,6 +429,33 @@ const handleIrAlCursoConSwal = () => {
             ) : (
               <p>{userInfo.genero || 'No especificado'}</p>
             )}
+          </div>
+        </div>
+      </div>
+
+      {/* Sección de Gestión de Cuenta */}
+      <div className={styles.cuentaGestionContainer}>
+        <div className={styles.sectionHeader}>
+          <h2>Gestión de Cuenta</h2>
+        </div>
+        
+        <div className={styles.cuentaActions}>
+          <div className={styles.warningSection}>
+            <div className={styles.warningCard}>
+              <AlertTriangle size={24} className={styles.warningIcon} />
+              <div className={styles.warningContent}>
+                <h3>Zona de Peligro</h3>
+                <p>Una vez que desactives tu cuenta, perderás el acceso a todos tus cursos y no podrás realizar nuevas compras. Esta acción puede requerir contactar al soporte para ser revertida.</p>
+              </div>
+            </div>
+            
+            <button 
+              className={styles.dangerButton}
+              onClick={handleDesactivarCuenta}
+            >
+              <UserX size={20} />
+              <span>Desactivar mi cuenta</span>
+            </button>
           </div>
         </div>
       </div>

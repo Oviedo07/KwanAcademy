@@ -46,6 +46,7 @@ const isAuthenticated = (req, res, next) => {
 router.post("/api/signin", signIn);
 router.post("/api/register", registerUser);
 router.get("/api/sessionUser", sessionUser);
+router.delete("/api/sessionUser", logoutUser);
 router.get("/api/usuariosActivos", getUsuariosActivos);
 router.get("/api/usuariosInactivos", getUsuariosInactivos);
 router.put("/api/updateStatusUsuarios", updateStatusUsuarios);
