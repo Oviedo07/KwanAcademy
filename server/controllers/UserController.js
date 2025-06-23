@@ -8,7 +8,7 @@ const signIn = async (req, res) => {
     const db = await getConnection();
 
     const [rows] = await db.query(
-      'SELECT * FROM usuario WHERE email = ? AND contrasena = ?',
+      'SELECT * FROM usuario WHERE email = ? AND contrasena = ? AND estado = "activo"',
       [email, password]
     );
 

@@ -85,7 +85,7 @@ const handleSubmit = async (e) => {
       if (activeTab === "Instructor") {
         navigate("/PanelInstructor");
       } else {
-        navigate("/PanelUser");
+        window.location.href = '/PanelUser';
       }
     } else {
       setError("La respuesta del servidor no contiene datos de usuario");

@@ -85,75 +85,6 @@ const Register = () => {
     }
   };
 
-  // Función corregida para enviar datos por FormSubmit
-  const sendEmailNotification = async (data, isInstructor = false) => {
-    try {
-      console.log('Iniciando envío de email via FormSubmit...');
-      
-      const formData = new FormData();
-
-      // Configurar FormSubmit
-      formData.append('_to', 'kwan.academy.07@gmail.com');
-      formData.append('_subject', isInstructor ? 'Nueva Solicitud de Instructor' : 'Nuevo Registro de Usuario');
-      formData.append('_captcha', 'false');
-      formData.append('_template', 'table');
-      // formData.append('_next', 'https://tu-dominio.com/gracias'); // Opcional: página de agradecimiento
-
-      // Agregar datos del formulario
-      if (isInstructor) {
-        formData.append('Tipo de Usuario', 'Instructor');
-        formData.append('Tipo de Documento', data.tipo_documento || 'No especificado');
-        formData.append('Número de Identificación', data.numero_identificacion || 'No especificado');
-        formData.append('Primer Nombre', data.primer_nombre || data.nombre || 'No especificado');
-        formData.append('Segundo Nombre', data.segundo_nombre || 'No especificado');
-        formData.append('Primer Apellido', data.primer_apellido || data.apellido || 'No especificado');
-        formData.append('Segundo Apellido', data.segundo_apellido || 'No especificado');
-        formData.append('Número Telefónico', data.numero_telefonico || 'No especificado');
-        formData.append('Ocupación', data.ocupacion || 'No especificado');
-        formData.append('Descripción del Perfil', data.descripcion_perfil || 'No especificado');
-        formData.append('Enlace del Certificado', certificateLink || 'No proporcionado');
-      } else {
-        formData.append('Tipo de Usuario', 'Usuario Regular');
-      }
-
-      // Datos comunes
-      formData.append('Nombre', data.nombre || 'No especificado');
-      formData.append('Apellido', data.apellido || 'No especificado');
-      formData.append('Email', data.email || 'No especificado');
-      formData.append('Fecha de Nacimiento', data.fecha_nacimiento || 'No especificado');
-      formData.append('Género', data.genero || 'No especificado');
-      formData.append('Fecha de Registro', new Date().toLocaleString('es-CO'));
-
-      console.log('Datos a enviar:', {
-        to: 'kwan.academy.07@gmail.com',
-        subject: isInstructor ? 'Nueva Solicitud de Instructor' : 'Nuevo Registro de Usuario',
-        tipo: isInstructor ? 'Instructor' : 'Usuario Regular'
-      });
-
-      // Enviar a FormSubmit con await
-      const response = await fetch('https://formsubmit.co/kwan.academy.07@gmail.com', {
-        method: 'POST',
-        body: formData
-      });
-
-      console.log('Response status:', response.status);
-      console.log('Response ok:', response.ok);
-
-      // Verificar si la respuesta fue exitosa
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      console.log('Correo enviado exitosamente via FormSubmit');
-      return true;
-    } catch (error) {
-      console.error('Error detallado al enviar correo via FormSubmit:', error);
-      console.error('Error message:', error.message);
-      // Re-lanzar el error para manejarlo en handleSubmit
-      throw error;
-    }
-  };
-
   // Validación del formulario
   const validateForm = () => {
     const newErrors = {};
@@ -258,7 +189,7 @@ const Register = () => {
     });
   };
 
-  // Enviar datos al backend - FUNCIÓN CORREGIDA
+  // Enviar datos al backend - FUNCIÓN OPTIMIZADA
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -295,26 +226,9 @@ const Register = () => {
 
       console.log('Enviando datos al backend:', dataToSend);
 
-      // Primero registrar en tu backend
+      // Registrar en tu backend
       const response = await axios.post(endpoint, dataToSend);
       console.log('Registro en backend exitoso:', response.data);
-
-      // Solo si el registro fue exitoso, enviar el email
-      try {
-        await sendEmailNotification(dataToSend, activeTab === "Instructor");
-        console.log('Email enviado correctamente');
-      } catch (emailError) {
-        console.warn('Error al enviar email, pero registro exitoso:', emailError);
-        // El registro fue exitoso, solo falló el email
-        // Opcional: mostrar advertencia al usuario
-        Swal.fire({
-          icon: 'warning',
-          title: 'Registro exitoso',
-          text: 'Tu registro fue exitoso, pero hubo un problema al enviar la notificación por email. Nos pondremos en contacto contigo pronto.',
-          confirmButtonColor: '#ff9800',
-          confirmButtonText: 'Entendido'
-        });
-      }
 
       // Mostrar mensaje de éxito
       if (activeTab === "Instructor") {
@@ -409,7 +323,7 @@ const Register = () => {
             >
               <option value="masculino">Masculino</option>
               <option value="femenino">Femenino</option>
-              <option value="otro">Prefiero no decirlo</option>
+              <option value="otro">Otro</option>
             </select>
           </div>
 
@@ -544,7 +458,7 @@ const Register = () => {
             className={styles.loginButton}
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Enviando..." : "Enviar Solicitud"}
+            {isSubmitting ? "Enviando..." : "Registrarse"}
           </button>
         </form>
 

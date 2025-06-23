@@ -83,103 +83,107 @@ const FormularioCurso = () => {
   };
   
   // Función para editar curso
-  const handleEditarCurso = (curso) => {
-    MySwal.fire({
-      title: 'Editar Curso',
-      html: `
-      <div style="display: flex; flex-direction: column; gap: 15px; padding: 10px;">
-        <div>
-          <label for="nombreCurso" style="display: block; font-weight: 500; margin-bottom: 6px; color: #343a40; text-align: left;">Nombre Curso</label>
-          <input id="nombreCurso" class="swal2-input" placeholder="Nombre" value="${curso.nombre}" style="margin: 0; border-radius: 8px; border: 1px solid #ced4da; padding: 10px 15px; width: 100%;">
-        </div>
-
-        <div>
-          <label for="descripcionCurso" style="display: block; font-weight: 500; margin-bottom: 6px; color: #343a40; text-align: left;">Descripción</label>
-          <textarea id="descripcionCurso" class="swal2-textarea" placeholder="Descripción" style="margin: 0; border-radius: 8px; border: 1px solid #ced4da; padding: 10px 15px; width: 100%; min-height: 100px;">${curso.descripcion}</textarea>
-        </div>
-
-        <div>
-          <label for="objetivosCurso" style="display: block; font-weight: 500; margin-bottom: 6px; color: #343a40; text-align: left;">Objetivos</label>
-          <textarea id="objetivosCurso" class="swal2-textarea" placeholder="Objetivos" style="margin: 0; border-radius: 8px; border: 1px solid #ced4da; padding: 10px 15px; width: 100%; min-height: 80px;">${curso.objetivos}</textarea>
-        </div>
-
-        <div>
-          <label for="precioCurso" style="display: block; font-weight: 500; margin-bottom: 6px; color: #343a40; text-align: left;">Precio</label>
-          <input id="precioCurso" class="swal2-input" placeholder="Precio" value="${curso.precio}" type="number" style="margin: 0; border-radius: 8px; border: 1px solid #ced4da; padding: 10px 15px; width: 100%;">
-        </div>
-
-        <div>
-          <label for="enlaceCurso" style="display: block; font-weight: 500; margin-bottom: 6px; color: #343a40; text-align: left;">Enlace Curso</label>
-          <textarea id="enlaceCurso" class="swal2-textarea" placeholder="Descripción" style="margin: 0; border-radius: 8px; border: 1px solid #ced4da; padding: 10px 15px; width: 100%; min-height: 100px;">${curso.enlace_curso}</textarea>
-        </div>
+  // Función para editar curso - CORREGIDA
+const handleEditarCurso = (curso) => {
+  MySwal.fire({
+    title: 'Editar Curso',
+    html: `
+    <div style="display: flex; flex-direction: column; gap: 15px; padding: 10px;">
+      <div>
+        <label for="nombreCurso" style="display: block; font-weight: 500; margin-bottom: 6px; color: #343a40; text-align: left;">Nombre Curso</label>
+        <input id="nombreCurso" class="swal2-input" placeholder="Nombre" value="${curso.nombre}" style="margin: 0; border-radius: 8px; border: 1px solid #ced4da; padding: 10px 15px; width: 100%;">
       </div>
-      `,
-      showCancelButton: true,
-      confirmButtonText: 'Guardar',
-      cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#28a745',
-      cancelButtonColor: '#6c757d',
-      customClass: {
-        popup: 'custom-popup-class',
-        confirmButton: 'custom-confirm-button',
-      },
-      preConfirm: () => {
-        const nombre = document.getElementById('nombreCurso').value;
-        const descripcion = document.getElementById('descripcionCurso').value;
-        const objetivos = document.getElementById('objetivosCurso').value;
-        const precio = document.getElementById('precioCurso').value;
-        const enlaceCurso = document.getElementById('enlaceCurso').value;
-  
-        if (!nombre || !descripcion || !objetivos || !precio || !enlaceCurso) {
-          Swal.showValidationMessage('Todos los campos son obligatorios');
-          return false;
-        }
-  
-        return { nombre, descripcion, objetivos, precio,enlaceCurso };
-      }
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const { nombre, descripcion, objetivos, precio, enlace_curso } = result.value;
-  
-        fetch(`http://localhost:5000/api/updateCurso/${curso.id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify({
-            nombre,
-            descripcion,
-            objetivos,
-            precio,
-            enlace_curso
-          })
-        })
-          .then(res => res.json())
-          .then(data => {
-            MySwal.fire({
-              title: 'Curso actualizado',
-              icon: 'success',
-              confirmButtonColor: '#28a745'
-            });
-            // Actualizar el curso en el estado local
-            setCursosInstructor(prevCursos => 
-              prevCursos.map(c => 
-                c.id === curso.id ? {...c, nombre, descripcion, objetivos, precio, enlace_curso} : c
-              )
-            );
-          })
-          .catch(err => {
-            console.error("Error al actualizar:", err);
-            MySwal.fire({
-              title: 'Error',
-              text: 'No se pudo actualizar el curso',
-              icon: 'error',
-              confirmButtonColor: '#E70014'
-            });
-          });
-      }
-    });
-  };
 
+      <div>
+        <label for="descripcionCurso" style="display: block; font-weight: 500; margin-bottom: 6px; color: #343a40; text-align: left;">Descripción</label>
+        <textarea id="descripcionCurso" class="swal2-textarea" placeholder="Descripción" style="margin: 0; border-radius: 8px; border: 1px solid #ced4da; padding: 10px 15px; width: 100%; min-height: 100px;">${curso.descripcion}</textarea>
+      </div>
+
+      <div>
+        <label for="objetivosCurso" style="display: block; font-weight: 500; margin-bottom: 6px; color: #343a40; text-align: left;">Objetivos</label>
+        <textarea id="objetivosCurso" class="swal2-textarea" placeholder="Objetivos" style="margin: 0; border-radius: 8px; border: 1px solid #ced4da; padding: 10px 15px; width: 100%; min-height: 80px;">${curso.objetivos}</textarea>
+      </div>
+
+      <div>
+        <label for="precioCurso" style="display: block; font-weight: 500; margin-bottom: 6px; color: #343a40; text-align: left;">Precio</label>
+        <input id="precioCurso" class="swal2-input" placeholder="Precio" value="${curso.precio}" type="number" style="margin: 0; border-radius: 8px; border: 1px solid #ced4da; padding: 10px 15px; width: 100%;">
+      </div>
+
+      <div>
+        <label for="enlaceCurso" style="display: block; font-weight: 500; margin-bottom: 6px; color: #343a40; text-align: left;">Enlace Curso</label>
+        <textarea id="enlaceCurso" class="swal2-textarea" placeholder="Enlace del curso" style="margin: 0; border-radius: 8px; border: 1px solid #ced4da; padding: 10px 15px; width: 100%; min-height: 100px;">${curso.enlace_curso}</textarea>
+      </div>
+    </div>
+    `,
+    showCancelButton: true,
+    confirmButtonText: 'Guardar',
+    cancelButtonText: 'Cancelar',
+    confirmButtonColor: '#28a745',
+    cancelButtonColor: '#6c757d',
+    customClass: {
+      popup: 'custom-popup-class',
+      confirmButton: 'custom-confirm-button',
+    },
+    preConfirm: () => {
+      const nombre = document.getElementById('nombreCurso').value;
+      const descripcion = document.getElementById('descripcionCurso').value;
+      const objetivos = document.getElementById('objetivosCurso').value;
+      const precio = document.getElementById('precioCurso').value;
+      const enlace_curso = document.getElementById('enlaceCurso').value; // ✅ CAMBIADO: ahora usa enlace_curso
+
+      if (!nombre || !descripcion || !objetivos || !precio || !enlace_curso) {
+        Swal.showValidationMessage('Todos los campos son obligatorios');
+        return false;
+      }
+
+      return { nombre, descripcion, objetivos, precio, enlace_curso }; // ✅ CAMBIADO: ahora retorna enlace_curso
+    }
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const { nombre, descripcion, objetivos, precio, enlace_curso } = result.value; // ✅ Ya estaba correcto
+
+      // ✅ Agregar console.log para debug
+      console.log("Datos a enviar:", { nombre, descripcion, objetivos, precio, enlace_curso });
+
+      fetch(`http://localhost:5000/api/updateCurso/${curso.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          nombre,
+          descripcion,
+          objetivos,
+          precio,
+          enlace_curso
+        })
+      })
+        .then(res => res.json())
+        .then(data => {
+          console.log("Respuesta del servidor:", data); // ✅ Agregar log
+          MySwal.fire({
+            title: 'Curso actualizado',
+            icon: 'success',
+            confirmButtonColor: '#28a745'
+          });
+          // Actualizar el curso en el estado local
+          setCursosInstructor(prevCursos => 
+            prevCursos.map(c => 
+              c.id === curso.id ? {...c, nombre, descripcion, objetivos, precio, enlace_curso} : c
+            )
+          );
+        })
+        .catch(err => {
+          console.error("Error al actualizar:", err);
+          MySwal.fire({
+            title: 'Error',
+            text: 'No se pudo actualizar el curso',
+            icon: 'error',
+            confirmButtonColor: '#E70014'
+          });
+        });
+    }
+  });
+};
   // Estado del formulario
   const [formData, setFormData] = useState({
     nombreInstructor: '', 

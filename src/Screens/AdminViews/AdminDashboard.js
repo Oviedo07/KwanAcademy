@@ -85,11 +85,6 @@ const AdminDashboard = () => {
                 return < InstructorManagement />
             case 'courses':
                 return < CursoManagement />
-            case 'support':
-                return <div className="card p-4 shadow-lg" style={{ width: "100%" }}>
-                    <h4 className="text-center mb-3">SOPORTE TÉCNICO</h4>
-                    <p>Componente en desarrollo...</p>
-                </div>;
             default:
                 return <div>Selecciona una opción del menú</div>;
         }
@@ -145,13 +140,6 @@ const AdminDashboard = () => {
                     >
                         <ShoppingCart size={20} />
                         {expanded && <span>Cursos</span>}
-                    </div>
-                    <div
-                        className={`menu-item ${activeComponent === 'support' ? 'active' : ''}`}
-                        onClick={() => handleMenuClick('support')}
-                    >
-                        <Cog size={20} />
-                        {expanded && <span>Soporte Técnico</span>}
                     </div>
                     <div className="menu-item" onClick={handleLogout}>
                         <LogOut size={20} />

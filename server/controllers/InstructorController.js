@@ -1,5 +1,6 @@
 const getConnection = require("../config/db");
 const { validationResult } = require('express-validator');
+const { sendPasswordEmail } = require('../config/emailConfig');
 
 const signInInstructor = async (req, res) => {
   const { email, contrasena } = req.body;
@@ -213,6 +214,7 @@ const getSummaryInstructor = async (req, res) => {
   }
 };
 
+
 const getPendingInstructors = async (req, res) => {
   try {
     const db = await getConnection();
@@ -250,7 +252,7 @@ const assignPasswordToInstructor = async (req, res) => {
     
     // Verificar que el instructor existe y no tiene contraseña
     const [instructorCheck] = await db.query(
-      'SELECT id, contrasena FROM instructor WHERE id = ?', 
+      'SELECT id, primer_nombre, segundo_nombre, primer_apellido, segundo_apellido, email, fecha_registro, contrasena FROM instructor WHERE id = ?', 
       [id]
     );
     
@@ -262,6 +264,8 @@ const assignPasswordToInstructor = async (req, res) => {
       return res.status(400).json({ error: "Este instructor ya tiene una contraseña asignada" });
     }
 
+    const instructor = instructorCheck[0];
+
     // Asignar la contraseña temporal (en producción debería estar hasheada)
     const [result] = await db.query(
       'UPDATE instructor SET contrasena = ? WHERE id = ?',
@@ -272,11 +276,29 @@ const assignPasswordToInstructor = async (req, res) => {
       return res.status(500).json({ error: "No se pudo asignar la contraseña" });
     }
 
-    res.json({ 
-      success: true, 
-      message: "Contraseña temporal asignada correctamente",
-      instructorId: id
-    });
+    // Enviar correo electrónico con la contraseña temporal
+    const emailResult = await sendPasswordEmail(instructor, tempPassword);
+    
+    if (emailResult.success) {
+      res.json({ 
+        success: true, 
+        message: "Contraseña temporal asignada y correo enviado correctamente",
+        instructorId: id,
+        emailSent: true,
+        emailMessageId: emailResult.messageId
+      });
+    } else {
+      // Aunque el correo falló, la contraseña se asignó correctamente
+      console.error('Error al enviar correo:', emailResult.error);
+      res.json({ 
+        success: true, 
+        message: "Contraseña temporal asignada correctamente, pero hubo un problema al enviar el correo",
+        instructorId: id,
+        emailSent: false,
+        emailError: emailResult.error,
+        warning: "El instructor puede acceder con la contraseña, pero no recibió el correo de notificación"
+      });
+    }
   } catch (err) {
     console.error("Error al asignar contraseña:", err);
     res.status(500).json({ error: "Error en el servidor" });
