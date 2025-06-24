@@ -231,19 +231,7 @@ const PanelInstructor = () => {
         )}
       </div>
 
-      {/* Foto de perfil - NO EDITABLE */}
-      <div className={styles.profileImageContainer}>
-        <div className={styles.profileImageWrapper}>
-          <img 
-            src="/samurai_instructor.jpg" 
-            alt="Foto de perfil del instructor"
-            className={styles.profileImage}
-          />
-        </div>
-      </div>
-
-      {/* Separador entre foto y campos */}
-      <div className={styles.profileSeparator}></div>
+      
 
       <div className={styles.perfilForm}>
         <div className={styles.formRow}>

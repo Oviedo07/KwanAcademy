@@ -127,7 +127,7 @@ const HomeAdmin = () => {
       <section id="quienes-somos" className="quienes-somos-container">
         <div className="section-header">
           <h2>¿Quiénes Somos?</h2>
-          <p>En KwanAcademy, transformamos la gestión de plataformas educativas</p>
+          <p>En Kwan Academy, transformamos la gestión de plataformas educativas</p>
         </div>
 
         <div className="features-grid">
@@ -169,7 +169,7 @@ const HomeAdmin = () => {
       <section id="servicios" className="servicios-section">
         <div className="section-header">
           <h2>Nuestros Servicios</h2>
-          <p>En KwanAcademy, transformamos el conocimiento en poder a través de la enseñanza 
+          <p>En Kwan Academy, transformamos el conocimiento en poder a través de la enseñanza 
           efectiva de defensa personal. Nuestra metodología combina lo mejor del aprendizaje 
           virtual y presencial.</p>
         </div>

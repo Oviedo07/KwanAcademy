@@ -66,8 +66,8 @@ const Home = () => {
 
   const testimonios = [
     // { img: "https://imgur.com/qtQXR9j.jpg", name: '𝘊𝘳𝘪𝘴𝘵𝘪𝘢𝘯𝘰 𝘙𝘰𝘯𝘢𝘭𝘥𝘰', text: '"El curso fue claro, accesible y muy útil. Aprendí a reaccionar rápido y con precisión. Es una excelente inversión para mejorar tu seguridad personal."' },
-    { img: "https://imgur.com/NeNEZQd.jpg", name: '𝘕𝘦𝘺𝘮𝘢𝘳 𝘑𝘳', text: '"Me encantó el curso, fue dinámico y fácil de seguir. Aprendí defensa personal de manera práctica y efectiva. Lo recomiendo para cualquier persona."' },
     { img: "https://imgur.com/vnUR4HS.jpg", name: '𝘊𝘳𝘪𝘴𝘵𝘪𝘢𝘯𝘰 𝘙𝘰𝘯𝘢𝘭𝘥𝘰', text: '"Siempre busco la excelencia, y estos cursos la tienen. Aprendí técnicas efectivas y mejoré mis reflejos y autoconfianza. Si quieres ser el mejor, este es el lugar."' },
+    { img: "https://imgur.com/NeNEZQd.jpg", name: '𝘕𝘦𝘺𝘮𝘢𝘳 𝘑𝘳', text: '"Me encantó el curso, fue dinámico y fácil de seguir. Aprendí defensa personal de manera práctica y efectiva. Lo recomiendo para cualquier persona."' },
     { img: "https://imgur.com/ui7B0SQ.jpg", name: '𝘓𝘪𝘰𝘯𝘦𝘭 𝘔𝘦𝘴𝘴𝘪', text: '"Kwan Academy me ayudó a mejorar mi rapidez y confianza. El entrenamiento es de alto nivel y muy práctico. Lo recomiendo a quienes buscan seguridad y disciplina."' }
   ];
 

@@ -7,25 +7,25 @@ const teamMembers = [
     id: 1,
     name: "Juan Pablo Oviedo",
     role: "Instructor Principal",
-    image: "https://imgur.com/vnUR4HS.jpg"
+    image: "https://i.imgur.com/5vc8liT.png"
   },
   {
     id: 2,
-    name: "Eddie Alejandro Arenas ",
+    name: "Esneider Florez Vergara",
     role: "Instructor de Defensa Personal",
-    image: "https://imgur.com/ui7B0SQ.jpg"
+    image: "https://i.imgur.com/btRfYn5.png"
   },
   {
     id: 3,
-    name: "Jhon Jairo Moguea",
+    name: "Eddie Alejandro Arenas",
     role: "Entrenador de Competición",
-    image: "https://imgur.com/NeNEZQd.jpg"
+    image: "https://i.imgur.com/Fprtwg8.png"
   },
   {
     id: 4,
-    name: "Esneider Florez Vergara",
+    name: "Jhon Jairo Moguea",
     role: "Instructor de Artes Marciales",
-    image: "https://imgur.com/fNuPP9a.jpg"
+    image: "https://i.imgur.com/muRGzXC.png"
   }
 ];
 
@@ -39,9 +39,7 @@ const WhoWeAre = () => {
             <p>
               En <strong>Kwan Academy</strong>, somos una comunidad apasionada por las artes marciales y la defensa personal. Nos dedicamos a brindar una formación integral que no solo desarrolla habilidades físicas, sino también valores fundamentales como la disciplina, el respeto y la perseverancia.
             </p>
-            <p>
-              Nuestro equipo está compuesto por instructores altamente capacitados con años de experiencia en diversas disciplinas de combate. Nos esforzamos por ofrecer un ambiente de aprendizaje seguro, motivador y enriquecedor para todos, desde principiantes hasta avanzados.
-            </p>
+            
             <p>
               En Kwan Academy, creemos que el aprendizaje es un viaje continuo y que cada estudiante tiene el potencial de superarse a sí mismo. Nos enfocamos en proporcionar herramientas efectivas para el desarrollo personal y la autodefensa en un mundo en constante cambio.
             </p>

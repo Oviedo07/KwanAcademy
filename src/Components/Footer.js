@@ -33,7 +33,7 @@ const Footer = () => {
                 <FaFacebookF />
               </a>
               <a
-                href="https://youtube.com/KwanAcademy"
+                href="https://www.youtube.com/@Kwan-Academy"
                 className={`${styles.socialIcon} ${styles.youtube}`}
                 aria-label="YouTube"
               >
@@ -59,11 +59,11 @@ const Footer = () => {
               </li>
               <li className={styles.contactItem}>
                 <FaPhoneAlt className={styles.contactIcon} />
-                <a className={styles.contactNumber} href="https://wa.me/+573145036324">+57 314 503 63 24</a>
+                <a className={styles.contactNumber} href="https://wa.me/+573027036701">+57 302 703 67 01</a>
               </li>
               <li className={styles.contactItem}>
                 <IoMdMail className={styles.contactIcon} />
-                <span>kwanacademy@support.com</span>
+                <span>kwan.academy.07@gmail.com</span>
               </li>
             </ul>
           </div>
@@ -84,7 +84,7 @@ const Footer = () => {
             <span>Acceso administrador</span>
           </button> */}
           <a
-            href="https://wa.me/573146975509"
+            href="https://wa.me/573027036701"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.adminButton}

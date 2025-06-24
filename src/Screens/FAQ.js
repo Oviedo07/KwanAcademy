@@ -23,7 +23,7 @@ const FAQ = () => {
 
     if (e.key === 'Enter') {
       if (searchQuery.toLowerCase().trim() === 'cristiano ronaldo') {
-        navigate('/cris');
+        navigate('/thanks');
       }
     }
   };

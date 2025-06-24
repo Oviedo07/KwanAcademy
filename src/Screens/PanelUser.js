@@ -5,6 +5,7 @@ import { useUserAuth } from '../context/UserAuthContext';
 import Swal from 'sweetalert2';
 import { useNavigate } from "react-router-dom";
 
+
 const PanelUsuario = () => {
   const { user, updateUserContext, logout } = useUserAuth();
   const navigate = useNavigate();
@@ -58,17 +59,17 @@ const PanelUsuario = () => {
   useEffect(() => {
     const cargarCursosComprados = async () => {
       if (!user?.id) return;
-      
+
       setLoadingCursos(true);
       try {
         const response = await fetch('http://localhost:5000/api/getPurchasedCourses', {
           credentials: 'include'
         });
-        
+
         if (!response.ok) {
           throw new Error('Error al obtener cursos comprados');
         }
-        
+
         const data = await response.json();
         console.log("Cursos comprados obtenidos:", data);
         setCursosComprados(data.cursos || []);
@@ -268,7 +269,7 @@ const PanelUsuario = () => {
           // 4. Cerrar sesión en el contexto y redirigir
           logout();
           window.location.href = '/';
-          
+
         } catch (error) {
           console.error('Error al desactivar cuenta:', error);
           Swal.fire({
@@ -288,30 +289,71 @@ const PanelUsuario = () => {
     setModalAccesoOpen(true);
   };
 
-  // Función para ir al curso desde el modal
+  // Función para ir al curso desde el modal con actualización de progreso
+  const handleIrAlCursoConSwal = () => {
+    if (!cursoSeleccionado) return;
 
-// VERSIÓN ALTERNATIVA con SweetAlert2 (si ya lo tienes importado):
-const handleIrAlCursoConSwal = () => {
-  if (!cursoSeleccionado) return;
-
-  if (cursoSeleccionado.enlace_curso && 
-      cursoSeleccionado.enlace_curso.trim() !== '' && 
+    // Verificar si el curso tiene enlace válido
+    if (cursoSeleccionado.enlace_curso &&
+      cursoSeleccionado.enlace_curso.trim() !== '' &&
       cursoSeleccionado.enlace_curso !== null) {
-    
-    window.open(cursoSeleccionado.enlace_curso, '_blank');
-    setModalAccesoOpen(false);
-    
-  } else {
-    Swal.fire({
-      title: 'Enlace no disponible',
-      text: 'Este curso no tiene un enlace válido configurado.',
-      icon: 'warning',
-      confirmButtonColor: '#E70014',
-      confirmButtonText: 'Entendido'
-    });
-    setModalAccesoOpen(false);
-  }
-};
+
+      // Calcular nuevo progreso (incremento de 10% cada vez, máximo 100%)
+      const progresoActual = cursoSeleccionado.progreso || 10;
+      const incremento = 10;
+      const nuevoProgreso = Math.min(progresoActual + incremento, 100);
+
+      // Actualizar el estado local inmediatamente
+      setCursosComprados(prevCursos => 
+        prevCursos.map(curso => 
+          curso.id === cursoSeleccionado.id 
+            ? { ...curso, progreso: nuevoProgreso }
+            : curso
+        )
+      );
+
+      // Actualizar también el curso seleccionado para el modal
+      setCursoSeleccionado(prevCurso => ({
+        ...prevCurso,
+        progreso: nuevoProgreso
+      }));
+
+      // Mostrar mensaje de progreso actualizado
+      if (nuevoProgreso === 100) {
+        Swal.fire({
+          title: '¡Felicitaciones!',
+          text: 'Has completado el 100% del curso',
+          icon: 'success',
+          confirmButtonColor: '#E70014',
+          confirmButtonText: 'Continuar'
+        });
+      } else {
+        Swal.fire({
+          title: 'Progreso actualizado',
+          text: `Tu progreso en el curso es ahora del ${nuevoProgreso}%`,
+          icon: 'info',
+          confirmButtonColor: '#E70014',
+          confirmButtonText: 'Continuar',
+          timer: 2000,
+          timerProgressBar: true
+        });
+      }
+
+      // Abrir el enlace del curso
+      window.open(cursoSeleccionado.enlace_curso, '_blank');
+      setModalAccesoOpen(false);
+
+    } else {
+      Swal.fire({
+        title: 'Enlace no disponible',
+        text: 'Este curso no tiene un enlace válido configurado.',
+        icon: 'warning',
+        confirmButtonColor: '#E70014',
+        confirmButtonText: 'Entendido'
+      });
+      setModalAccesoOpen(false);
+    }
+  };
 
   const renderPerfilSection = () => (
     <div className={styles.perfilContainer}>
@@ -379,7 +421,7 @@ const handleIrAlCursoConSwal = () => {
               />
             ) : (
               <p>{userInfo.email}</p>
-            )}  
+            )}
           </div>
 
           <div className={styles.formGroup}>
@@ -438,7 +480,7 @@ const handleIrAlCursoConSwal = () => {
         <div className={styles.sectionHeader}>
           <h2>Gestión de Cuenta</h2>
         </div>
-        
+
         <div className={styles.cuentaActions}>
           <div className={styles.warningSection}>
             <div className={styles.warningCard}>
@@ -448,8 +490,8 @@ const handleIrAlCursoConSwal = () => {
                 <p>Una vez que desactives tu cuenta, perderás el acceso a todos tus cursos y no podrás realizar nuevas compras. Esta acción puede requerir contactar al soporte para ser revertida.</p>
               </div>
             </div>
-            
-            <button 
+
+            <button
               className={styles.dangerButton}
               onClick={handleDesactivarCuenta}
             >
@@ -520,7 +562,7 @@ const handleIrAlCursoConSwal = () => {
           <p className={styles.emptyMessage}>No has comprado ningún curso todavía.</p>
           <button
             className={styles.actionButton}
-            onClick={() => navigate('/cursos')}
+            onClick={() => navigate('/courses')}
           >
             Explorar Cursos
           </button>
@@ -607,77 +649,61 @@ const handleIrAlCursoConSwal = () => {
         {activeTab === 'historial' && renderHistorialSection()}
       </div>
 
-      {/* Modal de acceso al curso */}
+      {/* Modal de acceso al curso - Estructura adaptada */}
       {modalAccesoOpen && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
-            <div className={styles.modalHeader}>
-              <h2>Acceder al Curso</h2>
-              <button
-                onClick={() => setModalAccesoOpen(false)}
-                className={styles.closeButton}
-              >
-                <X size={24} />
-              </button>
-            </div>
+            {/* Botón de cerrar posicionado absolutamente */}
+            <button
+              onClick={() => setModalAccesoOpen(false)}
+              className={styles.closeButton}
+            >
+              <X size={20} />
+            </button>
 
             {cursoSeleccionado && (
               <div className={styles.modalBody}>
-                {cursoSeleccionado.imagen_url ? (
-                  <img
-                    src={cursoSeleccionado.imagen_url}
-                    alt={cursoSeleccionado.nombre || cursoSeleccionado.titulo}
-                    className={styles.modalCursoImage}
-                  />
-                ) : (
-                  <div className={styles.modalImagePlaceholder}>
-                    <Book size={48} />
+                {/* Imagen con badge superpuesto */}
+                <div style={{ position: 'relative' }}>
+                  {/* Badge de categoría */}
+                  <div className={styles.modalCategory}>
+                    DEFENSA PERSONAL
                   </div>
-                )}
-                
-                <h3>{cursoSeleccionado.nombre || cursoSeleccionado.titulo}</h3>
-                
-                <p className={styles.modalInstructor}>
-                  <strong>Instructor:</strong> {cursoSeleccionado.instructor}
-                </p>
-                
-                {cursoSeleccionado.descripcion && (
-                  <p className={styles.modalDescripcion}>
-                    {cursoSeleccionado.descripcion}
-                  </p>
-                )}
 
-                <div className={styles.modalInfo}>
-                  <p>
-                    {cursoSeleccionado.enlace_curso && cursoSeleccionado.enlace_curso.trim() !== '' ? (
-                      <>
-                        <ExternalLink size={16} className={styles.inlineIcon} />
-                        Serás redirigido al enlace del curso
-                      </>
-                    ) : (
-                      <>
-                        <Globe size={16} className={styles.inlineIcon} />
-                        Serás redirigido a otras pestaña para acceder a este curso
-                      </>
-                    )}
-                  </p>
+                  {cursoSeleccionado.imagen_url ? (
+                    <img
+                      src={cursoSeleccionado.imagen_url}
+                      alt={cursoSeleccionado.nombre || cursoSeleccionado.titulo}
+                      className={styles.modalCursoImage}
+                    />
+                  ) : (
+                    <div className={styles.modalImagePlaceholder}>
+                      <Book size={48} />
+                    </div>
+                  )}
+                </div>
+
+                {/* Contenido de texto */}
+                <div className={styles.modalTextContent}>
+                  <h3>{cursoSeleccionado.nombre || cursoSeleccionado.titulo}</h3>
+                  {cursoSeleccionado.descripcion && (
+                    <p className={styles.modalDescripcion}>
+                      {cursoSeleccionado.descripcion}
+                    </p>
+                  )}
+                  {/* Mostrar progreso actualizado en el modal */}
+                  
                 </div>
               </div>
             )}
 
+            {/* Acciones - Solo botón principal */}
             <div className={styles.modalActions}>
-              <button
-                onClick={() => setModalAccesoOpen(false)}
-                className={styles.cancelButton}
-              >
-                Cancelar
-              </button>
               <button
                 onClick={handleIrAlCursoConSwal}
                 className={styles.actionButton}
               >
-                <ExternalLink size={16} />
-                Ir al Curso
+                IR AL CURSO
               </button>
             </div>
           </div>

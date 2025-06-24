@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "./FreeResources.module.css";
 import { FaTimes, FaSearch } from "react-icons/fa";
+import { Link } from "react-scroll";
 
 // Agregando categorías de recursos
 const categories = [
@@ -22,71 +23,39 @@ const resources = [
     duration: "30 minutos",
     views: "166",
     image: "https://img.freepik.com/foto-gratis/hombre-asiatico-tiro-completo-practicando-taekwondo_23-2150260495.jpg",
-    description: "Aprende las 5 técnicas fundamentales de pateo en Taekwondo que mejorarán tu técnica y te darán mayor potencia en tus movimientos. Este curso está diseñado tanto para principiantes como para practicantes experimentados."
+    description: "Aprende las 5 técnicas fundamentales de pateo en Taekwondo que mejorarán tu técnica y te darán mayor potencia en tus movimientos. Este curso está diseñado tanto para principiantes como para practicantes experimentados.",
+    link: "https://gamma.app/docs/Maestria-del-Pateo-en-Taekwondo-ym6zlvlthmxzefn"
   },
   {
     id: 2,
-    title: "Introducción al Karate",
-    category: "Karate",
-    duration: "15 minutos",
-    views: "24",
-    image: "https://img.freepik.com/foto-gratis/gente-entrenando-juntos-al-aire-libre-taekwondo_23-2149908491.jpg",
-    description: "Descubre los fundamentos del Karate, su historia y filosofía. Este curso introductorio te guiará a través de las posturas básicas y los primeros movimientos para iniciar tu camino en este arte marcial."
-  },
-  {
-    id: 3,
     title: "¿Qué es la Defensa personal?",
     category: "Videos",
     duration: "12 minutos",
     views: "56",
     image: "https://img.freepik.com/foto-gratis/paciente-haciendo-rehabilitacion-fisica-ayudado-terapeutas_23-2149227855.jpg",
-    description: "Una introducción completa al concepto de defensa personal y su importancia en el mundo actual. Aprende los principios básicos que te ayudarán a mantenerte seguro en situaciones de riesgo."
+    description: "Una introducción completa al concepto de defensa personal y su importancia en el mundo actual. Aprende los principios básicos que te ayudarán a mantenerte seguro en situaciones de riesgo.",
+    link: "https://www.youtube.com/watch?v=6Rxz_x8MNsc"
   },
   {
-    id: 4,
-    title: "Defensa cuerpo a cuerpo",
+    id: 3,
+    title: "Introducción a la defensa personal",
     category: "Defensa básica",
     duration: "18 minutos",
     views: "93",
     image: "https://img.freepik.com/foto-gratis/hombre-mujer-tiro-completo-compitiendo_23-2149235404.jpg",
-    description: "Técnicas efectivas para defenderte en situaciones de confrontación directa. Este curso te enseñará movimientos prácticos para protegerte y escapar de agresiones físicas."
+    description: "Técnicas efectivas para defenderte en situaciones de confrontación directa. Este curso te enseñará movimientos prácticos para protegerte y escapar de agresiones físicas.",
+    link: "https://gamma.app/docs/Introduccion-a-la-Defensa-Personal-Protege-tu-Espacio-4kskrqy8kg3oiyq"
   },
   {
-    id: 5,
-    title: "Defensa contra arma blanca",
-    category: "Defensa intermedia",
-    duration: "8 minutos",
-    views: "17",
-    image: "https://img.freepik.com/foto-gratis/vista-frontal-mujer-joven-camisa-roja-boca-atada-asustada-cuchillo-espacio-crema-pano-femenino-foto-violencia-domestica_140725-28702.jpg",
-    description: "Aprende técnicas avanzadas para protegerte contra amenazas con armas blancas. Este curso incluye estrategias de evasión, bloqueo y contraataque en situaciones de alto riesgo."
-  },
-  {
-    id: 6,
+    id: 4,
     title: "Defensa contra arma de fuego",
     category: "Defensa avanzada",
     duration: "20 minutos",
     views: "64",
     image: "https://img.freepik.com/foto-gratis/cliente-campo-tiro-esta-preparando-equipo-recargar-cargador-pistola_482257-117732.jpg",
-    description: "Curso especializado en técnicas de supervivencia frente a amenazas con armas de fuego. Aprenderás protocolos de seguridad y respuestas tácticas para situaciones extremas."
-  },
-  {
-    id: 7,
-    title: "5 Técnicas de puño",
-    category: "Taekwondo",
-    duration: "25 minutos",
-    views: "78",
-    image: "https://img.freepik.com/foto-gratis/gente-mostrando-gesto-manos-taekwondo_23-2149908497.jpg",
-    description: "Domina las técnicas fundamentales de golpeo con puño en Taekwondo. Este curso te enseñará la forma correcta de ejecutar golpes potentes mientras mantienes una técnica depurada."
-  },
-  {
-    id: 8,
-    title: "Artes marciales en la vida diaria",
-    category: "Karate",
-    duration: "16 minutos",
-    views: "30",
-    image: "https://img.freepik.com/foto-gratis/tiro-medio-personas-asiaticas-practicando-taekwondo_23-2150753761.jpg",
-    description: "Descubre cómo aplicar los principios de las artes marciales en tu vida cotidiana. Este curso te muestra cómo la disciplina y filosofía del Karate pueden mejorar tu bienestar físico y mental."
-  },
+    description: "Curso especializado en técnicas de supervivencia frente a amenazas con armas de fuego. Aprenderás protocolos de seguridad y respuestas tácticas para situaciones extremas.",
+    link:"https://gamma.app/docs/Defensa-Personal-Contra-Ataques-con-Armas-de-Fuego-shm5zr0h6ntfk2u"
+  }
 ];
 
 const FreeResources = () => {
@@ -182,7 +151,7 @@ const FreeResources = () => {
             ))
           ) : (
             <div className={styles.noResults}>
-              <p>No se encontraron técnicas que coincidan con tu búsqueda.</p>
+              <p>No se encontraron cursos que coincidan con tu búsqueda.</p>
             </div>
           )}
         </div>
@@ -205,7 +174,19 @@ const FreeResources = () => {
                   <h2 className={styles.modalTitle}>{selectedResource.title}</h2>
                   <p className={styles.modalDuration}>⏱ Duración: {selectedResource.duration}</p>
                   <p className={styles.modalDescription}>{selectedResource.description}</p>
-                  <button className={styles.buyButton}>Ir al Curso</button>
+                  <button
+                    className={styles.buyButton}
+                    onClick={() => {
+                      if (selectedResource.link) {
+                        window.open(selectedResource.link, "_blank");
+                      } else {
+                        alert("Este curso aún no tiene un enlace disponible.");
+                      }
+                    }}
+                  >
+                    Ir al Curso
+                  </button>
+
                 </div>
               </div>
             </div>
