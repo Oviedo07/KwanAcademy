@@ -37,10 +37,10 @@ const WhoWeAre = () => {
           <div className={styles.content}>
             <h2>¿Quiénes Somos?</h2>
             <p>
-              En <strong>Kwan Academy</strong>, somos una comunidad apasionada por las artes marciales y la defensa personal. Nos dedicamos a brindar una formación integral que no solo desarrolla habilidades físicas, sino también valores fundamentales como la disciplina, el respeto y la perseverancia.
+              En <strong>Kwan Academy</strong>, somos una comunidad apasionada por la defensa personal. Nos dedicamos a brindar una formación integral que no solo desarrolla habilidades físicas, sino también valores fundamentales como la disciplina, el respeto y la perseverancia.
             </p>
             <p>
-              Nuestro equipo está compuesto por instructores altamente capacitados con años de experiencia en diversas disciplinas de combate. Nos esforzamos por ofrecer un ambiente de aprendizaje seguro, motivador y enriquecedor para todos, desde principiantes hasta avanzados.
+              Nuestro equipo está compuesto por instructores altamente capacitados con años de experiencia en diversas disciplinas. Nos esforzamos por ofrecer un ambiente de aprendizaje seguro, motivador y enriquecedor para todos.
             </p>
             <p>
               En Kwan Academy, creemos que el aprendizaje es un viaje continuo y que cada estudiante tiene el potencial de superarse a sí mismo. Nos enfocamos en proporcionar herramientas efectivas para el desarrollo personal y la autodefensa en un mundo en constante cambio.

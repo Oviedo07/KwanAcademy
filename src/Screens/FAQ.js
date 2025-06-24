@@ -68,16 +68,14 @@ const FAQ = () => {
       questions: [
         { question: "¿Qué tipos de cursos ofrecen?", answer: "Ofrecemos cursos de defensa personal adaptados a diferentes niveles, desde principiantes hasta avanzados. Cubrimos disciplinas como Taekwondo, técnicas de combate urbano, manejo de situaciones de riesgo y más." },
         { question: "¿Cuánto tiempo tengo acceso a un curso después de la compra?", answer: "Una vez que compras un curso, tienes acceso de por vida a su contenido, incluyendo futuras actualizaciones." },
-        { question: "¿Hay requisitos previos para tomar los cursos?", answer: "No. Nuestros cursos están diseñados para todos los niveles, aunque algunos cursos avanzados pueden recomendar conocimientos previos." },
-        { question: "¿Puedo obtener un certificado después de completar un curso?", answer: "Sí, al finalizar cada curso recibirás un certificado digital verificable que puedes agregar a tu CV o perfil profesional." }
+        { question: "¿Hay requisitos previos para tomar los cursos?", answer: "No. Nuestros cursos están diseñados para todos los niveles, aunque algunos cursos avanzados pueden recomendar conocimientos previos." }
       ]
     },
     {
       category: "Pagos",
       questions: [
         { question: "¿Qué métodos de pago aceptan?", answer: "Aceptamos tarjetas de crédito/débito, PayPal y transferencias bancarias en países seleccionados." },
-        { question: "¿Ofrecen reembolsos?", answer: "Sí, ofrecemos reembolsos dentro de los primeros 7 días después de la compra si el curso no ha sido completado en más del 20%." },
-        { question: "¿Existen descuentos disponibles?", answer: "Sí, periódicamente ofrecemos descuentos y promociones. También contamos con precios especiales para estudiantes y grupos." }
+        { question: "¿Existen descuentos disponibles?", answer: "Sí, varia dependiendo del instructor y del curso. También contamos con precios especiales para estudiantes y grupos." }
       ]
     },
     {
@@ -85,7 +83,7 @@ const FAQ = () => {
       questions: [
         { question: "¿Cuáles son los requisitos técnicos para los cursos en línea?", answer: "Solo necesitas una conexión a Internet estable y un dispositivo compatible (PC, tablet o smartphone)." },
         { question: "¿Puedo descargar los videos del curso para verlos sin conexión?", answer: "No. Actualmente, el acceso es solo en línea para proteger los derechos de autor de nuestros instructores." },
-        { question: "¿Cómo reporto problemas técnicos?", answer: "Si tienes problemas técnicos, puedes contactar a nuestro equipo de soporte mediante el formulario de contacto en nuestra web o enviando un correo a support@kwanacademy.com." }
+        { question: "¿Cómo reporto problemas técnicos?", answer: "Si tienes problemas técnicos, puedes contactar a nuestro equipo de soporte mediante el formulario de contacto en nuestra web o enviando un correo a academykwan@gmail.com." }
       ]
     }
   ];
@@ -230,8 +228,8 @@ const FAQ = () => {
         <div className={styles.footer}>
           <p>
             ¿Aún tienes preguntas? Contáctanos:{' '}
-            <a href="mailto:kwanacademy@support.com" className={styles.footerLink}>
-              kwanacademy@support.com
+            <a href="mailto:academykwan@gmail.com" className={styles.footerLink}>
+              academykwan@gmail.com
             </a>
           </p>
         </div>
