@@ -156,8 +156,8 @@ const Home = () => {
           <h2 className={styles.sectionTitle}>NUESTROS SERVICIOS</h2>
           <div className={styles.sectionSubtitle}>
             <p>En Kwan Academy, transformamos el conocimiento en poder a través de la enseñanza efectiva de defensa personal.
-            Nuestra metodología combina lo mejor del aprendizaje virtual y presencial, permitiéndote entrenar desde cualquier
-            lugar o perfeccionar tus habilidades en sesiones en vivo con instructores expertos.</p>
+            Nuestra metodología tiene lo mejor del aprendizaje virtual, permitiéndo a nuestros usuarios aprender desde cualquierAdd commentMore actions
+            lugar a perfeccionar sus habilidades con instructores expertos.</p>
           </div>
           
           <div className={styles.cardsGrid}>
@@ -173,8 +173,8 @@ const Home = () => {
               <div className={styles.cardIcon}>
                 <img src="https://imgur.com/HE5Gsg8.png" alt="Método Presencial" />
               </div>
-              <h3>Entrenamiento Presencial</h3>
-              <p>Clases prácticas en nuestros dojos con instructores certificados y experiencia.</p>
+              <h3>Cursos Didácticos</h3>
+              <p>Cursos prácticos, innovadores y accesibles para todos nuestros usuarios.</p>
             </motion.div>
             
             <motion.div className={styles.serviceCard} whileHover={{ y: -10, boxShadow: '0 10px 20px rgba(231, 0, 20, 0.2)' }}>
@@ -182,7 +182,7 @@ const Home = () => {
                 <img src="https://imgur.com/Ps2xU3A.png" alt="Método Híbrido" />
               </div>
               <h3>Modelo Híbrido</h3>
-              <p>Combina sesiones virtuales y presenciales para maximizar tu aprendizaje y desarrollo.</p>
+              <p>Combina guias para lectura y contenido multimedia para maximizar el aprendizaje.</p>
             </motion.div>
             
             <motion.div className={styles.serviceCard} whileHover={{ y: -10, boxShadow: '0 10px 20px rgba(231, 0, 20, 0.2)' }}>
@@ -190,7 +190,7 @@ const Home = () => {
                 <img src="https://imgur.com/BmUJWbD.png" alt="Certificaciones" />
               </div>
               <h3>Certificación Oficial</h3>
-              <p>Obtén certificaciones avaladas y demuestra tus habilidades en defensa personal.</p>
+              <p>Cursos realizados por instructores certificados que combinan enseñanza clara con experiencia real.</p>
             </motion.div>
           </div>
         </div>

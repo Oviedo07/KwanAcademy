@@ -37,7 +37,7 @@ const WhoWeAre = () => {
           <div className={styles.content}>
             <h2>¿Quiénes Somos?</h2>
             <p>
-              En <strong>Kwan Academy</strong>, somos una comunidad apasionada por las artes marciales y la defensa personal. Nos dedicamos a brindar una formación integral que no solo desarrolla habilidades físicas, sino también valores fundamentales como la disciplina, el respeto y la perseverancia.
+              En <strong>Kwan Academy</strong>, somos una comunidad apasionada por la defensa personal. Nos dedicamos a brindar una formación integral que no solo desarrolla habilidades físicas, sino también valores fundamentales como la disciplina, el respeto y la perseverancia.
             </p>
             
             <p>
